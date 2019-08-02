@@ -10,7 +10,7 @@
 <html>
 <head>
 <meta charset="UTF-8" />
-<title>Cadastro de Livros</title>
+<title>SysLibrary</title>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width" />
 <link rel="stylesheet" type="text/css"
@@ -32,10 +32,13 @@ main {
 }
 
 footer {
-	background: #333;
-	color: #fff;
-	padding: 20px 0;
-	text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #333;
+  color: #fff;
+  text-align: center;
 }
 
 .tab-pane {
@@ -48,6 +51,10 @@ footer {
 
 .pink {
 	color: pink;
+	
+}
+.textarea {
+   resize: none;
 }
 </style>
 </head>
@@ -73,7 +80,7 @@ footer {
 						</ul></li>
 
 
-					<li><a href="#">RELATORIOS</a></li>
+					<li><a href="./ConsultarLivro.jsp">Consulta Livros</a></li>
 
 				</ul>
 				
@@ -95,40 +102,74 @@ footer {
 
 	</header>
 	<!-- FIM Barra de navegação e busca -->
-	<% 
-	Livro livro = (Livro) request.getAttribute("livro");
-	%>
+
  	<!-- CATEGORIAS -->
 	<div id="main" class="container-fluid">
 	<form action="SalvarLivro" method="post">
-		<h4 class="page-header"> LIVROS <span class="glyphicon glyphicon-book"></span> </h4>
-		  <button type="submit" class="btn btn-primary">Salvar</button>
+		
 		<input type="hidden" name="IdLivro" value="<% if (liv != null) out.print(liv.getId()); %>" />
 		<input type="hidden" name="operacao" value="<% if (liv == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
-		<label><input type="checkbox" name="isAtivo" value=value=1 <%if (livro == null || (liv != null && liv.getAtivo())) out.print("checked"); %>/>Ativo</label>
-
+	
+		<div class="container-fluid">
+				<h4 class="page-header">  </h4>
+			
+				<h1 class="display-2 text-white">Livros <span class="glyphicon glyphicon-book"></span></h1>
+            <p class="text-white mt-0 mb-5">Esse é o cadastro de livros. Vocé poderá incluir e alterar as informações de um livro.</p>
+          
+            
+           
+          		
+			</div>
 			<!-- area de campos do form -->
-
+				<hr/>
 			<div class="container-fluid">
-				<h4 class="page-header"> Identificação </h4>
+				<h4 class="form"> Identificação </h4>
+				<hr/>
 				<div class="row">
-					<div class="form-group col-md-2">
-						<label for="campo2">ISBN</label> <input type="text"
+				<div class="form-group col-md-3">
+					<label class="form-control-label" for="txtAtivo">Ativo</label>
+					<select id="txtAtivo" name="txtAtivo" class="form-control">
+							<%
+								if (liv == null || (liv != null && !liv.getAtivo())) {
+							%>  
+								<option id=0 value=0 selected>Não</option>
+							<%
+								} else if (liv != null && liv.getAtivo()) {
+							%>
+								<option id=0 value=0 >Não</option>
+								<option id=1 value=1 selected>Sim</option>
+							<%	
+								}
+							%>
+							</select>					
+					</div>
+					<div class="form-group col-md-3">
+					<label class="form-control-label" for="txtAtivo">Motivo</label>
+					<textarea rows="4" id="txtMotivo" style="resize:none"  cols="num" rows="num" name="txtMotivo" class="form-control form-control-alternative" placeholder="Motivo" <%if (liv == null || (liv != null && !liv.getAtivo())) out.print("readonly"); %>><%if (liv != null) out.print(liv.getMotivo()); else out.print("Novo Livro."); %></textarea>
+				</div>
+				</div>
+			</div>
+			<div class="row">	
+			<div class="container-fluid">
+			<div class="form-group col-md-2">
+						<label for="campo2">ISBN</label> <input type="text" maxlength="13"
 							class="form-control" id="isbn" name="isbn"
 							value="<%if(liv != null) out.print(liv.getISBN()); %>">
 					</div>
 
 					<div class="form-group col-md-2">
-						<label for="campo1">Cód. Barras</label> <input type="text"
+						<label for="campo1">Cód. Barras</label> <input type="text" maxlength="13"
 							class="form-control" id="codBarras" name="codBarras"
 							value="<%if(liv != null) out.print(liv.getCodBarras()); %>">
 					</div>
 
-					<div class="form-group col-md-4"></div>
-
-					<div class="form-group col-md-4"></div>
-				</div>
-			</div>
+					<div class="form-group col-md-4">
+					
+					</div>
+					
+					</div>
+				</div>	
+					
 			<div class="container-fluid">
 				<h4 class="page-header"> Caracteristicas </h4>
 
@@ -173,7 +214,7 @@ footer {
 
 				<div class="row">							
 					<div class="form-group col-md-3">
-						<label for="campo3">Categoria</label> 
+						<label for="campo4">Categoria</label> 
 							  <select multiple id="txtCategoria" name="txtCategoria"  class="form-control" data-actions-box="true">
 							<%
 							Categoria categ = new Categoria();	
@@ -183,8 +224,8 @@ footer {
 								boolean selected = false;
 
 								
-								if(livro != null){
-									for (Categoria livroCategoria : livro.getCategorias()) {
+								if(liv != null){
+									for (Categoria livroCategoria : liv.getCategorias()) {
 										if (livroCategoria.getId() == categoria.getId()) {
 											selected = true;
 										}										
@@ -211,8 +252,8 @@ footer {
 								Autor autor = (Autor) au;
 								boolean selected = false;
 								
-								if(livro != null){
-									for(Autor livroAutor : livro.getAutores()){
+								if(liv != null){
+									for(Autor livroAutor : liv.getAutores()){
 										if(livroAutor.getId() == autor.getId()){
 										selected= true;																												
 										}
@@ -236,9 +277,7 @@ footer {
 				<div class="row">
 					<div class="form-group col-md-8">
 						<label for="campo3">Sinopse</label>
-						<textarea id="sinopse" rows="4" cols="40" maxlength="200"
-							class="form-control" name="sinopse" style="text-align:left">
-							  <%if (livro != null) out.print(livro.getSinopse()); %></textarea>
+						<textarea rows="4" style="resize:none"  cols="num" rows="num" id="txtSinopse" name="txtSinopse" class="form-control form-control-alternative" ><%if (liv != null) out.print(liv.getSinopse()); %></textarea>
 					</div>
 					 
 
@@ -274,16 +313,22 @@ footer {
 
 				</div>
 			</div>
-
-
 			<hr />
-			<div id="actions" class="row">
-				<div class="col-md-12">
-				
-			<br>
-				</div>
-			</div>
+				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>				
+			
 	</div>
+		<%-- <%	
+				
+			if(liv != null) {
+				out.print("<input type='submit' id='operacao' name='operacao' value='ALTERAR'/>");
+				
+				out.print("<input type='submit' id='operacao' name='operacao' value='EXCLUIR'/>");	
+			}else{
+				out.print("<input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/>");
+			}
+		%> --%>
+		
+		
 	</form>
 		</div>
 	

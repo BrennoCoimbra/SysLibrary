@@ -37,10 +37,13 @@ main {
 }
 
 footer {
-	background: #333;
-	color: #fff;
-	padding: 20px 0;
-	text-align: center;
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  width: 100%;
+  background: #333;
+  color: #fff;
+  text-align: center;
 }
 
 .tab-pane {
@@ -54,6 +57,7 @@ footer {
 .pink {
 	color: pink;
 }
+
 </style>
 </head>
 <body>
@@ -63,6 +67,7 @@ footer {
 		 <%
 		 Resultado resultado = (Resultado) request.getAttribute("resultado");
 		 StringBuilder sb;
+		 List<EntidadeDominio> livros = (List<EntidadeDominio>) request.getAttribute("livro");
 		  %>
 	<!-- Barra de navegação e busca -->
 	<header>
@@ -116,98 +121,105 @@ footer {
 	<div id="main" class="container-fluid">
 
 		<div id="top" class="row">
-			<div class="col-md-3">
-				<h2>Listagem Livros</h2>
+			<div class="col-md-12">
+				<h4 class="page-header">  </h4>
+				
+			 
+				
+				<h1 class="display-2 text-white">Consulta de Livros <span class="glyphicon glyphicon-book"></span></h1>
+			
+            <p class="text-white mt-0 mb-5">Esse é a consulta de livros. Vocé poderá consultar, deletar e selecionar para alterar as informações de um livro.</p>
+                        
+			</div>	
+			
+		</div>
+		<hr />
+	<form action="SalvarLivro" method="post" class="form-horizontal">
+		<div class="row">
+			<div class="col-lg-5">
+			
 			</div>
-
-
-			<div class="col-md-9">
-				<a href="./ConsultarLivro.jsp" class="btn btn-primary pull-right h2">BuscarLivro</a> 
-				<a href="./FormLivro.jsp" class="btn btn-primary pull-right h2">Novo</a>
+			<div class="col-lg-5">
+			<input id="search" name="search" class="form-control" placeholder="Pesquisar" type="text">
 			</div>
+			<div class="col-lg-0">
+			<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='VISUALIZAR'/>
+			 <a href="./FormLivro.jsp" class="btn btn-primary">NOVO</a>
+				
+		</div>
+			
 		</div>
 		<!-- /#top -->
 
-		<hr />
-
-	<form action="SalvarLivro" method="post" class="form-horizontal">
-		<div id="list" class="row">
-				
+		<div id="list" class="row">	
 			<div class="table-responsive col-md-12">
- 			<input type="hidden" name="operacao" id="operacao" value="SALVAR"/> 
-			
-				<table class="table table-striped" cellspacing="0" cellpadding="0">
+				<table class="table table-striped" >
 					<thead>
 						<tr>
-							
-							<th class="text-center">ID</th>
+
+							<th class="text-center">Titulo</th>
+							<th class="text-center">Editora</th>
+							<th class="text-center">Autor</th>
 							<th class="text-center">Ativo</th>
 							<th class="text-center">ISBN</th>
-							<th class="text-center">Cód. Barras</th>
-							<th class="text-center">Titulo</th>
-							<th class="text-center">Quantidade</th>
-							<th class="text-center">Autor</th>
-							<th class="text-center">Categoria</th>
-							<th class="text-center">Ano</th>
-							<th class="text-center">Editora</th>
-							<th class="text-center">Sinopse</th>
-							<th class="text-center">Altura</th>
-							<th class="text-center">Largura</th>
-							<th class="text-center">Peso</th>
-							<th class="text-center">Profundidade</th>
-							<th class="actions"></th>
-							<th class="actions"></th>
+							<th style="text-align: right">Ações</th>
+							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 
 		            		<%
 		            		
-		            		List<EntidadeDominio> livros = new LivroDAO().consultar(new Livro());
+		            		
 		            		if (livros != null) {
-		            		for(EntidadeDominio ed : livros){
-		            			Livro livro = (Livro)ed;
+			            		for (EntidadeDominio ed : livros) {
+			            			Livro livro = (Livro) ed;
+			            			StringBuilder autores = new StringBuilder();
+			        				boolean isSecondOrMore = false;
+			        				
+			        				for (Autor autor : livro.getAutores()) {
+			        					if (isSecondOrMore)
+			        						autores.append("/");
+			        					autores.append(autor.getNome());
+			        					
+			        					isSecondOrMore = true;
+			        				}
 		            			
 		            		
 		            		%>
-						<tr>						
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getId() %></td>
+						<tr>
+							
+							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=livro.getEditora().getNome() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=autores.toString() %> </td>																				
 							<td style="text-align: center; vertical-align: middle;"><% if(livro != null && livro.getAtivo()) out.print("sim"); else out.print("não") ; %></td>
 							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getCodBarras() %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getQuantidade() %></td>
-							<td style="text-align: center; vertical-align: middle;"><% %></td>
-							<td style="text-align: center; vertical-align: middle;"><% %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getAno() %></td>
-							<td style="text-align: center; vertical-align: middle;"><% %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getSinopse() %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getAltura() %>cm</td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getLargura() %>cm</td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getPeso() %>g</td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getProfundidade() %>cm</td>
-							<td style="text-align: center; vertical-align: middle;"><a class="btn btn-alert ico-alert" href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>">Alterar</a></td>
-							<td style="text-align: center; vertical-align: middle;"><a class="btn btn-alert ico-warning" href="SalvarLivro?operacao=EXCLUIR&IdLivro=<%=livro.getId() %>">Remover</a></td>							
+							
+							<!-- Buttons actions -->
+							<td style="text-align: right; ">
+							<a href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>" class="btn btn-warning">Alterar</a> 
+							</td>
+							
+							<td style="text-align: left; ">
+							<a href="SalvarLivro?operacao=EXCLUIR&IdLivro=<%=livro.getId() %>"class="btn btn-danger">Remover</a>
+							</td>				
+										
 						</tr>
 						<%
 						}
-		            }else{
-		            	out.print("nao");
 		            }
-		      	
 		            	%>
 						
 
 					</tbody>
 				</table>
 			</div>
-				</div>		
-	</form>
 			</div>
+			</form>
+				</div>		
 
 	</main>
-	<footer> Todos os direitos reservados - Biblioteca
-		Copyright©2019 </footer>
+	<footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 	<script type="text/javascript" src="js/jquery.js"></script>
 	<script type="text/javascript" src="js/bootstrap.js"></script>
 </body>

@@ -23,4 +23,12 @@
     <servlet-name>Servlet</servlet-name>
     <url-pattern>/SalvarUsuario</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/Login</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/SalvarEndereco</url-pattern>
+  </servlet-mapping>
 </web-app>
