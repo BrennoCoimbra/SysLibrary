@@ -116,7 +116,7 @@
 			%>
               
               <li class="nav-item">
-              <a class="nav-link" href="describe.jsp?cat_id=<%=categoria.getId()%>"> 
+              <a class="nav-link" href="index.jsp?idCategoria=<%=categoria.getId()%>"> 
               <span data-feather="book"></span> <%=categoria.getNome()%>
               </a>
               </li>
@@ -146,16 +146,16 @@
 						    <%
 						       int i;
 						       boolean exibir;
-						       String iAutor = request.getParameter("idAutor");
+						       String iCategoria = request.getParameter("idCategoria");
 					      	   List<EntidadeDominio> livros = new LivroDAO().listarAtivos();
 						       for (EntidadeDominio ed : livros) {
 						    	   i = 0;
 						    	   exibir = false;
 						    	   Livro livro = (Livro) ed;
 						    	   
-						    	   if (iAutor != null && !iAutor.trim().equals("")) {
-						    		   for (Autor autor : livro.getAutores()) {
-						    			   if (Integer.parseInt(iAutor) == autor.getId()) {
+						    	   if (iCategoria != null && !iCategoria.trim().equals("")) {
+						    		   for (Categoria categoria : livro.getCategorias()) {
+						    			   if (Integer.parseInt(iCategoria) == categoria.getId()) {
 						    				   exibir = true;
 						    			   }
 						    		   }   
@@ -168,7 +168,7 @@
 							<div class="col">
 								<div class="product-grid3">
 									 <div style="text-align: center;">
-										<a href="descricao_produto.jsp?IdLivro=<%=livro.getId()%>">
+										<a href="describe.jsp?IdLivro=<%=livro.getId()%>">
 											<img class="pic-1" src="resources/livros/<%=livro.getId()%>.jpg">	
 										</a>	
 									</div><br>
