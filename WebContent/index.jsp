@@ -57,7 +57,7 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" href="./profile.jsp">
+            <a class="nav-link active" href="./index.jsp">
                   <span data-feather="home"></span>
                   Home <span class="sr-only"></span>
                 </a>
@@ -116,7 +116,7 @@
 			%>
               
               <li class="nav-item">
-              <a class="nav-link" href="Index_Aluno.jsp?cat_id=<%=categoria.getId()%>"> 
+              <a class="nav-link" href="describe.jsp?cat_id=<%=categoria.getId()%>"> 
               <span data-feather="book"></span> <%=categoria.getNome()%>
               </a>
               </li>
@@ -129,23 +129,33 @@
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-			<div style="text-align: center;">
-					<h1>Livros </h1>           
-            	</div>          
-          	  <%
+        <!-- Header -->
+    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
+    		<div style="text-align: center;">
+				<h3>Livros </h3>  <hr>         
+            </div>        
+    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
+      <div class="container-fluid">
+        <div class="header-body">			
+			<div class="container">
+				<div class="row">
+					<!------ shopping Demo-3 ---------->
+					<div class="container">
+						
+						<div class="row">
+						    <%
 						       int i;
 						       boolean exibir;
-						       String iCategoria = request.getParameter("idCategoria");
+						       String iAutor = request.getParameter("idAutor");
 					      	   List<EntidadeDominio> livros = new LivroDAO().listarAtivos();
 						       for (EntidadeDominio ed : livros) {
 						    	   i = 0;
 						    	   exibir = false;
 						    	   Livro livro = (Livro) ed;
 						    	   
-						    	   if (iCategoria != null && !iCategoria.trim().equals("")) {
-						    		   for (Categoria categoria: livro.getCategorias()) {
-						    			   if (Integer.parseInt(iCategoria) == categoria.getId()) {
+						    	   if (iAutor != null && !iAutor.trim().equals("")) {
+						    		   for (Autor autor : livro.getAutores()) {
+						    			   if (Integer.parseInt(iAutor) == autor.getId()) {
 						    				   exibir = true;
 						    			   }
 						    		   }   
@@ -155,21 +165,31 @@
 						    	   
 						    	   if (exibir) {
 						    %>
-							<div class="col-sm-9">
-								<div class="col-md-4 thumbnail text-center wow fadeInUp" data-wow-delay=".4s">
+							<div class="col">
+								<div class="product-grid3">
+									 <div style="text-align: center;">
 										<a href="descricao_produto.jsp?IdLivro=<%=livro.getId()%>">
 											<img class="pic-1" src="resources/livros/<%=livro.getId()%>.jpg">	
 										</a>	
-									<div class="product-content">										
-									<a href="SalvarCarrinho?operacao=SALVAR&idLivro=<%=livro.getId() %>&idUsuario=<%=usuario.getId() %>">Carrinho - <span data-feather="shopping-cart"> </span></a>
-										</div>
+									</div><br>
+									 <div style="text-align: center;">
+										<a href="SalvarCarrinho?operacao=SALVAR&idLivro=<%=livro.getId() %>&idUsuario=<%=usuario.getId() %>">Add-<span data-feather="shopping-cart"> 
+										</span></a>
 									</div>
 								</div>
+							</div>
 							<%
 						    	   }
 						       }
 							%>
-        </main>		
+						</div>
+					</div>
+				</div>
+			</div>
+        </div>
+      </div>
+    </div>
+    </main>
       </div>	  
     </div>	
     <!-- Icons -->    

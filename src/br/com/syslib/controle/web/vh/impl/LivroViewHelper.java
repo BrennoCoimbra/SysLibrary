@@ -136,7 +136,7 @@ public class LivroViewHelper implements IViewHelper {
 			if (operacao.equals("SALVAR")) {
 				resultado.setMsg("Livro cadastrado com sucesso!");
 				
-				d = request.getRequestDispatcher("FormLivro.jsp");
+				d = request.getRequestDispatcher("form-livro.jsp");
 				
 			} 
 				else if (operacao.equals("VISUALIZAR")) {
@@ -148,7 +148,7 @@ public class LivroViewHelper implements IViewHelper {
 					resultado.setMsg("Não foi possível listar livros.");;
 				}
 				
-				d = request.getRequestDispatcher("ConsultarLivro.jsp");
+				d = request.getRequestDispatcher("consultar-livro.jsp");
 				
 			
 			} else if (operacao.equals("CONSULTAR")) {
@@ -160,17 +160,17 @@ public class LivroViewHelper implements IViewHelper {
 					resultado.setMsg("Não foi possível listar livros.");;
 				}
 				
-				d = request.getRequestDispatcher("FormLivro.jsp");
+				d = request.getRequestDispatcher("form-livro.jsp");
 				
 			}  else if (operacao.equals("ALTERAR")) {
-				d = request.getRequestDispatcher("FormLivro.jsp");
+				d = request.getRequestDispatcher("consultar-livro.jsp");
 				
 			} else if (operacao.equals("EXCLUIR")) {
-				d = request.getRequestDispatcher("ConsultarLivro.jsp");				
+				d = request.getRequestDispatcher("consultar-livro.jsp");				
 			}
 		} else {
 			request.setAttribute("msg", resultado.getMsg());
-			d = request.getRequestDispatcher("Erros.jsp");
+			d = request.getRequestDispatcher("errors.jsp");
 		}
 		
 		if (d != null)
