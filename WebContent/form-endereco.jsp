@@ -120,7 +120,7 @@
 			%>
               
               <li class="nav-item">
-              <a class="nav-link" href="index.jsp?cat_id=<%=categoria.getId()%>"> 
+              <a class="nav-link" href="index.jsp?idCategoria=<%=categoria.getId()%>"> 
               <span data-feather="book"></span> <%=categoria.getNome()%>
               </a>
               </li>

@@ -369,6 +369,11 @@ public class LivroDAO extends AbstractJdbcDAO {
 		
 		return livros;
 	}
+	
+	public List<EntidadeDominio> visualizar() throws SQLException {
+		return visualizar("");
+	}
+	
 
 	@Override
 	public void excluir(EntidadeDominio entidade) {
