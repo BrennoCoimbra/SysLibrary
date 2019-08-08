@@ -1,0 +1,260 @@
+<!DOCTYPE html>
+
+
+
+<html  lang="pt-br">
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <meta name="description" content="Página para buscar livros e acessar informações.">
+    <meta name="author" content="Brenno Coimbra">
+    <link rel="icon" href="../resources/bootstrap/imgs/library_icon.ico">
+
+    <title>SysLibrary</title>
+
+    <!-- Bootstrap core CSS -->
+   <link href="../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Custom styles for this template -->
+    <link href="../resources/bootstrap/css/dashboard.css" rel="stylesheet">
+	
+	<style>
+	footer {
+	  position: fixed;
+	  
+	  bottom: 0;
+	  width: 100%;
+	  background: #fff;
+	  color: #333;
+	  text-align: center;
+	}
+	</style>
+  </head>
+
+  <body>
+  		
+    	
+    <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
+      <ul class="navbar-nav px-3">
+        <li class="nav-item text-nowrap">
+          <a class="nav-link" href="./login.html">Sign out <span data-feather="log-out"></span></a>
+        </li>
+      </ul>
+    </nav>
+
+    <div class="container-fluid">
+      <div class="row">
+        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+          <div class="sidebar-sticky">
+            <ul class="nav flex-column">
+            <li class="nav-item">
+            <a class="nav-link" href="./dashboard.html">
+                  <span data-feather="home"></span>
+                  Dashboard <span class="sr-only"></span>
+                </a>
+                </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./profile.html">
+                  <span data-feather="users"></span>
+                  Seu Perfil <span class="sr-only"></span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./form-livro.html">
+                  <span data-feather="book-open"></span>
+                  Cadastrar Livro
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./consultar-livro.html">
+                  <span data-feather="book-open"></span>
+                  Consultar Livro
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./estoque.html">
+                  <span data-feather="package"></span>
+                  Estoque
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./consultar-estoque.html">
+                  <span data-feather="package"></span>
+                  Consulta Estoque
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./consultar-troca.html">
+                  <span data-feather="code"></span>
+                  Trocas
+                </a>
+              </li>             
+            </ul>
+
+            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Relatorios</span>
+              <a class="d-flex align-items-center text-muted" href="#">
+               
+              </a>
+            </h6>
+			        			      
+            <ul class="nav flex-column mb-2">
+			
+			
+              <li class="nav-item">
+           <a class="nav-link active" href="./reports.html">
+              <span data-feather="file-text"></span> 
+              Quantidade em Estoque
+              </a>
+              </li>
+             
+
+      
+            </ul>
+          </div>
+        </nav>
+
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<div style="text-align: center;">
+					<h3>Estoque Atual </h3>           
+            	</div>          
+          	  	<form action="SalvarLivro" method="post" class="form-horizontal">
+		
+		<!-- /#top -->
+
+		<div id="list" class="row">	
+			<div class="table-responsive">
+            <table class="table table-striped table-sm">
+              <thead>
+                <tr>
+                  <th>#</th>
+                  <th>Ativo</th>
+                  <th>Livro</th>
+                  <th>Qtde</th>
+                  <th>Valor</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>001</td>
+                  <td>Sim</td>
+                  <td>ipsum</td>
+                  <td>1</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>002</td>
+                  <td>Sim</td>
+                  <td>consectetur</td>
+                  <td>3</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>003</td>
+                  <td>Sim</td>
+                  <td>nec</td>
+                  <td>2</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>004</td>
+                  <td>Sim</td>
+                  <td>Sed</td>
+                  <td>3</td>
+                  <td>R$99.00</td>
+                </tr>                
+                <tr>
+                  <td>005</td>
+                  <td>Sim</td>
+                  <td>quis</td>
+                  <td>5</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>006</td>
+                  <td>Sim</td>
+                  <td>elementum</td>
+                  <td>2</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>007</td>
+                  <td>Sim</td>
+                  <td>ipsum</td>
+                  <td>5</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>008</td>
+                  <td>Sim</td>
+                  <td>nec</td>
+                  <td>3</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>009</td>
+                  <td>Sim</td>
+                  <td>semper</td>
+                  <td>2</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>010</td>
+                  <td>Sim</td>
+                  <td>Vestibulum</td>
+                  <td>1</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>011</td>
+                  <td>Sim</td>
+                  <td>nulla</td>
+                  <td>4</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>012</td>
+                  <td>Não</td>
+                  <td>Java</td>
+                  <td>0</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>013</td>
+                  <td>Não</td>
+                  <td>per</td>
+                  <td>0</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>014</td>
+                  <td>Não</td>
+                  <td>inceptos</td>
+                  <td>0</td>
+                  <td>R$99.00</td>
+                </tr>
+                <tr>
+                  <td>015</td>
+                  <td>Não</td>
+                  <td>ligula</td>
+                  <td>0</td>
+                  <td>R$99.00</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+			</div>
+			</form>
+        </main>		
+      </div>	  
+    </div>	
+    <!-- Icons -->    
+	<script src="../resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="../resources/bootstrap/js/feather.min.js"></script>
+    <script>
+    feather.replace()
+    </script>  	
+  </body>
+  <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
+</html>

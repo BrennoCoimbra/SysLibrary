@@ -1,0 +1,21 @@
+{
+  "id": "ddd826d0-ab60-45e6-b0de-abc23e01ca44",
+  "version": "2.0",
+  "name": "SysLibrary",
+  "url": "file:///D:/Prototipos/bootstrap/register.html",
+  "tests": [{
+    "id": "7e79aa1f-19c0-4558-ad29-bedec4da266b",
+    "name": "Registro",
+    "commands": []
+  }],
+  "suites": [{
+    "id": "98ba8e1e-b803-4b7a-a567-98934674ccde",
+    "name": "Default Suite",
+    "persistSession": false,
+    "parallel": false,
+    "timeout": 300,
+    "tests": ["7e79aa1f-19c0-4558-ad29-bedec4da266b"]
+  }],
+  "urls": [],
+  "plugins": []
+}
