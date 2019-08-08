@@ -24,7 +24,7 @@ import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.dominio.EntidadeDominio;
 
 public class Servlet extends HttpServlet {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 102831973239L;
 
 	private static Map<String, ICommand> commands;
 	private static Map<String, IViewHelper> vhs;
