@@ -17,25 +17,25 @@
   </head>
 
   <body class="text-center">
-    <form action="SalvarUsuario" method="POST"class="form-signin">
+    <form class="form-signin">
 		<input class="form-control" type="hidden" id="operacao" name="operacao" value="SALVAR">
       <img class="mb-4" src="./resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h5 class="h5 mb-4 font-weight-normal">Informe seus dados para cadastro</h5>
 	  
 	  <label for="nome" class="sr-only">Nome</label>
-      <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome completo" required autofocus>
+      <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome Completo" required autofocus>
 	  
 	  <label for="cpf" class="sr-only">CPF</label>
       <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF" required autofocus>
       
 	  <label for="email" class="sr-only">Endereço de email</label>
-      <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" required autofocus>
+      <input type="email" name="email" id="email" class="form-control" placeholder="E-mail" required autofocus>
       
 	  <label for="senha" class="sr-only">Senha</label>
       <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required>
 	  
 	  <label for="confirmasenha" class="sr-only">Confirma senha</label>
-      <input type="password" name="confirmaSenha" id="confirmaSenha" class="form-control" placeholder="Confirma senha" required>
+      <input type="password" name="confirmaSenha" id="confirmaSenha" class="form-control" placeholder="Confirma Senha" required>
       
 	  <div class="checkbox mb-2">
                 <input class="custom-control-input" id="privacidade" name="privacidade" type="checkbox">
@@ -45,8 +45,8 @@
 
 		</div>
 
-				<button class="btn-primary btn-block"><a href="./login.html"></a> Cria Conta</button>
-
+<!-- 				<button class="btn-primary btn-block"><a href="./login.html"></a> Cria Conta</button> -->
+			     <a href="./login.html" class="btn btn-primary">Criar Conta</a>
       <p class="mt-5 mb-3 text-muted">&copy; 2018-2019</p>
     </form>
 		

@@ -161,7 +161,7 @@
           <h3>Pedido </h3>   
                
               </div>  
-    <form action="SalvarCarrinho" method="post">
+    <form >
            <div class="row">
 
     </div>   
@@ -288,8 +288,8 @@
              <tr>
               <td></td>
               <td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>"></td>              
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Boleto'> </td>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= '0123921302'> </td>              
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Cartao Credito'> </td>
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Safra'> </td>              
               <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 20.00'> </td>              
             </tr>
 
@@ -314,10 +314,14 @@
       
       <div class=col>
               <hr>
-        <h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='Comprar'/></h4>
-               </div>    
+<!--         <h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='Comprar'/></h4> -->
+				      
+				
+               </div> 
+                  
                 <div class="row">
-          <div class="form-group col-md-8">
+          <div class="form-group col-md-4">
+						<a href="./consultar-pedido.html" class="btn btn-success">Comprar</a>
             <label for="campo3"></label>
             
           </div>
