@@ -9,6 +9,16 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
+  
+  <filter>
+        <filter-name>Filter</filter-name>
+        <filter-class>br.com.syslib.filter.Filter</filter-class>
+    </filter>    
+    <filter-mapping>
+        <filter-name>Filter</filter-name>
+        <url-pattern>/autenticado/*</url-pattern>                
+      </filter-mapping>
+  
   <servlet>
     <description></description>
     <display-name>Servlet</display-name>
@@ -17,7 +27,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/SalvarLivro</url-pattern>
+    <url-pattern>/autenticado/adm/SalvarLivro</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -25,10 +35,14 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/Login</url-pattern>
+    <url-pattern>/autenticado/Login</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/SalvarEndereco</url-pattern>
+    <url-pattern>/autenticado/SalvarEndereco</url-pattern>
+  </servlet-mapping>
+	<servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/SalvarCartao</url-pattern>
   </servlet-mapping>
 </web-app>

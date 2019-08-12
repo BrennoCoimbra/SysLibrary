@@ -15,15 +15,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Página para buscar livros e acessar informações.">
     <meta name="author" content="Brenno Coimbra">
-    <link rel="icon" href="./resources/bootstrap/imgs/library_icon.ico">
+    <link rel="icon" href="../resources/bootstrap/imgs/library_icon.ico">
 
     <title>SysLibrary</title>
 
     <!-- Bootstrap core CSS -->
-   <link href="./resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <link href="../resources/bootstrap/css/dashboard.css" rel="stylesheet">
 	
 	<style>
 	footer {
@@ -74,7 +74,7 @@
               </li>
               <li class="nav-item">
                 <a class="nav-link active" href="./form-endereco.jsp">
-                  <span data-feather="file">(current)</span>
+                  <span data-feather="file"></span>
                   Cadastrar Endereço
                 </a>
               </li>
@@ -85,21 +85,39 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="./form-cartao.jsp">
+                  <span data-feather="credit-card"></span>
+                  Cadastrar Cartão
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./consultar-cartao.jsp">
+                  <span data-feather="credit-card"></span>
+                  Consultar Cartão
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Empréstimos
+                <a class="nav-link" href="./consultar-pedidos.jsp">
+                  <span data-feather="shopping-bag"></span>
+                  Pedidos
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./consultar-cupons.jsp">
                   <span data-feather="file-text"></span>
-                  Devoluções
+                  Cupons
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./consultar-trocas.jsp">
+                  <span data-feather="code"></span>
+                  Trocas
                 </a>
               </li>
             </ul>
@@ -224,8 +242,8 @@
       </div>	  
     </div>	
     <!-- Icons -->    
-	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="./resources/bootstrap/js/feather.min.js"></script>
+	<script src="../resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="../resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()
     </script>  	

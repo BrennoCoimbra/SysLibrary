@@ -15,6 +15,7 @@ import br.com.syslib.controle.web.command.impl.ExcluirCommand;
 import br.com.syslib.controle.web.command.impl.ICommand;
 import br.com.syslib.controle.web.command.impl.SalvarCommand;
 import br.com.syslib.controle.web.command.impl.VisualizarCommand;
+import br.com.syslib.controle.web.vh.impl.CartaoCreditoViewHelper;
 import br.com.syslib.controle.web.vh.impl.EnderecoViewHelper;
 import br.com.syslib.controle.web.vh.impl.IViewHelper;
 import br.com.syslib.controle.web.vh.impl.LivroViewHelper;
@@ -56,11 +57,11 @@ public class Servlet extends HttpServlet {
 		 * A chave do mapa é o mapeamento da servlet para cada form que está configurado
 		 * no web.xml e sendo utilizada no action do html
 		 */
-		vhs.put("/SysLibrary/SalvarLivro", new LivroViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/SalvarLivro", new LivroViewHelper());
 		vhs.put("/SysLibrary/SalvarUsuario", new UsuarioViewHelper());
-		vhs.put("/SysLibrary/Login", new LoginViewHelper());
-		vhs.put("/SysLibrary/SalvarEndereco", new EnderecoViewHelper());
-		
+		vhs.put("/SysLibrary/autenticado/Login", new LoginViewHelper());
+		vhs.put("/SysLibrary/autenticado/SalvarEndereco", new EnderecoViewHelper());
+		vhs.put("/SysLibrary/autenticado/SalvarCartao", new CartaoCreditoViewHelper());
 		
 	}
 

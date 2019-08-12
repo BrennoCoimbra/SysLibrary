@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@page import="br.com.syslib.dominio.*"%>
 <%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
 <html lang="pt-br">
   <head>
@@ -16,9 +17,13 @@
     <!-- Estilos customizados para esse template -->
     <link href="./resources/bootstrap/css/signin.css" rel="stylesheet">
   </head>
-
+  <%
+  ArrayList<EntidadeDominio> usuarioLogado = session.getAttribute("usuarioLogado") == null ? null : (ArrayList) session.getAttribute("usuarioLogado");
+    String pagina = session.getAttribute("pagina") == null ? null : (String) session.getAttribute("pagina");
+    String pgSemAut = (String) request.getParameter("pgSemAut");
+    %>
   <body class="text-center">
-    <form action="Login" method="POST"class="form-signin">
+    <form action="/SysLibrary/autenticado/Login" method="POST"class="form-signin">
 	<input class="form-control" type="hidden" id="operacao" name="operacao" value="CONSULTAR">
       <img class="mb-4" src="./resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h2 class="h4 mb-4 font-weight-normal">Faça Login</h2>

@@ -1,12 +1,13 @@
-<!DOCTYPE html>
-<%@page import="br.com.syslib.enuns.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="br.com.syslib.dominio.*"%>
-<%@page import="br.com.syslib.core.util.*"%>
 <%@page import="br.com.syslib.core.aplicacao.Resultado"%>
+<%@page import="br.com.syslib.dominio.EntidadeDominio"%>
+<%@page import="br.com.syslib.dominio.Livro"%>
 <%@page import="br.com.syslib.core.impl.dao.*"%>
+<%@page import="br.com.syslib.core.util.*"%>
 <%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
+<!DOCTYPE html>
 
 <html lang="pt-br">
   <head>
@@ -39,8 +40,12 @@
 
   <body>
   		<%
-    	Usuario usuario = Logged.getUsuario();
-    	%>	
+		Usuario usuario = Logged.getUsuario();
+		usuario.getId();
+		List<EntidadeDominio> cartao = (List<EntidadeDominio>) request.getAttribute("cartoes");
+		StringBuilder sb;
+		Resultado resultado = (Resultado) request.getAttribute("resultado");
+		%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
@@ -57,7 +62,7 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" href="./index.jsp">
+            <a class="nav-link" href="./index.jsp">
                   <span data-feather="home"></span>
                   Home <span class="sr-only"></span>
                 </a>
@@ -81,21 +86,39 @@
                 </a>
               </li>
               <li class="nav-item">
+                <a class="nav-link" href="./form-cartao.jsp">
+                  <span data-feather="credit-card"></span>
+                  Cadastrar Cartão
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link active" href="./consultar-cartao.jsp">
+                  <span data-feather="credit-card"></span>
+                  Consultar Cartão
+                </a>
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Empréstimos
+                <a class="nav-link" href="./consultar-pedidos.jsp">
+                  <span data-feather="shopping-bag"></span>
+                  Pedidos
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="./consultar-cupons.jsp">
                   <span data-feather="file-text"></span>
-                  Devoluções
+                  Cupons
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./consultar-trocas.jsp">
+                  <span data-feather="code"></span>
+                  Trocas
                 </a>
               </li>
             </ul>
@@ -108,7 +131,7 @@
             </h6>
 			        			      
             <ul class="nav flex-column mb-2">
-			
+            	
 			<%
         	List<EntidadeDominio> categorias = new CategoriaDAO().listar();
             for (EntidadeDominio ed : categorias) {
@@ -123,89 +146,89 @@
               <%
 			      }
 			   %>
-
-      
             </ul>
           </div>
         </nav>
 
-        <!-- Header -->
-        <%
-    	Livro livro = null;
-        String iLivro = request.getParameter("IdLivro");
-	  	StringBuilder autores = new StringBuilder();
-		boolean isSecondOrMore = false;
-    	if (iLivro != null && !iLivro.trim().equals("")) {
- 	  		livro = (Livro) new LivroDAO().getEntidadeDominio(Integer.parseInt(iLivro));
-
- 	  		for (Autor autor : livro.getAutores()) {
-				if (isSecondOrMore)
-					autores.append("/");
-				autores.append(autor.getNome());
+        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+			<div style="text-align: center;">
+					<h3>Cartão Credito </h3>           
+				   <br>
+            	</div>           
+       <form action="SalvarCartao" method="post" class="form-horizontal">
+		<div class="row">
+			<div class="col-lg-5">
+			
+			</div>
+			<div class="col-4">
+			<input id="search" name="search" class="form-control" placeholder="Pesquisar" type="text">
+			</div>
+			<div class="col-0">
+			<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='VISUALIZAR'/>
+			 <a href="./form-cartao.jsp" class="btn btn-primary">NOVO</a>
 				
-				isSecondOrMore = true;
-			}
-    	}
-		%>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
-    		<div style="text-align: center;">
-				<h3>Descrição</h3>  <hr>  
-				<div class="text-right">						
-						<a href="Carrinho.html" class="btn btn-success">Adicionar ao Carrinho</a>
-						<a href="Reserva.html" class="btn btn-warning">Reservar</a>
-					</div>       
-            </div>        
-    <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
-      <div class="container-fluid">
-        <div class="header-body">			
-			<div class="container">
-				<div class="row">
-					<!------ shopping Demo-3 ---------->
-					<div class="container">
-					
-					<div class="row">
-				<div class="col-sm-4">
-					<img style="width: 70%" class="img-responsive" src="resources/livros/<%=livro.getId()%>.jpg">
-				</div>
-				<div class="col-sm-8">
-					<div class="row">
-						<ul class="nav nav-tabs" role="tab-list">
-							<li class="nav active">
-								
-							</li>
-							<li class="nav">
-								<a href="#informacoes" data-toggle="tab">Informações técnicas:</a>
-							</li>
-						</ul>
+		</div>
+			
+		</div>
+		<!-- /#top -->
 
-						<div class="table">
-							<br>
-							<p><b>Titulo:</b> <%if (livro != null) out.print(livro.getTitulo()); %></p>	
-							<p><b>Editora:</b> <%if (livro != null) out.print(livro.getEditora().getNome()); %></p>
-							<p><b>Autores:</b> <%if (livro != null) out.print(autores.toString()); %></p>
-							<p><b>Ano:</b> <%if (livro != null) out.print(livro.getAno()); %></p>
-							<p><b>Edição:</b> <%if (livro != null) out.print(livro.getEdicao()); %></p>
-							<p><b>Paginas:</b> <%if (livro != null) out.print(livro.getNumPaginas()); %></p>
-							<p> 
-							<b>Altura:</b><%if (livro != null) out.print(livro.getAltura()); %>
-							<b>Largura:</b> <%if (livro != null) out.print(livro.getAltura()); %>
-							<b>Peso:</b><%if (livro != null) out.print(livro.getPeso()); %>
-							<b>Profundidade:</b><%if (livro != null) out.print(livro.getProfundidade()); %>
-							</p>
-							<p><b>Sinopse:</b> <%if (livro != null) out.print(livro.getSinopse()); %></p>
-						</div>
+		<div id="list" class="row">	
+			<div class="table-responsive col-md-12">
+				<table class="table table-striped" >
+					<thead>
+						<tr>
 
-					</div>
-				</div>
+							<th class="text-center">Descrição</th>
+							<th class="text-center">Nome</th>
+							<th class="text-center">Numero</th>
+							<th class="text-center">Validade</th>
+							<th class="text-center">CVV</th>
+							<th class="text-center">Bandeira</th>
+							<th style="text-align: right">Ações</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+
+		            		<%
+		            		
+		            		
+		            		if (cartao != null) {
+			            		for (EntidadeDominio ed : cartao) {
+			            			CartaoCredito card = (CartaoCredito) ed;			            			
+		            		
+		            		%>
+						<tr>
+							
+							<td style="text-align: center; vertical-align: middle;"><%=card.getDescricao() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=card.getNomeCartao() %> </td>														
+							<td style="text-align: center; vertical-align: middle;"><%=card.getNumeroCartao() %> </td>																				
+							<td style="text-align: center; vertical-align: middle;"><%=card.getMes() + "/" + card.getAno() %></td>
+							<td style="text-align: center; vertical-align: middle;"><%=card.getCodigoSeguranca() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=card.getBandeiraCartao().getDescricao() %></td>
+							
+							<!-- Buttons actions -->
+							<td style="text-align: right; ">
+							<a href="SalvarCartao?operacao=CONSULTAR&cartao_id=<%=card.getId() %>" class="btn btn-warning">Alterar</a> 
+							</td>
+							
+							<td style="text-align: left; ">
+							<a href="SalvarCartao?operacao=EXCLUIR&cartao_id=<%=card.getId() %>"class="btn btn-danger">Remover</a>
+							</td>				
+										
+						</tr>
+						<%
+						}
+		            }
+		            	%>
+						
+
+					</tbody>
+				</table>
 			</div>
-
-					</div>
-				</div>
 			</div>
-        </div>
-      </div>
-    </div>
-    </main>
+			</form>
+        </main>		
       </div>	  
     </div>	
     <!-- Icons -->    

@@ -10,15 +10,18 @@ import br.com.syslib.core.IDAO;
 import br.com.syslib.core.IFachada;
 import br.com.syslib.core.IStrategy;
 import br.com.syslib.core.aplicacao.Resultado;
+import br.com.syslib.core.impl.dao.CartaoCreditoDAO;
 import br.com.syslib.core.impl.dao.EnderecoDAO;
 import br.com.syslib.core.impl.dao.LivroDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
+import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosCartaoCredito;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosEndereco;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosUsuario;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
+import br.com.syslib.dominio.CartaoCredito;
 import br.com.syslib.dominio.Endereco;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Livro;
@@ -41,12 +44,14 @@ public class Fachada implements IFachada {
 		LivroDAO livroDAO = new LivroDAO();
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		EnderecoDAO enderecoDAO = new EnderecoDAO();
+		CartaoCreditoDAO cartaoCreditoDAO = new CartaoCreditoDAO();
 	
 		
 		/* Adicionando cada dao no MAP indexando pelo nome da classe */
 		daos.put(Livro.class.getName(), livroDAO);
 		daos.put(Usuario.class.getName(), usuarioDAO);
 		daos.put(Endereco.class.getName(), enderecoDAO);
+		daos.put(CartaoCredito.class.getName(), cartaoCreditoDAO);
 		
 		
 		ValidadorDadosObrigatoriosLogin vrDadosObrigatoriosLogin = new ValidadorDadosObrigatoriosLogin();
@@ -61,7 +66,7 @@ public class Fachada implements IFachada {
 		rnsSalvarUsuario.add(vrCPF);
 		Map<String, List<IStrategy>> rnsUsuario = new HashMap<String, List<IStrategy>>();
 		rnsUsuario.put("SALVAR", rnsSalvarUsuario);
-//		rnsUsuario.put("SALVAR", rnsSalvarUsuario);		-- ainda sem regras de negocio para alteracao
+//		rnsUsuario.put("ALTERAR", rnsSalvarUsuario);		-- ainda sem regras de negocio para alteracao
 
 		
 		ValidadorDadosObrigatoriosEndereco vrDadosObrigatoriosEndereco = new ValidadorDadosObrigatoriosEndereco();
@@ -71,6 +76,13 @@ public class Fachada implements IFachada {
 		rnsEndereco.put("SALVAR", rnsSalvarEndereco);
 		rnsEndereco.put("ALTERAR", rnsSalvarEndereco);
 		
+		
+		ValidadorDadosObrigatoriosCartaoCredito vrDadosObrigatorioCartaoCredito = new ValidadorDadosObrigatoriosCartaoCredito();
+		List<IStrategy> rnsSalvarCartaoCredito = new ArrayList<IStrategy>();
+		rnsSalvarCartaoCredito.add(vrDadosObrigatorioCartaoCredito);
+		Map<String, List<IStrategy>> rnsCartaoCredito = new HashMap<String, List<IStrategy>>();
+		rnsCartaoCredito.put("SALVAR", rnsSalvarCartaoCredito);
+		rnsCartaoCredito.put("ALTERAR", rnsSalvarCartaoCredito);
 		
 		/* Criando instâncias de regras de negócio a serem utilizados */
 		ValidadorDadosObrigatoriosLivro vrDadosObrigatoriosLivro = new ValidadorDadosObrigatoriosLivro();
@@ -94,7 +106,9 @@ public class Fachada implements IFachada {
 		 * por operação do livro/usuario
 		 */
 		Map<String, List<IStrategy>> rnsLivro = new HashMap<String, List<IStrategy>>();
-
+		
+		
+		
 		
 		/*
 		 * Adiciona a listra de regras na operação salvar no mapa do livro (lista
@@ -111,7 +125,7 @@ public class Fachada implements IFachada {
 		rns.put(Livro.class.getName(), rnsLivro);
 		rns.put(Usuario.class.getName(), rnsUsuario);
 		rns.put(Endereco.class.getName(), rnsEndereco);
-
+		rns.put(CartaoCredito.class.getName(), rnsCartaoCredito);
 		
 	}
 

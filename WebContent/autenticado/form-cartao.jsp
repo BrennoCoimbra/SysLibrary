@@ -1,18 +1,19 @@
 <!DOCTYPE html>
-<%@page import="br.com.syslib.enuns.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="br.com.syslib.dominio.*"%>
-<%@page import="br.com.syslib.core.util.*"%>
 <%@page import="br.com.syslib.core.aplicacao.Resultado"%>
+<%@page import="br.com.syslib.dominio.EntidadeDominio"%>
 <%@page import="br.com.syslib.core.impl.dao.*"%>
-<%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
+<%@page import="br.com.syslib.core.util.*"%>
+<%@page import="br.com.syslib.enuns.*" %>
 
-<html lang="pt-br">
+
+<html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="PÃ¡gina para buscar livros e acessar informaÃ§Ãµes.">
+    <meta name="description" content="Página para buscar livros e acessar informações.">
     <meta name="author" content="Brenno Coimbra">
     <link rel="icon" href="../resources/bootstrap/imgs/library_icon.ico">
 
@@ -39,8 +40,11 @@
 
   <body>
   		<%
-    	Usuario usuario = Logged.getUsuario();
-    	%>	
+		CartaoCredito cartao = (CartaoCredito) request.getAttribute("cartoes");
+		Usuario usuario = Logged.getUsuario();
+		usuario.getId();
+		StringBuilder sb;
+		%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
@@ -63,7 +67,7 @@
                 </a>
                 </li>
               <li class="nav-item">
-                <a class="nav-link active" href="./profile.jsp">
+                <a class="nav-link" href="./profile.jsp">
                   <span data-feather="users"></span>
                   Seu Perfil <span class="sr-only"></span>
                 </a>
@@ -71,25 +75,25 @@
               <li class="nav-item">
                 <a class="nav-link" href="./form-endereco.jsp">
                   <span data-feather="file"></span>
-                  Cadastrar EndereÃ§o
+                  Cadastrar Endereço
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="./consultar-endereco.jsp">
                   <span data-feather="file"></span>
-                  Consultar EndereÃ§o
+                  Consultar Endereço
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./form-cartao.jsp">
+                <a class="nav-link active" href="./form-cartao.jsp">
                   <span data-feather="credit-card"></span>
-                  Cadastrar CartÃ£o
+                  Cadastrar Cartão
                 </a>
               </li>
               <li class="nav-item">
                 <a class="nav-link" href="./consultar-cartao.jsp">
                   <span data-feather="credit-card"></span>
-                  Consultar CartÃ£o
+                  Consultar Cartão
                 </a>
               </li>
               <li class="nav-item">
@@ -149,38 +153,91 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Perfil </h3>
-					<hr>   
+					<h3>Cartão Credito </h3>           
             	</div>          
-          <form action="SalvarUsuario" method="POST">
-		<div class="container-fluid">
-		<div class="row">	
-      		   <input type="hidden" name="idUsuario" value="<%=usuario.getId() %>" />
-               <input class="form-control" type="hidden" id="operacao" name="operacao" value="ALTERAR">
-      	<div class="form-group col-md-3">
-      		<label for="nome">Nome</label>
-       	 	<input type="text" value="<%=usuario.getNome() %>"  class="form-control input-lg" id="nome" name="nome" placeholder="Nome">
-      	</div>
-      	
-      		<div class="form-group col-md-3">
-      	<label class="form-control-label" for="cpf">CPF</label>
-       	 	<input readonly type="text" value="<%=usuario.getCpf() %>" class="form-control input-lg" id="cpf" name="cpf" placeholder="CPF">
-      	</div>
-      	
-      		<div class="form-group col-md-3">
-      	<label class="form-control-label" for="email">Email</label>
-       	 	<input readonly type="email" value="<%=usuario.getEmail() %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
-      	</div>
-      	    </div>
-      	
-						<hr />
-				<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></></h4>
+          	  	<form action="SalvarCartao" method="post">
+		
+		<input type="hidden" name="cartao_id" value="<% if (cartao != null) out.print(cartao.getId()); %>" />
+		<input type="hidden" name="operacao" value="<% if (cartao != null) out.print("ALTERAR"); else out.print("SALVAR");%>" />
+		
+
+			<!-- area de campos do form -->
+				<hr/>
+			<div class="container-fluid">
+				<h6 class="page-header"> Descrição </h6>
+					<div class="row">	
+							
+				<div class="form-group col-md-3">
+					<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+							value="<%if(cartao != null) out.print(cartao.getDescricao()); %>">
+					</div>
+					
+					</div>
+				</div>	
+					
+			<div class="container-fluid">
+				<h6 class="page-header"> Identificação </h6>
+
+				<div class="row">
+				
+					<div class="form-group col-md-4">
+						<label for="campo1">Nome no Cartão</label> <input type="text"
+							class="form-control" id="nomeCartao" name="nomeCartao"
+							value="<%if(cartao != null) out.print(cartao.getNomeCartao()); %>">
+					</div>
+					<div class="form-group col-md-4">
+						<label for="titulo">Numero</label> <input type="text" 
+							class="form-control" id="numero" name="numero"
+							value="<%if(cartao != null) out.print(cartao.getNumeroCartao()); %>">
+					</div>
+					<div class="form-group col-md-1">
+						<label for="ano">Mês</label> <input type="text" maxlength="2"
+							class="form-control" id="mes" name="mes"
+							value="<%if(cartao != null) out.print(cartao.getMes()); %>">
+					</div>
+					<div class="form-group col-md-1">
+						<label for="ano">Ano</label> <input type="text" maxlength="2"
+							class="form-control" id="ano" name="ano"
+							value="<%if(cartao != null) out.print(cartao.getAno()); %>">
+					</div>
+					
+				</div>
+					
+					<div class="row">
+					
+					<div class="form-group col-md-1">
+						<label for="edicao">CVV</label> <input type="text" maxlength="3"
+							class="form-control" id="cvv" name="cvv"
+							value="<%if(cartao != null) out.print(cartao.getCodigoSeguranca()); %>">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="numpgs">Bandeira</label> 
+						<select id="bandeira" name="bandeira" class="form-control">
+							<%
+								for (BandeiraCartao bandeiras : BandeiraCartao.values()) {
+							%>
+							  <option id=<%=bandeiras.getCodigo() %> value=<%=bandeiras.getCodigo() %> <%if (cartao != null && cartao.getBandeiraCartao().getCodigo() == bandeiras.getCodigo()) out.print("selected"); %>><%=bandeiras.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
+							
+					</div>
+					
+				
+					
+				</div>
+
+
+							<hr />
+				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>				
 			
-         </div>
-      </form>
-    </div>
+	</div>
+		
+	</form>
         </main>		
       </div>	  
+    </div>	
     <!-- Icons -->    
 	<script src="../resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="../resources/bootstrap/js/feather.min.js"></script>
@@ -188,5 +245,5 @@
     feather.replace()
     </script>  	
   </body>
-  <footer> Todos os direitos reservados - Biblioteca CopyrightÂ©2019 </footer>
+  <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

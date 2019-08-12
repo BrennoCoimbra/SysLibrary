@@ -318,6 +318,14 @@ public class LivroDAO extends AbstractJdbcDAO {
 		if (!filtro.equals("")) {
 			sql.append(" WHERE liv_titulo LIKE '%" + filtro + "%'");
 			sql.append(" OR liv_ISBN LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_ano LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_edicao LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_num_pag LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_sinopse LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_altura LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_largura LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_peso LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_profundidade LIKE '%" + filtro + "%'");
 		}
 		
 		PreparedStatement stmt = connection.prepareStatement(sql.toString());
