@@ -9,17 +9,25 @@
     <welcome-file>default.htm</welcome-file>
     <welcome-file>default.jsp</welcome-file>
   </welcome-file-list>
-  
   <filter>
-        <filter-name>Filter</filter-name>
-        <filter-class>br.com.syslib.filter.Filter</filter-class>
+        <filter-name>FilterAutenticacao</filter-name>
+        <filter-class>br.com.syslib.filter.FilterAutenticacao</filter-class>
     </filter>    
     <filter-mapping>
-        <filter-name>Filter</filter-name>
-        <url-pattern>/autenticado/*</url-pattern>                
-      </filter-mapping>
-  
-  <servlet>
+        <filter-name>FilterAutenticacao</filter-name>
+        <url-pattern>/consultar-cartao.jsp</url-pattern>
+        <url-pattern>/consultar-endereco.jsp</url-pattern>
+        <url-pattern>/form-cartao.jsp</url-pattern>
+        <url-pattern>/form-endereco.jsp</url-pattern>
+        <url-pattern>/profile.jsp</url-pattern>        
+        
+        <url-pattern>/form-livro.jsp</url-pattern>
+        <url-pattern>/consultar-livro.jsp</url-pattern>
+        <url-pattern>/estoque.jsp</url-pattern>
+        <url-pattern>/dashboard.jsp</url-pattern>
+        <url-pattern>/profile.jsp</url-pattern>        
+    </filter-mapping>
+   <servlet>
     <description></description>
     <display-name>Servlet</display-name>
     <servlet-name>Servlet</servlet-name>
@@ -27,7 +35,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/autenticado/adm/SalvarLivro</url-pattern>
+    <url-pattern>/SalvarLivro</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -35,14 +43,18 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/autenticado/Login</url-pattern>
+    <url-pattern>/Login</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/autenticado/SalvarEndereco</url-pattern>
+    <url-pattern>/SalvarEndereco</url-pattern>
   </servlet-mapping>
 	<servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/autenticado/SalvarCartao</url-pattern>
+    <url-pattern>/SalvarCartao</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/SairSys</url-pattern>
   </servlet-mapping>
 </web-app>

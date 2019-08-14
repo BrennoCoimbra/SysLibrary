@@ -14,15 +14,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Página para buscar livros e acessar informações.">
     <meta name="author" content="Brenno Coimbra">
-    <link rel="icon" href="../resources/bootstrap/imgs/library_icon.ico">
+    <link rel="icon" href="./resources/bootstrap/imgs/library_icon.ico">
 
     <title>SysLibrary</title>
 
     <!-- Bootstrap core CSS -->
-   <link href="../resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="./resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="../resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
 	
 	<style>
 	footer {
@@ -38,18 +38,18 @@
   </head>
 
   <body>
-  		<h3>Ola <%((Usuario)session.getAttribute("usuario")).getNome();
-  		%>, voce esta logado no sistema</h3>
+  		
   		<%		
-    	Usuario usuario = Logged.getUsuario();
-  	    ArrayList<EntidadeDominio> usuarioLogado = session.getAttribute("usuarioLogado") == null ? null : (ArrayList) session.getAttribute("usuarioLogado");
+    	//Usuario usuario = Logged.getUsuario();  
+		Usuario usuario = (Usuario) session.getAttribute("usuario");		
     	%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="../login.jsp">Sign out <span data-feather="log-out"></span></a>
+          <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>
+          
         </li>
       </ul>
     </nav>
@@ -129,29 +129,7 @@
             </h6>
 			        			      
             <ul class="nav flex-column mb-2">
-             <%
-                String valor = null, valorParcela = null;
-                String[] palavras = null;
-                String sinopse = "";
-                int nCont = 1;
-                String nome = "0";
-                int idCliente = 0;
-                String[] nomeCliente = new String[70];
-                nomeCliente[0] = "0";
-                
-                Usuario cli = new Usuario();
-                try {
-                    if (usuarioLogado != null) {
-                        //List<EntidadeDominio> entidades = resultado.getEntidades();
-                        cli = (Usuario) usuarioLogado.get(0);
-                        idCliente = cli.getId();
-                        nome = cli.getNome();
-                        nomeCliente = nome.split(" ");
-                    }
-                } catch (Exception e) {
-                }
-            %>
-			
+             
 			<%
         	List<EntidadeDominio> categorias = new CategoriaDAO().listar();
             for (EntidadeDominio ed : categorias) {
@@ -212,7 +190,7 @@
 								<div class="product-grid3">
 									 <div style="text-align: center;">
 										<a href="describe.jsp?IdLivro=<%=livro.getId()%>">
-											<img class="pic-1" src="../resources/livros/<%=livro.getId()%>.jpg">	
+											<img class="pic-1" src="./resources/livros/<%=livro.getId()%>.jpg">	
 										</a>	
 									</div><br>
 									 <div style="text-align: center;">
@@ -236,8 +214,8 @@
       </div>	  
     </div>	
     <!-- Icons -->    
-	<script src="../resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="../resources/bootstrap/js/feather.min.js"></script>
+	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="./resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()
     </script>  	

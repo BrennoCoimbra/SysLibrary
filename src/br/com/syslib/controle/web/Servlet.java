@@ -13,6 +13,7 @@ import br.com.syslib.controle.web.command.impl.AlterarCommand;
 import br.com.syslib.controle.web.command.impl.ConsultarCommand;
 import br.com.syslib.controle.web.command.impl.ExcluirCommand;
 import br.com.syslib.controle.web.command.impl.ICommand;
+import br.com.syslib.controle.web.command.impl.SairCommand;
 import br.com.syslib.controle.web.command.impl.SalvarCommand;
 import br.com.syslib.controle.web.command.impl.VisualizarCommand;
 import br.com.syslib.controle.web.vh.impl.CartaoCreditoViewHelper;
@@ -25,7 +26,7 @@ import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.dominio.EntidadeDominio;
 
 public class Servlet extends HttpServlet {
-	private static final long serialVersionUID = 102831973239L;
+	private static final long serialVersionUID = 1L;
 
 	private static Map<String, ICommand> commands;
 	private static Map<String, IViewHelper> vhs;
@@ -45,6 +46,7 @@ public class Servlet extends HttpServlet {
 		commands.put("CONSULTAR", new ConsultarCommand());
 		commands.put("VISUALIZAR", new VisualizarCommand());
 		commands.put("ALTERAR", new AlterarCommand());
+		commands.put("SAIR", new SairCommand());
 		
 		/**
 		 * Utilizando o ViewHelper para tratar especificações de qualquer tela e
@@ -57,11 +59,13 @@ public class Servlet extends HttpServlet {
 		 * A chave do mapa é o mapeamento da servlet para cada form que está configurado
 		 * no web.xml e sendo utilizada no action do html
 		 */
-		vhs.put("/SysLibrary/autenticado/adm/SalvarLivro", new LivroViewHelper());
+		vhs.put("/SysLibrary/SalvarLivro", new LivroViewHelper());
 		vhs.put("/SysLibrary/SalvarUsuario", new UsuarioViewHelper());
-		vhs.put("/SysLibrary/autenticado/Login", new LoginViewHelper());
-		vhs.put("/SysLibrary/autenticado/SalvarEndereco", new EnderecoViewHelper());
-		vhs.put("/SysLibrary/autenticado/SalvarCartao", new CartaoCreditoViewHelper());
+		vhs.put("/SysLibrary/Login", new LoginViewHelper());
+		vhs.put("/SysLibrary/SairSys", new LoginViewHelper());
+		vhs.put("/SysLibrary/SalvarEndereco", new EnderecoViewHelper());
+		vhs.put("/SysLibrary/SalvarCartao", new CartaoCreditoViewHelper());
+		
 		
 	}
 

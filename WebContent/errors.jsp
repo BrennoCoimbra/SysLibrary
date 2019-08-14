@@ -34,7 +34,6 @@
 		<nav class="navbar navbar-inverse navbar-fixed-top">
  <div class="container-fluid">
   <div class="navbar-header">
-   </button>
    <a class="nav-link" onClick="history.go(-1)"> <span data-feather="arrow-left"></span>  VOLTAR</a>
     
   </div>

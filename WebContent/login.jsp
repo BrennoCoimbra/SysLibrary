@@ -1,5 +1,7 @@
 <!DOCTYPE html>
 <%@page import="br.com.syslib.dominio.*"%>
+<%@page import="br.com.syslib.core.aplicacao.*"%>
+
 <%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
 <html lang="pt-br">
   <head>
@@ -17,13 +19,13 @@
     <!-- Estilos customizados para esse template -->
     <link href="./resources/bootstrap/css/signin.css" rel="stylesheet">
   </head>
-  <%
-  ArrayList<EntidadeDominio> usuarioLogado = session.getAttribute("usuarioLogado") == null ? null : (ArrayList) session.getAttribute("usuarioLogado");
-    String pagina = session.getAttribute("pagina") == null ? null : (String) session.getAttribute("pagina");
-    String pgSemAut = (String) request.getParameter("pgSemAut");
-    %>
+  
   <body class="text-center">
-    <form action="/SysLibrary/autenticado/Login" method="POST"class="form-signin">
+  <%
+            Resultado resultado = (Resultado) request.getAttribute("resultado");
+        %> 
+    <form action="Login" method="POST"class="form-signin">
+    <input type="hidden" id="url" name="url" value="<%=request.getParameter("url")%>">
 	<input class="form-control" type="hidden" id="operacao" name="operacao" value="CONSULTAR">
       <img class="mb-4" src="./resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h2 class="h4 mb-4 font-weight-normal">Faça Login</h2>
@@ -42,8 +44,7 @@
          </div>
       <button class="btn-primary btn-block" type="submit">Entrar</button>
       <p class="mt-5 mb-3 text-muted">&copy;2018-2019</p>
-    </form>
-	
+    </form>	
 	<!-- Icons -->    
 	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="./resources/bootstrap/js/feather.min.js"></script>
