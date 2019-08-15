@@ -13,22 +13,20 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import br.com.syslib.dominio.Usuario;
+import br.com.syslib.enuns.TipoUsuario;
 
+public class FilterAutorizacao implements Filter{
 
-public class FilterAutenticacao implements Filter{
-
-	// Executa alguma coisa quando a aplicação é iniciada
 	@Override
-	public void init(FilterConfig filterConfig) throws ServletException {		
-		
+	public void init(FilterConfig filterConfig) throws ServletException {
+		// TODO Auto-generated method stub
 		
 	}
-	
-	// Intercepta todas as nossas requisições
+
 	@Override
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain)
 			throws IOException, ServletException {
-		
+
 		//Saber se o usuario esta na session		
 		HttpServletRequest req = (HttpServletRequest) request;
 		HttpSession session = req.getSession();
@@ -40,30 +38,28 @@ public class FilterAutenticacao implements Filter{
 		Usuario user = (Usuario) session.getAttribute("usuario");		
 		
 		// retorna null caso nao esteja logado
-		if(user == null && !urlAutenticar.equalsIgnoreCase("/Login")) {			
-			// redirecionamento
-			request.setAttribute("msg", "Você não está logado!");
-			RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp?url="+urlAutenticar); //passando por parametros
-			dispatcher.forward(request, response);	
-			System.out.println("usuario nao logado!");
-			return; // para o processo para redirecionar
+		if(user.getTipoUsuario() == TipoUsuario.ADMIN && !urlAutenticar.equalsIgnoreCase("/Login")) {			
+			chain.doFilter(request, response);
+			System.out.println("interceptando autorizacao");
 		}
+		request.setAttribute("msg", "Sem autorização!");
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp?url="+urlAutenticar); //passando por parametros
+		dispatcher.forward(request, response);	
+		System.out.println("Usuário não é administrador!");
+		return; // para o processo para redirecionar
 		
 		//executa as ações do request e response
-		chain.doFilter(request, response);
-		System.out.println("interceptando autenticacao");
 		
 		
-	}
-	
-	// Faz alguma coisa quando a aplicação é derrubada
-	@Override
-	public void destroy() {
+		
 		
 		
 	}
 
-	
-   
-    
+	@Override
+	public void destroy() {
+		// TODO Auto-generated method stub
+		
+	}
+
 }

@@ -15,15 +15,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Página para buscar livros e acessar informações.">
     <meta name="author" content="Brenno Coimbra">
-    <link rel="icon" href="./resources/bootstrap/imgs/library_icon.ico">
+    <link rel="icon" href="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library_icon.ico">
 
     <title>SysLibrary</title>
 
     <!-- Bootstrap core CSS -->
-   <link href="./resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
 	
 	<style>
 	footer {
@@ -41,8 +41,9 @@
   <body>
   		<%
 		Livro liv = (Livro) request.getAttribute("livro");
-		Usuario usuario = Logged.getUsuario();
-		usuario.getId();
+		//Usuario usuario = Logged.getUsuario();
+		Usuario usuario = (Usuario) session.getAttribute("usuario");		
+		//usuario.getId();
 		StringBuilder sb;
 		%>	
     	
@@ -79,7 +80,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./consultar-livro.jsp">
+                <a class="nav-link" href="../consultar-livro.jsp">
                   <span data-feather="book"></span>
                   Consultar Livro
                 </a>
@@ -137,7 +138,7 @@
 			<div style="text-align: center;">
 					<h3>Livros </h3>           
             	</div>          
-          	  	<form action="SalvarLivro" method="post">
+          	  	<form action="/autenticado/adm/SalvarLivro" method="post">
 		
 		<input type="hidden" name="IdLivro" value="<% if (liv != null) out.print(liv.getId()); %>" />
 		<input type="hidden" name="operacao" value="<% if (liv == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
@@ -347,8 +348,8 @@
       </div>	  
     </div>	
     <!-- Icons -->    
-	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="./resources/bootstrap/js/feather.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()
     </script>  	

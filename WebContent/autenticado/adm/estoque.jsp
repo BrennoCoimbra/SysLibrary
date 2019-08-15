@@ -15,15 +15,15 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Página para buscar livros e acessar informações.">
     <meta name="author" content="Brenno Coimbra">
-    <link rel="icon" href="./resources/bootstrap/imgs/library_icon.ico">
+    <link rel="icon" href="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library_icon.ico">
 
     <title>SysLibrary</title>
 
     <!-- Bootstrap core CSS -->
-   <link href="./resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
 	
 	<style>
 	footer {
@@ -245,8 +245,8 @@
       </div>	  
     </div>	
     <!-- Icons -->    
-	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="./resources/bootstrap/js/feather.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()
     </script>  	

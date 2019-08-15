@@ -50,7 +50,7 @@ public class LoginViewHelper implements IViewHelper {
 		
 		if(operacao.equals("SAIR")){
             request.getSession().invalidate();
-            d = request.getRequestDispatcher("/login.jsp");
+            d = request.getRequestDispatcher("index.jsp");
             d.forward(request, response);
 		 }
 		
@@ -80,7 +80,7 @@ public class LoginViewHelper implements IViewHelper {
 						HttpSession session = req.getSession();
 						session.setAttribute("usuario",usuario);
 						
-						d = request.getRequestDispatcher("index.jsp");
+						d = request.getRequestDispatcher("profile.jsp");
 						
 //						if (usuario.getTipoUsuario() == TipoUsuario.COMMON) {							
 //							d = request.getRequestDispatcher("index.jsp");

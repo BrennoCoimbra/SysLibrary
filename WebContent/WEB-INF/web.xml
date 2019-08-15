@@ -16,16 +16,26 @@
     <filter-mapping>
         <filter-name>FilterAutenticacao</filter-name>
         <url-pattern>/consultar-cartao.jsp</url-pattern>
-        <url-pattern>/consultar-endereco.jsp</url-pattern>
-        <url-pattern>/form-cartao.jsp</url-pattern>
-        <url-pattern>/form-endereco.jsp</url-pattern>
-        <url-pattern>/profile.jsp</url-pattern>        
+        <url-pattern>/autenticado/consultar-endereco.jsp</url-pattern>
+        <url-pattern>/autenticado/form-cartao.jsp</url-pattern>
+        <url-pattern>/autenticado/form-endereco.jsp</url-pattern>
+        <url-pattern>/autenticado/profile.jsp</url-pattern>        
         
-        <url-pattern>/form-livro.jsp</url-pattern>
-        <url-pattern>/consultar-livro.jsp</url-pattern>
-        <url-pattern>/estoque.jsp</url-pattern>
-        <url-pattern>/dashboard.jsp</url-pattern>
-        <url-pattern>/profile.jsp</url-pattern>        
+        <url-pattern>/autenticado/adm/form-livro.jsp</url-pattern>
+        <url-pattern>/autenticado/adm/consultar-livro.jsp</url-pattern>
+        <url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
+        <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
+    </filter-mapping>
+    <filter>
+        <filter-name>FilterAutorizacao</filter-name>
+        <filter-class>br.com.syslib.filter.FilterAutorizacao</filter-class>
+    </filter>    
+    <filter-mapping>
+        <filter-name>FilterAutorizacao</filter-name>           
+        <url-pattern>/autenticado/adm/form-livro.jsp</url-pattern>
+        <url-pattern>/autenticado/adm/consultar-livro.jsp</url-pattern>
+        <url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
+        <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
     </filter-mapping>
    <servlet>
     <description></description>
@@ -35,7 +45,7 @@
   </servlet>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/SalvarLivro</url-pattern>
+    <url-pattern>/autenticado/adm/SalvarLivro</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
@@ -43,18 +53,22 @@
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/Login</url-pattern>
+    <url-pattern>/autenticado/Login</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/SalvarEndereco</url-pattern>
+    <url-pattern>/autenticado/SalvarEndereco</url-pattern>
   </servlet-mapping>
 	<servlet-mapping>
     <servlet-name>Servlet</servlet-name>
-    <url-pattern>/SalvarCartao</url-pattern>
+    <url-pattern>/autenticado/SalvarCartao</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>Servlet</servlet-name>
     <url-pattern>/SairSys</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/AtualizarPerfil</url-pattern>
   </servlet-mapping>
 </web-app>

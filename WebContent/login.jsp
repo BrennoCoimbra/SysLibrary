@@ -9,25 +9,25 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="">
     <meta name="author" content="">
-    <link rel="icon" href="./resources/bootstrap/imgs/library_icon.ico">
+    <link rel="icon" href="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library_icon.ico">
 
     <title>SysLibrary</title>
 
     <!-- Principal CSS do Bootstrap -->
-    <link href="./resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Estilos customizados para esse template -->
-    <link href="./resources/bootstrap/css/signin.css" rel="stylesheet">
+    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/signin.css" rel="stylesheet">
   </head>
   
   <body class="text-center">
   <%
             Resultado resultado = (Resultado) request.getAttribute("resultado");
         %> 
-    <form action="Login" method="POST"class="form-signin">
+    <form action="/SysLibrary/autenticado/Login" method="POST"class="form-signin">
     <input type="hidden" id="url" name="url" value="<%=request.getParameter("url")%>">
 	<input class="form-control" type="hidden" id="operacao" name="operacao" value="CONSULTAR">
-      <img class="mb-4" src="./resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
+      <img class="mb-4" src="http://localhost:8084/SysLibrary/resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h2 class="h4 mb-4 font-weight-normal">Faça Login</h2>
       <label for="inputEmail" class="sr-only">Endereço de email</label>
       <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" required autofocus>
@@ -46,8 +46,8 @@
       <p class="mt-5 mb-3 text-muted">&copy;2018-2019</p>
     </form>	
 	<!-- Icons -->    
-	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="./resources/bootstrap/js/feather.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
     <script>
       feather.replace()
     </script>  

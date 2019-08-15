@@ -3,7 +3,7 @@ package br.com.syslib.enuns;
 
 public enum TipoUsuario {
 	
-	COMMON(1, "common"),
+	CUSTOMER(1, "customer"),
 	EMPLOYEE(2, "employee"),
 	ADMIN(3,"admin");
 	

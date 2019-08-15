@@ -36,7 +36,7 @@ public class UsuarioViewHelper implements IViewHelper {
 			usuario.setSenha(senha);
 			usuario.setConfirmaSenha(confirmaSenha);
 			usuario.setNome(nome);
-			usuario.setTipoUsuario(TipoUsuario.COMMON);
+			usuario.setTipoUsuario(TipoUsuario.CUSTOMER);
 			usuario.setPrivacidade(privacidade);
 			usuario.setCpf(cpf);
 			if (id != null && !id.trim().equals("")) {
