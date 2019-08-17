@@ -14,6 +14,6 @@ public interface IFachada {
     
     public Resultado visualizar(EntidadeDominio entidade);
 	
-	
+	public Resultado buscar(EntidadeDominio entidade);
 
 }

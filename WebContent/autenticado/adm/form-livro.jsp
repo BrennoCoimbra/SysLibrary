@@ -62,7 +62,7 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link" href="./dashboard.jsp">
+            <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/dashboard.jsp">
                   <span data-feather="home"></span>
                   Dashboard <span class="sr-only"></span>
                 </a>
@@ -74,41 +74,30 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="./form-livro.jsp">
+                <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/form-livro.jsp">
                   <span data-feather="book">(current)</span>
                   Cadastrar Livro
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="../consultar-livro.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
                   <span data-feather="book"></span>
                   Consultar Livro
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./estoque.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/estoque.jsp">
                   <span data-feather="package"></span>
                   Estoque
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./loan.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp">
                   <span data-feather="rewind"></span>
-                  Empréstimos
+                  Trocas
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./returns.jsp">
-                  <span data-feather=fast-forward></span>
-                  Devoluções
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./reservas.jsp">
-                  <span data-feather="calendar"></span>
-                  Reservas
-                </a>
-              </li>
+              
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -122,12 +111,17 @@
 			
 			
               <li class="nav-item">
-           <a class="nav-link" href="./reports.jsp">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/reports.html">
               <span data-feather="file-text"></span> 
-              Quantidade em Estoque
+             Mais Vendidos
               </a>
               </li>
-             
+             <li class="nav-item">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/log.jsp">
+              <span data-feather="file-text"></span> 
+              Log
+              </a>
+              </li>
 
       
             </ul>
@@ -138,41 +132,17 @@
 			<div style="text-align: center;">
 					<h3>Livros </h3>           
             	</div>          
-          	  	<form action="/autenticado/adm/SalvarLivro" method="post">
+          	  	<form action="SalvarLivro" method="post">
 		
 		<input type="hidden" name="IdLivro" value="<% if (liv != null) out.print(liv.getId()); %>" />
 		<input type="hidden" name="operacao" value="<% if (liv == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
 
 
 			<!-- area de campos do form -->
-				<hr/>
+			<hr>
 			<div class="container-fluid">
 				<h5 class="form"> Identificação </h5>
-				<hr/>
-				<div class="row">
-				<div class="form-group col-sm-2">
-					<label class="form-control-label" for="txtAtivo">Ativo</label>
-					<select id="txtAtivo" name="txtAtivo" class="form-control">
-							<%
-								if (liv == null || (liv != null && !liv.getAtivo())) {
-							%>  
-								<option id=0 value=0 selected>Não</option>
-							<%
-								} else if (liv != null && liv.getAtivo()) {
-							%>
-								<option id=0 value=0 >Não</option>
-								<option id=1 value=1 selected>Sim</option>
-							<%	
-								}
-							%>
-							</select>					
-					</div>
-					<div class="form-group col-md-3">
-					<label class="form-control-label" for="txtAtivo">Motivo</label>
-					<textarea rows="4" id="txtMotivo" style="resize:none"  cols="num" rows="num" name="txtMotivo" class="form-control form-control-alternative" <%if (liv == null || (liv != null && !liv.getAtivo())) out.print("readonly"); %>><%if (liv != null) out.print(liv.getMotivo()); else out.print("Novo Livro."); %></textarea>
-				</div>
-				</div>
-			</div>
+				<hr/>				
 			
 			<div class="container-fluid">
 			<div class="row">	
@@ -187,10 +157,23 @@
 							class="form-control" id="codBarras" name="codBarras"
 							value="<%if(liv != null) out.print(liv.getCodBarras()); %>">
 					</div>
-
+					<div class="form-group col-md-2">
+						<label for="campo1">Precificação</label> 
+						 <select id="precificacao" name="precificacao" class="form-control">
+							
+							<%
+								for (Precificacoes precif : Precificacoes.values()) {
+							%>
+							  <option id=<%=precif.getCodigo() %> value=<%=precif.getCodigo() %> <%if (liv != null && liv.getPreficacao().getCodigo() == precif.getCodigo()) out.print("selected"); %>><%=precif.getDescricao() %> </option>
+							<%
+								}
+							%>
+							
+							</select>
+					</div>
 					</div>
 				</div>	
-					
+			</div>		
 			<div class="container-fluid">
 				<h5 class="page-header"> Caracteristicas </h5>
 				<hr>
@@ -305,6 +288,33 @@
 
 				</div>
 			
+			</div>
+			<div class="container-fluid">
+				<h5 class="form"> Grupo de Ativação </h5>
+				<hr/>
+				<div class="row">
+				<div class="form-group col-sm-2">
+					<label class="form-control-label" for="txtAtivo">Ativo</label>
+					<select id="txtAtivo" name="txtAtivo" class="form-control">
+							<%
+								if (liv == null || (liv != null && !liv.getAtivo())) {
+							%>  
+								<option id=0 value=0 selected>Não</option>
+							<%
+								} else if (liv != null && liv.getAtivo()) {
+							%>
+								<option id=0 value=0 >Não</option>
+								<option id=1 value=1 selected>Sim</option>
+							<%	
+								}
+							%>
+							</select>					
+					</div>
+					<div class="form-group col-md-3">
+					<label class="form-control-label" for="txtAtivo">Motivo</label>
+					<textarea rows="4" id="txtMotivo" style="resize:none"  cols="num" rows="num" name="txtMotivo" class="form-control form-control-alternative" <%if (liv == null || (liv != null && !liv.getAtivo())) out.print("readonly"); %>><%if (liv != null) out.print(liv.getMotivo()); else out.print("Novo Livro."); %></textarea>
+				</div>
+				</div>
 			</div>
 			<div class="container-fluid">
 				<h5 class="page-header"> Dimensões</h5>

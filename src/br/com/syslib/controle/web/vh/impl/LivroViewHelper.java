@@ -17,6 +17,7 @@ import br.com.syslib.dominio.Categoria;
 import br.com.syslib.dominio.Editora;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Livro;
+import br.com.syslib.enuns.Precificacoes;
 
 public class LivroViewHelper implements IViewHelper {
 
@@ -45,6 +46,7 @@ public class LivroViewHelper implements IViewHelper {
 			String profundidade = request.getParameter("prof");
 			String sinopse = request.getParameter("txtSinopse");
 			String motivo = request.getParameter("txtMotivo");
+			String precf = request.getParameter("precificacao");
 
 			livro = new Livro();
 			
@@ -61,6 +63,11 @@ public class LivroViewHelper implements IViewHelper {
 			livro.setProfundidade((profundidade != null && !profundidade.equals(""))? (Double.parseDouble(profundidade)):0);
 			livro.setSinopse(sinopse);
 			livro.setMotivo(motivo);
+			for (Precificacoes precifc : Precificacoes.values()) {
+				if (precf != null && Integer.parseInt(precf) == precifc.getCodigo()) {
+					livro.setPreficacao(precifc);					
+				}
+			}
 			
 
 			Editora editora = new Editora();
@@ -151,7 +158,20 @@ public class LivroViewHelper implements IViewHelper {
 				d = request.getRequestDispatcher("consultar-livro.jsp");
 				
 			
-			} else if (operacao.equals("CONSULTAR")) {
+			}else if (operacao.equals("BUSCAR")) {
+				try {
+					String isbn = request.getParameter("search");
+					EntidadeDominio livros = new LivroDAO().buscarISBN(isbn);
+					request.setAttribute("livro", livros);
+				} catch (SQLException e) {
+					resultado.setMsg("Não foi possível listar livros.");;
+				}
+				
+				d = request.getRequestDispatcher("estoque.jsp");
+				
+			
+			}
+				else if (operacao.equals("CONSULTAR")) {
 				try {
 					int IdLivro = Integer.parseInt(request.getParameter("IdLivro"));
 					Livro livro = (Livro) new LivroDAO().getEntidadeDominio(IdLivro);

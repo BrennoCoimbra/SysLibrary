@@ -15,6 +15,7 @@ import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Livro;
 import br.com.syslib.dominio.LivroAutor;
 import br.com.syslib.dominio.LivroCategoria;
+import br.com.syslib.enuns.Precificacoes;
 
 public class LivroDAO extends AbstractJdbcDAO {
 
@@ -38,9 +39,9 @@ public class LivroDAO extends AbstractJdbcDAO {
 
 			sql.append("INSERT INTO LIVROS(liv_titulo,liv_ano,liv_edicao,liv_ISBN,liv_num_pag,"
 					+ "liv_sinopse,liv_altura,liv_largura,liv_peso,liv_profundidade,liv_codbarras,"
-					+ "liv_isativo,liv_motivo,liv_editora,liv_dtCadastro)");
+					+ "liv_isativo,liv_motivo,liv_editora,liv_precificacao,liv_dtCadastro)");
 
-			sql.append("VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate())");
+			sql.append("VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?,?,?,sysdate())");
 
 			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 
@@ -58,6 +59,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			pst.setBoolean(12, livro.getAtivo());
 			pst.setString(13, livro.getMotivo());
 			pst.setInt(14, livro.getEditora().getId());
+			pst.setInt(15, livro.getPreficacao().getCodigo());
 
 			pst.executeUpdate();
 			ResultSet rs = pst.getGeneratedKeys();
@@ -131,7 +133,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 
 			StringBuilder sql = new StringBuilder();
 			sql.append("UPDATE livros SET liv_isativo = ?, liv_motivo = ?, liv_ISBN = ?, liv_codbarras = ?, liv_titulo = ?, liv_ano = ?, liv_edicao = ?, liv_num_pag = ?, " + 
-					"liv_editora = ?, liv_sinopse = ?, liv_altura = ?, liv_largura = ?, liv_peso = ?, liv_profundidade = ?"); 
+					"liv_editora = ?, liv_sinopse = ?, liv_altura = ?, liv_largura = ?, liv_peso = ?, liv_profundidade = ?, liv_precificacao = ?, liv_dtCadastro = sysdate() "); 
 	
 			sql.append("WHERE liv_id=?");
 
@@ -150,7 +152,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 			pst.setDouble(12, livro.getLargura());
 			pst.setDouble(13, livro.getPeso());
 			pst.setDouble(14, livro.getProfundidade());
-			pst.setInt(15, livro.getId());
+			pst.setInt(15, livro.getPreficacao().getCodigo());
+			pst.setInt(16, livro.getId());
 			
 			pst.executeUpdate();
 			connection.commit();
@@ -274,6 +277,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			ResultSet rs = pst.executeQuery();
 			List<EntidadeDominio> livros = new ArrayList<EntidadeDominio>();
 			while (rs.next()) {
+				int precific = rs.getInt("liv_precificacao");
 				Livro liv = new Livro();
 //				Autor a = new Autor();
 //				Categoria c = new Categoria();
@@ -293,6 +297,11 @@ public class LivroDAO extends AbstractJdbcDAO {
 				liv.setLargura(rs.getDouble("liv_largura"));
 				liv.setPeso(rs.getDouble("liv_peso"));
 				liv.setProfundidade(rs.getDouble("liv_profundidade"));
+				for(Precificacoes precf : Precificacoes.values()) {
+					if(precf.getCodigo() == precific) {
+						liv.setPreficacao(precf);
+					}					
+				}	
 				java.sql.Date dtCadastroEmLong = rs.getDate("liv_dtCadastro");
 				Calendar dt_teste = Calendar.getInstance();
 				dt_teste.set(dtCadastroEmLong.getYear(), dtCadastroEmLong.getMonth(), dtCadastroEmLong.getDate());
@@ -456,6 +465,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 
 			Livro liv = new Livro();
 			Editora e = new Editora();
+			int precific = rs.getInt("liv_precificacao");
 			liv.setId(rs.getInt("liv_id"));
 			liv.setISBN(rs.getString("liv_ISBN"));
 			liv.setCodBarras(rs.getString("liv_codbarras"));
@@ -471,6 +481,11 @@ public class LivroDAO extends AbstractJdbcDAO {
 			liv.setLargura(rs.getDouble("liv_largura"));
 			liv.setPeso(rs.getDouble("liv_peso"));
 			liv.setProfundidade(rs.getDouble("liv_profundidade"));
+			for(Precificacoes precf : Precificacoes.values()) {
+				if(precf.getCodigo() == precific) {
+					liv.setPreficacao(precf);
+				}					
+			}	
 			liv.setMotivo(rs.getString("liv_motivo"));
 			java.sql.Date dtCadastroEmLong = rs.getDate("liv_dtCadastro");
 			Calendar dt_teste = Calendar.getInstance();
@@ -506,6 +521,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			
 			int id = rs.getInt("liv_id");
 			int idEditora = rs.getInt("liv_editora");
+			int precific = rs.getInt("liv_precificacao");
 			liv.setId(rs.getInt("liv_id"));
 			liv.setISBN(rs.getString("liv_ISBN"));
 			liv.setCodBarras(rs.getString("liv_codbarras"));
@@ -518,6 +534,11 @@ public class LivroDAO extends AbstractJdbcDAO {
 			liv.setLargura(rs.getDouble("liv_largura"));
 			liv.setPeso(rs.getDouble("liv_peso"));
 			liv.setProfundidade(rs.getDouble("liv_profundidade"));
+			for(Precificacoes precf : Precificacoes.values()) {
+				if(precf.getCodigo() == precific) {
+					liv.setPreficacao(precf);
+				}					
+			}			
 			liv.setMotivo(rs.getString("liv_motivo"));
 			java.sql.Date dtCadastroEmLong = rs.getDate("liv_dtCadastro");
 			Calendar dt_teste = Calendar.getInstance();
@@ -554,6 +575,45 @@ public class LivroDAO extends AbstractJdbcDAO {
 			
 
 			
+			rs.close();
+			pst.close();
+			return liv;
+							
+		}
+	
+	public EntidadeDominio buscarISBN(String isbn) throws SQLException {
+		PreparedStatement pst = null;
+		String sql = null;
+		Livro liv = new Livro();
+		
+		
+		sql = "SELECT * FROM livros WHERE liv_ISBN=?";
+		
+		
+			openConnection();
+			pst = connection.prepareStatement(sql);
+			pst.setString(1, isbn);
+			
+			ResultSet rs = pst.executeQuery();
+			
+			while(rs.next()) {
+			
+			int id = rs.getInt("liv_id");
+			int precific = rs.getInt("liv_precificacao");
+			
+			
+			liv.setId(rs.getInt("liv_id"));
+			liv.setIdLivro(rs.getInt("liv_id"));
+			liv.setISBN(rs.getString("liv_ISBN"));
+			liv.setTitulo(rs.getString("liv_titulo"));
+			for(Precificacoes precf : Precificacoes.values()) {
+				if(precf.getCodigo() == precific) {
+					liv.setPreficacao(precf);
+				}					
+			}			
+
+		}
+
 			rs.close();
 			pst.close();
 			return liv;

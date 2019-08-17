@@ -9,7 +9,7 @@ import br.com.syslib.dominio.Estoque;
 
 public class EstoqueDAO extends AbstractJdbcDAO {
 
-	protected EstoqueDAO() {
+	public EstoqueDAO() {
 		super("estoque", "es_id");
 		// TODO Auto-generated constructor stub
 	}
@@ -24,13 +24,13 @@ public class EstoqueDAO extends AbstractJdbcDAO {
 			connection.setAutoCommit(false);
 			
 			StringBuilder sql = new StringBuilder();
-			sql.append("INSERT INTO estoque (es_idLivro, es_nValor, es_tpMov, es_qtdeTotal,dtCadastro) ");
+			sql.append("INSERT INTO estoque (es_idLivro, es_nValor, es_idFornecedor, es_qtdeTotal,dtCadastro) ");
 			sql.append("VALUES (?,?,?,?,sysdate())");
 			
 			pst = connection.prepareStatement(sql.toString());
-			pst.setInt(1, estoque.getId_Livro());
-			pst.setString(2, estoque.getValor());
-			pst.setInt(3, estoque.getTpMov().getCodigo());
+			pst.setInt(1,estoque.getIdLivro()); 
+			pst.setDouble(2, estoque.getValorCompra());
+			pst.setInt(3, estoque.getFornecedor().getId());
 			pst.setInt(4, estoque.getQtde());
 
 			

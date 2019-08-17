@@ -6,9 +6,11 @@ public class Estoque extends EntidadeDominio {
 	
 	public int idLivro;
 	public TipoMovimentacaoEstoque tpMov;
-	public String valor;
+	public double valorVenda;
+	public double valorCompra;
 	public int qtde;
 	public int qtdeTemp;
+	public Fornecedor fornecedor;
 	
 	public int getId_Livro() {
 		return idLivro;
@@ -22,11 +24,11 @@ public class Estoque extends EntidadeDominio {
 	public void setTpMov(TipoMovimentacaoEstoque tpMov) {
 		this.tpMov = tpMov;
 	}
-	public String getValor() {
-		return valor;
+	public Double getValor() {
+		return valorVenda;
 	}
-	public void setValor(String valor) {
-		this.valor = valor;
+	public void setValor(Double valorVenda) {
+		this.valorVenda = valorVenda;
 	}
 	public int getQtde() {
 		return qtde;
@@ -39,6 +41,30 @@ public class Estoque extends EntidadeDominio {
 	}
 	public void setQtdeTemp(int qtdeTemp) {
 		this.qtdeTemp = qtdeTemp;
+	}
+	public int getIdLivro() {
+		return idLivro;
+	}
+	public void setIdLivro(int idLivro) {
+		this.idLivro = idLivro;
+	}
+	public double getValorVenda() {
+		return valorVenda;
+	}
+	public void setValorVenda(double valorVenda) {
+		this.valorVenda = valorVenda;
+	}
+	public double getValorCompra() {
+		return valorCompra;
+	}
+	public void setValorCompra(double valorCompra) {
+		this.valorCompra = valorCompra;
+	}
+	public Fornecedor getFornecedor() {
+		return fornecedor;
+	}
+	public void setFornecedor(Fornecedor fornecedor) {
+		this.fornecedor = fornecedor;
 	}
 	
 	

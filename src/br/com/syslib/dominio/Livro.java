@@ -2,6 +2,8 @@ package br.com.syslib.dominio;
 
 import java.util.List;
 
+import br.com.syslib.enuns.Precificacoes;
+
 public class Livro extends EntidadeDominio {
 	
 	private String Titulo;
@@ -23,6 +25,7 @@ public class Livro extends EntidadeDominio {
 	private List<Autor> autores;
 	private List<Categoria> categorias;
 	private Editora editora;
+	private Precificacoes preficacao;
 	
 	
 	
@@ -147,6 +150,12 @@ public class Livro extends EntidadeDominio {
 	}
 	public void setMotivo(String motivo) {
 		this.motivo = motivo;
+	}
+	public Precificacoes getPreficacao() {
+		return preficacao;
+	}
+	public void setPreficacao(Precificacoes preficacao) {
+		this.preficacao = preficacao;
 	}
 	
 }

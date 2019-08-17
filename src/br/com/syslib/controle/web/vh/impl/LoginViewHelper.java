@@ -80,13 +80,13 @@ public class LoginViewHelper implements IViewHelper {
 						HttpSession session = req.getSession();
 						session.setAttribute("usuario",usuario);
 						
-						d = request.getRequestDispatcher("profile.jsp");
 						
-//						if (usuario.getTipoUsuario() == TipoUsuario.COMMON) {							
-//							d = request.getRequestDispatcher("index.jsp");
-//						} else if (usuario.getTipoUsuario() == TipoUsuario.EMPLOYEE) {
-//							d = request.getRequestDispatcher("dashboard.jsp");
-//						}
+						
+						if (usuario.getTipoUsuario() == TipoUsuario.CUSTOMER) {							
+							d = request.getRequestDispatcher("profile.jsp");
+						} else if (usuario.getTipoUsuario() == TipoUsuario.ADMIN) {
+							d = request.getRequestDispatcher("form-livro.jsp");
+						}
 					}
 				}
 			}

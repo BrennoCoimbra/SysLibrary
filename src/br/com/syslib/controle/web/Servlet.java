@@ -10,6 +10,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import br.com.syslib.controle.web.command.impl.AlterarCommand;
+import br.com.syslib.controle.web.command.impl.BuscarCommand;
 import br.com.syslib.controle.web.command.impl.ConsultarCommand;
 import br.com.syslib.controle.web.command.impl.ExcluirCommand;
 import br.com.syslib.controle.web.command.impl.ICommand;
@@ -18,6 +19,7 @@ import br.com.syslib.controle.web.command.impl.SalvarCommand;
 import br.com.syslib.controle.web.command.impl.VisualizarCommand;
 import br.com.syslib.controle.web.vh.impl.CartaoCreditoViewHelper;
 import br.com.syslib.controle.web.vh.impl.EnderecoViewHelper;
+import br.com.syslib.controle.web.vh.impl.EstoqueViewHelper;
 import br.com.syslib.controle.web.vh.impl.IViewHelper;
 import br.com.syslib.controle.web.vh.impl.LivroViewHelper;
 import br.com.syslib.controle.web.vh.impl.LoginViewHelper;
@@ -47,6 +49,7 @@ public class Servlet extends HttpServlet {
 		commands.put("VISUALIZAR", new VisualizarCommand());
 		commands.put("ALTERAR", new AlterarCommand());
 		commands.put("SAIR", new SairCommand());
+		commands.put("BUSCAR", new BuscarCommand());
 		
 		/**
 		 * Utilizando o ViewHelper para tratar especificações de qualquer tela e
@@ -66,6 +69,7 @@ public class Servlet extends HttpServlet {
 		vhs.put("/SysLibrary/SairSys", new LoginViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarEndereco", new EnderecoViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarCartao", new CartaoCreditoViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/SalvarEstoque", new EstoqueViewHelper());
 		
 		
 	}

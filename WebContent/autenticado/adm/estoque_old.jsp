@@ -4,10 +4,9 @@
 <%@page import="br.com.syslib.dominio.*"%>
 <%@page import="br.com.syslib.core.aplicacao.Resultado"%>
 <%@page import="br.com.syslib.dominio.EntidadeDominio"%>
-<%@page import="br.com.syslib.dominio.Livro"%>
 <%@page import="br.com.syslib.core.impl.dao.*"%>
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
-<%@page import="java.util.*"%>
+<%@page import="br.com.syslib.core.util.*"%>
+<%@page import="br.com.syslib.enuns.*" %>
 
 
 <html>
@@ -40,11 +39,12 @@
   </head>
 
   <body>
-  		 <%
-		 Resultado resultado = (Resultado) request.getAttribute("resultado");
-		 StringBuilder sb;
-		 List<EntidadeDominio> livros = (List<EntidadeDominio>) request.getAttribute("livro");
-		  %>
+  		<%
+		Livro liv = (Livro) request.getAttribute("livro");
+		Usuario usuario = Logged.getUsuario();
+		usuario.getId();
+		StringBuilder sb;
+		%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
@@ -61,42 +61,53 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/dashboard.jsp">
+            <a class="nav-link" href="./dashboard.jsp">
                   <span data-feather="home"></span>
                   Dashboard <span class="sr-only"></span>
                 </a>
                 </li>
               <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/profile.jsp">
+                <a class="nav-link" href="./profile.jsp">
                   <span data-feather="users"></span>
                   Seu Perfil <span class="sr-only"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/form-livro.jsp">
+                <a class="nav-link" href="./form-livro.jsp">
                   <span data-feather="book">(current)</span>
                   Cadastrar Livro
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
+                <a class="nav-link" href="./consultar-livro.jsp">
                   <span data-feather="book"></span>
                   Consultar Livro
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/estoque.jsp">
+                <a class="nav-link active" href="./estoque.jsp">
                   <span data-feather="package"></span>
                   Estoque
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp">
+                <a class="nav-link" href="./loan.jsp">
                   <span data-feather="rewind"></span>
-                  Trocas
+                  Empréstimos
                 </a>
               </li>
-              
+              <li class="nav-item">
+                <a class="nav-link" href="./returns.jsp">
+                  <span data-feather=fast-forward></span>
+                  Devoluções
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="./reservas.jsp">
+                  <span data-feather="calendar"></span>
+                  Reservas
+                </a>
+              </li>
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -110,108 +121,126 @@
 			
 			
               <li class="nav-item">
-           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/reports.html">
+           <a class="nav-link" href="./reports.jsp">
               <span data-feather="file-text"></span> 
-             Mais Vendidos
+              Quantidade em Estoque
               </a>
               </li>
-             <li class="nav-item">
-           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/log.jsp">
-              <span data-feather="file-text"></span> 
-              Log
-              </a>
-              </li>
+             
 
       
             </ul>
           </div>
         </nav>
+
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Livros </h3>           
-            	</div>          
-          	  	<form action="SalvarLivro" method="post" class="form-horizontal">
-		<div class="row">
+					<h3>Estoque </h3>   
+				       
+            	</div>  
+            	
+           <div class="row">
 			<div class="col-lg-5">
 			
 			</div>
 			<div class="col-4">
-			<input id="search" name="search" class="form-control" placeholder="Pesquisar" type="text">
+			
 			</div>
 			<div class="col-0">
-			<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='VISUALIZAR'/>
-			 <a href="./form-livro.jsp" class="btn btn-primary">NOVO</a>
+			
+				<select id="txtMovimento" name="txtMovimento" class="form-control">
+					<%
+            		for(TipoMovimentacaoEstoque tpMov : TipoMovimentacaoEstoque.values()){
+            	%>
+					<option id=<%=tpMov.getDescricao() %> value=<%=tpMov.getDescricao() %>><%=tpMov.getDescricao() %></option>
 				
+				
+				<%
+            	}
+				%>
+				</select>
 		</div>
 			
-		</div>
-		<!-- /#top -->
-
-		<div id="list" class="row">	
-			<div class="table-responsive col-md-12">
+		</div>   
+            	<div id="list" class="row">	
+			<div class="table-responsive col-12">
 				<table class="table table-striped" >
 					<thead>
 						<tr>
-
-							<th class="text-center">Titulo</th>
-							<th class="text-center">Editora</th>
-							<th class="text-center">Autor</th>
-							<th class="text-center">Ativo</th>
-							<th class="text-center">ISBN</th>
-							<th style="text-align: right">Ações</th>
+						<th></th>
+						
+							<th class="text-center">Seleção</th>
+							<th class="text-center">Livro</th>
+							<th>Qtde</th>
+							<th>Ações</th>
 							<th></th>
 						</tr>
 					</thead>
 					<tbody>
 
-		            		<%
+
 		            		
-		            		
-		            		if (livros != null) {
-			            		for (EntidadeDominio ed : livros) {
-			            			Livro livro = (Livro) ed;
-			            			StringBuilder autores = new StringBuilder();
-			        				boolean isSecondOrMore = false;
-			        				
-			        				for (Autor autor : livro.getAutores()) {
-			        					if (isSecondOrMore)
-			        						autores.append("/");
-			        					autores.append(autor.getNome());
-			        					
-			        					isSecondOrMore = true;
-			        				}
-		            			
-		            		
-		            		%>
+		            	
 						<tr>
 							
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getEditora().getNome() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=autores.toString() %> </td>																				
-							<td style="text-align: center; vertical-align: middle;"><% if(livro != null && livro.getAtivo()) out.print("sim"); else out.print("não") ; %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>
-							
-							<!-- Buttons actions -->
-							<td style="text-align: right; ">
-							<a href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>" class="btn btn-warning">Alterar</a> 
+							<%
+		            		int i = 0;
+							if (i < 8) {
+		            			while (i < 8) {
+							%>
+							<td></td>
+							<td style="text-align: center; vertical-align: middle;">
+							 <input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>">
 							</td>
 							
-							<td style="text-align: left; ">
-							<a href="SalvarLivro?operacao=EXCLUIR&IdLivro=<%=livro.getId() %>"class="btn btn-danger">Remover</a>
-							</td>				
-										
+							    <td>
+			                  <select style="text-align: center;"style="width:350px;" id="txtLivro^<%=i %>" name="txtLivro^<%=i %>" class="form-control">
+			                        <option id="#" value="#" selected >Selecione </option>
+									<%
+										List<EntidadeDominio> livros = new LivroDAO().visualizar();
+	
+										for (EntidadeDominio edo : livros) {
+											Livro livro = (Livro) edo;
+									%>
+									<option id=<%=livro.getId() %> value=<%=livro.getId() %> ><%=livro.getTitulo() %> </option>
+							        <%
+										}
+									%>
+							  </select>
+			                </td>
+							<td >
+							<input style="width:50px;" type="text" id="txtQtde" name="txtQtde" class="form-control form-control-alternative">
+							</td>
+							
+							<!-- Buttons actions -->
+							
+							<td>
+							<a href="./estoque.jsp"class="btn btn-danger btn-sm">Remover</a>
+							</td>	
+							<td></td>
+									
 						</tr>
 						<%
-						}
-		            }
+		            				i += 1;
+		            			}
+		            		}
 		            	%>
-						
-
 					</tbody>
+					
 				</table>
 			</div>
 			</div>
-			</form>
+			
+			<div class=col>
+            	<hr>
+				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>
+            	 </div>    
+          	  	<div class="row">
+					<div class="form-group col-md-8">
+						<label for="campo3"></label>
+						
+					</div>
+					</div>
         </main>		
       </div>	  
     </div>	

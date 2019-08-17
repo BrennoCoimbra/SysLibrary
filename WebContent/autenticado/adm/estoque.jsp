@@ -40,11 +40,10 @@
 
   <body>
   		<%
-		Livro liv = (Livro) request.getAttribute("livro");
-		Usuario usuario = Logged.getUsuario();
-		usuario.getId();
-		StringBuilder sb;
-		%>	
+		 Resultado resultado = (Resultado) request.getAttribute("resultado");
+		 StringBuilder sb;
+		 Livro livro = (Livro) request.getAttribute("livro");
+		  %>
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
@@ -61,53 +60,42 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link" href="./dashboard.jsp">
+            <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/dashboard.jsp">
                   <span data-feather="home"></span>
                   Dashboard <span class="sr-only"></span>
                 </a>
                 </li>
               <li class="nav-item">
-                <a class="nav-link" href="./profile.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/profile.jsp">
                   <span data-feather="users"></span>
                   Seu Perfil <span class="sr-only"></span>
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./form-livro.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/form-livro.jsp">
                   <span data-feather="book">(current)</span>
                   Cadastrar Livro
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./consultar-livro.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
                   <span data-feather="book"></span>
                   Consultar Livro
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="./estoque.jsp">
+                <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/estoque.jsp">
                   <span data-feather="package"></span>
                   Estoque
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./loan.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp">
                   <span data-feather="rewind"></span>
-                  Empréstimos
+                  Trocas
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./returns.jsp">
-                  <span data-feather=fast-forward></span>
-                  Devoluções
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./reservas.jsp">
-                  <span data-feather="calendar"></span>
-                  Reservas
-                </a>
-              </li>
+              
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
@@ -121,129 +109,128 @@
 			
 			
               <li class="nav-item">
-           <a class="nav-link" href="./reports.jsp">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/reports.html">
               <span data-feather="file-text"></span> 
-              Quantidade em Estoque
+             Mais Vendidos
               </a>
               </li>
-             
+             <li class="nav-item">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/log.jsp">
+              <span data-feather="file-text"></span> 
+              Log
+              </a>
+              </li>
 
       
             </ul>
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+             <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Estoque </h3>   
-				       
-            	</div>  
-            	
-           <div class="row">
-			<div class="col-lg-5">
-			
-			</div>
-			<div class="col-4">
-			
-			</div>
-			<div class="col-0">
-			
-				<select id="txtMovimento" name="txtMovimento" class="form-control">
-					<%
-            		for(TipoMovimentacaoEstoque tpMov : TipoMovimentacaoEstoque.values()){
-            	%>
-					<option id=<%=tpMov.getDescricao() %> value=<%=tpMov.getDescricao() %>><%=tpMov.getDescricao() %></option>
+					<h3>Estoque </h3>   				      
+					<hr>
+            </div>  
+            <form action="SalvarLivro" method="post" class="form-horizontal">
+            <!-- Form para buscar o dados do livro -->	          
+           	<div id="list" class="row">	
+				<div class="col-lg-6">			
+				</div>
+				<div class="col-4">
+					<input id="search" name="search" class="form-control" placeholder="Digite o ISBN, para buscar o livro." type="text">
+				</div>
 				
+				<div class="col-0">
+					<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='BUSCAR'/>					
+				</div>
 				
-				<%
-            	}
-				%>
-				</select>
-		</div>
+			</div>			
+			<hr>
+					            			
+			<!-- Form para trazer o dados do livro -->
 			
-		</div>   
-            	<div id="list" class="row">	
-			<div class="table-responsive col-12">
-				<table class="table table-striped" >
-					<thead>
-						<tr>
-						<th></th>
-						
-							<th class="text-center">Seleção</th>
-							<th class="text-center">Livro</th>
-							<th>Qtde</th>
-							<th>Ações</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
+			<div class="container-fluid">
+			<h5 class="page-header"> Entrada em Estoque </h5>
+			<input type="hidden" id="idLivro=<% if(livro != null) out.print(livro.getIdLivro());%>" name="idLivro" value="<% if(livro != null) out.print(livro.getIdLivro());%>"/>  							
+			<div class="row">	
+			<div class="form-group col-md-3">
+						<label for="campo2">ISBN</label> <input type="text" maxlength="13" readonly
+							class="form-control" id="isbn" name="isbn"							
+							value="<% if(livro != null) out.print(livro.getISBN()); %>">
+					</div>
 
+					<div class="form-group col-md-3">
+						<label for="campo1">Nome do livro</label> <input type="text" maxlength="13" readonly
+							class="form-control" id="codBarras" name="codBarras"
+							value="<% if(livro != null) out.print(livro.getTitulo()); %>">
+					</div>	
 
-		            		
-		            	
-						<tr>
-							
-							<%
-		            		int i = 0;
-							if (i < 8) {
-		            			while (i < 8) {
-							%>
-							<td></td>
-							<td style="text-align: center; vertical-align: middle;">
-							 <input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>">
-							</td>
-							
-							    <td>
-			                  <select style="text-align: center;"style="width:350px;" id="txtLivro^<%=i %>" name="txtLivro^<%=i %>" class="form-control">
-			                        <option id="#" value="#" selected >Selecione </option>
-									<%
-										List<EntidadeDominio> livros = new LivroDAO().visualizar();
-	
-										for (EntidadeDominio edo : livros) {
-											Livro livro = (Livro) edo;
-									%>
-									<option id=<%=livro.getId() %> value=<%=livro.getId() %> ><%=livro.getTitulo() %> </option>
-							        <%
-										}
-									%>
-							  </select>
-			                </td>
-							<td >
-							<input style="width:50px;" type="text" id="txtQtde" name="txtQtde" class="form-control form-control-alternative">
-							</td>
-							
-							<!-- Buttons actions -->
-							
-							<td>
-							<a href="./estoque.jsp"class="btn btn-danger btn-sm">Remover</a>
-							</td>	
-							<td></td>
-									
-						</tr>
-						<%
-		            				i += 1;
-		            			}
-		            		}
-		            	%>
-					</tbody>
+				<div  class="form-group col-md-2">
+						<label for="campo1">Precificação</label> 
+						<input type="text" maxlength="13" readonly
+							class="form-control" id="codBarras" name="codBarras" readonly
+							value="<% if(livro != null) out.print(livro.getPreficacao().getDescricao()); %>">
+						 
+					</div>
 					
-				</table>
 			</div>
+			</div>
+			<!-- Form para salvar o livro em estoque.-->
+			</form>
+			<div class="container-fluid">
+			<form action="SalvarEstoque" method="post" class="form-horizontal">	
+			<% if(livro != null) {%>
+						
+			<div class="row">	
+			<input type="hidden" id="idLivro" name="idLivro" value="<%= livro.getIdLivro()%>"/>  
+			<div class="form-group col-md-3">
+			
+			<label for="campo2">Fornecedor</label> 						
+						<select id="fornecedor" name="fornecedor" class="form-control">
+								<%
+									List<EntidadeDominio> fornecedores = new FornecedorDAO().visualizar();
+
+									for (EntidadeDominio ed : fornecedores) {
+										Fornecedor fornecedor = (Fornecedor) ed;
+								%>
+								<option id=<%=fornecedor.getId() %> value=<%=fornecedor.getId() %>><%=fornecedor.getNomeFornecedor() %> </option>								
+								<%
+									}
+								%>
+							</select>				
+					</div>
+
+					<div class="form-group col-md-3">
+						<label for="campo1">Quantidade</label> <input type="text" maxlength="13"
+							class="form-control" id="qtde" name="qtde"
+							value="">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="campo1">Valor</label> <input type="text" maxlength="13"
+							class="form-control" id="valorCompra" name="valorCompra"
+							value="">
+					</div>	
+					</div>	
+					<div class=col>            	
+				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>
+            	 </div>    	
+			</form>
+				<%} %>															
 			</div>
 			
-			<div class=col>
-            	<hr>
-				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>
-            	 </div>    
+						
+			</div>
+			
           	  	<div class="row">
 					<div class="form-group col-md-8">
 						<label for="campo3"></label>
 						
 					</div>
 					</div>
-        </main>		
+					
+        </main>	
       </div>	  
-    </div>	
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>

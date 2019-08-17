@@ -40,12 +40,13 @@ public class FilterAutorizacao implements Filter{
 		// retorna null caso nao esteja logado
 		if(user.getTipoUsuario() == TipoUsuario.ADMIN && !urlAutenticar.equalsIgnoreCase("/Login")) {			
 			chain.doFilter(request, response);
-			System.out.println("interceptando autorizacao");
-		}
+			System.out.println("usuario e administrador!");
+		} else {
 		request.setAttribute("msg", "Sem autorização!");
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp?url="+urlAutenticar); //passando por parametros
 		dispatcher.forward(request, response);	
 		System.out.println("Usuário não é administrador!");
+		}
 		return; // para o processo para redirecionar
 		
 		//executa as ações do request e response

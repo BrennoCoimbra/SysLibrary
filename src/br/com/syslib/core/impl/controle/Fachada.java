@@ -12,6 +12,7 @@ import br.com.syslib.core.IStrategy;
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.core.impl.dao.CartaoCreditoDAO;
 import br.com.syslib.core.impl.dao.EnderecoDAO;
+import br.com.syslib.core.impl.dao.EstoqueDAO;
 import br.com.syslib.core.impl.dao.LivroDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
@@ -24,6 +25,7 @@ import br.com.syslib.core.impl.negocio.ValidarCPF;
 import br.com.syslib.dominio.CartaoCredito;
 import br.com.syslib.dominio.Endereco;
 import br.com.syslib.dominio.EntidadeDominio;
+import br.com.syslib.dominio.Estoque;
 import br.com.syslib.dominio.Livro;
 import br.com.syslib.dominio.Usuario;
 
@@ -45,6 +47,7 @@ public class Fachada implements IFachada {
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
 		EnderecoDAO enderecoDAO = new EnderecoDAO();
 		CartaoCreditoDAO cartaoCreditoDAO = new CartaoCreditoDAO();
+		EstoqueDAO estoqueDAO = new EstoqueDAO();
 	
 		
 		/* Adicionando cada dao no MAP indexando pelo nome da classe */
@@ -52,7 +55,7 @@ public class Fachada implements IFachada {
 		daos.put(Usuario.class.getName(), usuarioDAO);
 		daos.put(Endereco.class.getName(), enderecoDAO);
 		daos.put(CartaoCredito.class.getName(), cartaoCreditoDAO);
-		
+		daos.put(Estoque.class.getName(), estoqueDAO);
 		
 		ValidadorDadosObrigatoriosLogin vrDadosObrigatoriosLogin = new ValidadorDadosObrigatoriosLogin();
 		List<IStrategy> rnsLogin = new ArrayList<IStrategy>();
@@ -83,6 +86,10 @@ public class Fachada implements IFachada {
 		Map<String, List<IStrategy>> rnsCartaoCredito = new HashMap<String, List<IStrategy>>();
 		rnsCartaoCredito.put("SALVAR", rnsSalvarCartaoCredito);
 		rnsCartaoCredito.put("ALTERAR", rnsSalvarCartaoCredito);
+		
+		List<IStrategy> rnsSalvarEstoque = new ArrayList<IStrategy>();
+		Map<String, List<IStrategy>> rnsEstoque = new HashMap<String, List<IStrategy>>();
+		rnsEstoque.put("SALVAR", rnsSalvarEstoque);
 		
 		/* Criando instâncias de regras de negócio a serem utilizados */
 		ValidadorDadosObrigatoriosLivro vrDadosObrigatoriosLivro = new ValidadorDadosObrigatoriosLivro();
@@ -126,7 +133,7 @@ public class Fachada implements IFachada {
 		rns.put(Usuario.class.getName(), rnsUsuario);
 		rns.put(Endereco.class.getName(), rnsEndereco);
 		rns.put(CartaoCredito.class.getName(), rnsCartaoCredito);
-		
+		rns.put(EstoqueDAO.class.getName(), rnsEstoque);
 	}
 
 	@Override
@@ -224,6 +231,14 @@ public class Fachada implements IFachada {
 
 	@Override
 	public Resultado visualizar(EntidadeDominio entidade) {
+		resultado = new Resultado();
+		resultado.setEntidades(new ArrayList<EntidadeDominio>());
+		resultado.getEntidades().add(entidade);
+		
+		return resultado;
+		}
+	
+	public Resultado buscar(EntidadeDominio entidade) {
 		resultado = new Resultado();
 		resultado.setEntidades(new ArrayList<EntidadeDominio>());
 		resultado.getEntidades().add(entidade);
