@@ -1,11 +1,13 @@
+
 <!DOCTYPE html>
 
-<html  lang="pt-br">
+
+<html lang="pt-br">
   <head>
-    <meta charset="UTF-8">
+    <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="Página para buscar livros e acessar informações.">
-    <meta name="author" content="Brenno Coimbra">
+    <meta name="author" content="Brenno Coimbra">					
     <link rel="icon" href="../resources/bootstrap/imgs/library_icon.ico">
 
     <title>SysLibrary</title>
@@ -30,8 +32,7 @@
   </head>
 
   <body>
-  		
-    	
+  
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
@@ -43,11 +44,11 @@
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
+       <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link" href="./dashboard.html">
+            <a class="nav-link active" href="./dashboard.html">
                   <span data-feather="home"></span>
                   Dashboard <span class="sr-only"></span>
                 </a>
@@ -71,7 +72,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="./estoque.html">
+                <a class="nav-link" href="./estoque.html">
                   <span data-feather="package"></span>
                   Estoque
                 </a>
@@ -103,15 +104,16 @@
               <li class="nav-item">
            <a class="nav-link" href="./reports.html">
               <span data-feather="file-text"></span> 
-             Mais Vendidos
+              Mais Vendidos
               </a>
               </li>
-             <li class="nav-item">
+			  <li class="nav-item">
            <a class="nav-link" href="./log.html">
               <span data-feather="file-text"></span> 
               Log
               </a>
               </li>
+             
 
       
             </ul>
@@ -119,97 +121,65 @@
         </nav>
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-			<div style="text-align: center;">
-					<h3>Estoque </h3>   				      
-					<hr>
-            </div>  
-            <!-- Form para buscar o dados do livro -->	          
-           	<div id="list" class="row">	
-				<div class="col-lg-6">			
-				</div>
-				<div class="col-4">
-					<input id="search" name="search" class="form-control" placeholder="Digite o ISBN, para buscar o livro." type="text">
-				</div>
-				<div class="col-0">
-					<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='Buscar'/>					
-				</div>
-				
-			</div>			
-			<hr>
-			<!-- Form para trazer o dados do livro -->
-			<div class="container-fluid">
-			<h5 class="page-header"> Entrada em Estoque </h5>
-				
-			<div class="row">	
-			<div class="form-group col-md-3">
-						<label for="campo2">ISBN</label> <input type="text" maxlength="13" readonly
-							class="form-control" id="isbn" name="isbn"
-							value="12323412451231">
-					</div>
-
-					<div class="form-group col-md-3">
-						<label for="campo1">Nome do livro</label> <input type="text" maxlength="13" readonly
-							class="form-control" id="codBarras" name="codBarras"
-							value="Java Use a Cabeça">
-					</div>	
-
-				<div class="form-group col-md-2">
-						<label for="campo1">Precificação</label> 
-						 <select readonly id="precif" name="precif" class="form-control">						
-							<option id=1 selected >CARO</option>							
-						 </select>
-					</div>
-					
-			</div>
-			<!-- Form para salvar o livro em estoque.-->
-			
-				
-			<div class="row">	
-			<div class="form-group col-md-3">
-						<label for="campo2">Fornecedor</label> 						
-						 <select id="precif" name="precif" class="form-control">
-							<option id=0 selected ></option>
-							<option id=1 >FTD</option>
-							<option id=2 >Saraiva</option>
-							<option id=3 >Etc</option>
-							
-							</select>					
-					</div>
-
-					<div class="form-group col-md-3">
-						<label for="campo1">Quantidade</label> <input type="text" maxlength="13"
-							class="form-control" id="codBarras" name="codBarras"
-							value="">
-					</div>
-					<div class="form-group col-md-3">
-						<label for="campo1">Valor</label> <input type="text" maxlength="13"
-							class="form-control" id="codBarras" name="codBarras"
-							value="">
-					</div>												
-			</div>
-			</div>	
-			
-			
 		
-			<div class=col>            	
-				<!--  <h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4> -->
-				<a href="./consultar-estoque.html" class="btn btn-success">SALVAR</a>
-            	 </div>    
-          	  	<div class="row">
-					<div class="form-group col-md-8">
-						<label for="campo3"></label>
+			<div style="text-align: center;">
+					<h3>Status dos Pedidos </h3>
+					   
+            	</div>  
+
+			
+			<div class="table-responsive col-md-12">
+				<table class="table table-striped" >
+					<thead>
+						<tr>
+							<th class="text-center">Nº Pedido</th>
+							<th class="text-center">Cliente</th>
+							<th class="text-center">Endereço</th>
+							<th class="text-center">Valor</th>							
+							<th class="text-center">Status</th>
+							<th style="text-align: center">Ação</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+
+		            		
+						<tr>
+							<td style="text-align: center; vertical-align: middle;">00001</td>																				
+							<td style="text-align: center; vertical-align: middle;">Brenno</td>
+							<td style="text-align: center; vertical-align: middle;">Rua Jose Silveira,302 - São Paulo-SP </td>
+							<td style="text-align: center; vertical-align: middle;">R$179.80</td>																				
+							<td style="text-align: center; vertical-align: middle;">EM TRANSITO</td>
+							
+							<!-- Buttons actions -->
+							<td style="text-align: center; ">
+							<a href="./dashboard3.html" class="btn btn-success btn-sm">ENTREGUE</a> 		 							
+							</td>
+							
+										
+						</tr>
 						
-					</div>
-					</div>
-        </main>		
-      </div>	  
-    </div>	
+							
+
+					</tbody>
+				</table>
+			</div>
+			
+		  </div>	  
+        </main>	
+		</div>
+    </div>
+       
+      
     <!-- Icons -->    
 	<script src="../resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="../resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()
-    </script>  	
+    </script>
+
+	
+	
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

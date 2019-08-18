@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
+
 
 
 <html lang="pt-br">
@@ -17,6 +17,8 @@
 
     <!-- Custom styles for this template -->
     <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
+   	<script src="./resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+  	<script src="./resources/bootstrap/js/bootstrap.min.js"></script>
   
   <style>
   footer {
@@ -158,24 +160,10 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div style="text-align: center;">
-          <h3>Detalhe Pedido </h3>   
+          <h3>Pedido </h3>   
                
-              </div> 
-              <div class="row">
-      <div class="col-lg-5">
-      
-      </div>
-      <div class="col-4">
-     
-      </div>
-      <div class="col-0">
-              <a href="./detalhe-itens.html" class="btn btn-primary btn-lg">Detalhes</a> 
-      
-        
-    </div>
-      
-    </div> 
-    <form action="SalvarCarrinho" method="post">
+              </div>  
+    <form >
            <div class="row">
 
     </div>   
@@ -238,105 +226,235 @@
               <td></td>             
               <td style="text-align: center; vertical-align: middle;"><b>Endereço de Entrega: </b></td>
                <td style="text-align: center; vertical-align: middle;">
-                <select id="end" name="end" class="form-control">
-                  <option>Casa</option>
-                  <option>Entrega</option>
-                  <option>Trabalho</option>
+                <select  id="end" name="end" class="form-control">
+                  <option  selected >Entrega</option>
                 </select>
               </td>         
-              <td style="text-align: center; vertical-align: middle;"><b>Valor Frete </b></td>
+              <td style="text-align: center; vertical-align: middle;"><b>Frete </b></td>
               <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$20.00> </td>
             </tr>
-
-             <tr class="table-active">
+            
+            <tr class="table-active">
               <td></td>             
                <td></td> 
-              <th colspan="2"class="text-center">TOTAL</th>
+              <th colspan="2"class="text-center">CUPOM</th>
                <td></td> 
                <td></td> 
             </tr>
             
-            <tr>
+             <tr>
+              <td></td>             
+              <td style="text-align: center; vertical-align: middle;"><b>Cupom: </b></td>
+               <td style="text-align: center; vertical-align: middle;">
+                <input>
+              </td>         
+              <td style="text-align: center; vertical-align: middle;"><a href="#" class="btn btn-success btn-sm">Validar</a> </td>
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$00.00></td>
+            </tr>
+			
+			<tr>
               <td></td>             
               <td></td>     
                <td></td>     
-              <th class="text-center">Total Pedido</th>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$199.70> </td>
+              <th class="text-center"><h4>TOTAL</h4></th>
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$179.70> </td>
             </tr>
-
-             <tr class="table-active">
+            
+			<tr class="table-active">
               <td></td>             
                <td></td> 
-              <th colspan="2"class="text-center">FORMA DE PAGAMENTO</th>
+              <th colspan="2"class="text-center">FORMAS DE PAGAMENTO</th>
                <td></td> 
                <td></td> 
             </tr>
-
-          </tbody>
-          
-        </table>
-    
-      
-        <table class="table table-striped" >
-          <thead>
-
-            <tr>
-              <th></th>            
-             
-              <th class="text-center">Tipo</th>
-              <th class="text-center">Descrição</th>
-              <th class="text-center">Valor</th>
-            </tr>
-
-          </thead>
-          <tbody>     
-                  
-            <tr>
-              <td></td>
-                          
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Cartao Credito'> </td>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Bradesco'> </td>              
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 120.00'> </td>              
-            </tr>
-
-             <tr>
-              <td></td>
-                          
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Cartao Credito'> </td>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Safra'> </td>              
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 20.00'> </td>              
-            </tr>
-
-             <tr>
-              <td></td>
-                    
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Cupom'> </td>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= '0002'> </td>              
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 39.70'> </td>              
-            </tr>
-          
-          </tbody>
-          
-        </table>
-     
-         
-      </div>
-      </div>
-
-      
-
-      
-     
-                <div class="row">
-          <div class="form-group col-md-8">
-            <label for="campo3"></label>
             
+            <tr>
+              <td></td>             
+              <td></td>
+			<td style="text-align: center;">
+				  <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseCartao" role="button" aria-expanded="false" aria-controls="collapseCartao">
+				    Cartão de Crédito
+				    </a> 
+			</td>
+			
+          <td>	
+			<a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseBoleto" role="button" aria-expanded="false" aria-controls="collapseBoleto">
+				    Boleto
+			</a> 
+			</td>			               
+            </tr>
+
+          </tbody>
+          
+        </table>
+    </div>
+    </div>
+     	<!-- COLLAPSE DO CARTAO -->
+
+        <div class="collapse" id="collapseCartao">				          
+			<div class="container-fluid">
+			<div class="row">	
+			<table class="table"> 	
+        	<tbody>
+		        <tr class="table-active">
+		              <td></td>             
+		               <td></td> 
+		              <th colspan="2"class="text-center">Cartões</th>
+		               <td></td> 
+		               <td></td> 
+		            </tr>
+		    </tbody>        
+            </table>
+            						
+			<table class="table table-striped" >
+			
+	          <thead>
+	          
+				
+           		 
+	            <tr>
+	              <th></th>            
+	              <th class="text-center">Seleção</th>
+	              <th class="text-center">Descrição</th>
+	              <th class="text-center">Número</th>
+	              <th class="text-center">Valor</th>
+	            </tr>
+	
+	          </thead>
+	          <tbody>     
+	                  
+	            <tr>
+	              <td></td>
+	              <td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>"></td>              
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'cartao comum'> </td>
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'XXXX.0123'> </td>              
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 120.00'> </td>              
+	            </tr>
+	
+	             <tr>
+	              <td></td>
+	              <td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>"></td>              
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'cartao 2'> </td>
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'XXXX.4321'> </td>              
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 00.00'> </td>              
+	            </tr>
+	            
+	            <tr>
+	              <td></td>
+	              <td style="text-align: center;">
+				  <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseCartaoNovo" role="button" aria-expanded="false" aria-controls="collapseCartaoNovo">
+				    Novo
+				    </a> 
+					</td>
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= ''> </td>
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= ''> </td>              
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$00.00'> </td>           
+	            </tr>
+	             
+	          
+	          </tbody>
+	          
+        </table>	
+			</div>
+			</div>	
+					
+			
+		</div>
+		<!-- FIM COLLAPSE DO NOVO CARTAO -->
+		<div class="collapse" id="collapseCartaoNovo">				          
+			<div class="container-fluid">
+			<div class="row">							
+			<table class="table table-striped" >
+	          <thead>
+	          
+				<tr class="table-active">
+	              <td></td>             
+	               <td></td> 
+	              <th colspan="2"class="text-center">Novo Cartão</th>
+	               <td></td> 
+	               <td></td> 
+           		 </tr>
+	          </thead>
+        	</table>
+        
+			<div class="container-fluid">
+				<h6 class="page-header"> Descrição </h6>
+					<div class="row">	
+						<form action="SalvarCartao" method="post">	
+				<div class="form-group col-md-3">
+					<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+							value="">
+					</div>
+					
+					</div>
+				</div>	
+				</div>
+				</div>
+			<div class="container-fluid">
+				<h6 class="page-header"> Identificação </h6>
+
+				<div class="row">
+				
+					<div class="form-group col-md-4">
+						<label for="campo1">Nome no cartão</label> <input type="text" maxlength="13"
+							class="form-control" id="logradouro" name="logradouro"
+							value="">
+					</div>
+					<div class="form-group col-md-4">
+						<label for="titulo">Numero</label> <input type="number"
+							class="form-control" id="numero" name="numero"
+							value="">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="ano">Válido Até</label> <input type="text"
+							class="form-control" id="ano" name="ano"
+							value="">
+					</div>
+					<div class="form-group col-md-2">
+						<label for="cvv">CVV</label> <input type="text"
+							class="form-control" id="cvv" name="cvv"
+							value="">
+					</div>
+					<div class="form-group col-md-2">
+						<label for="cartao">Bandeira</label> 
+						<select id="cartao" name="cartao" class="form-control">
+						<option>Visa</option>
+						<option>Elo</option>
+						<option>MasterCard</option>
+							</select>
+							
+					</div>
+					
+				</div>
+			</div>
+			</div>
+		</form>	
+		
+
+			
+
+		<!-- FIM COLLAPSE DO NOVO CARTAO -->
+ 
+		<hr>
+       <div class="row">
+          <div class="form-group col-md-10">
+			<a href="./form-pedido-endereco.html" class="btn btn-success">Voltar</a>
           </div>
+           <div class="form-group col-md-2">				
+			<a href="./consultar-pedido.html" class="btn btn-danger">Finalizar Compra</a>
+
           </div>
-      </form>
-        </main>   
-      </div>    
-    </div>  
+       </div>
+       
+      <div class="row">
+          <div class="form-group col-md-2"></div>
+       </div>
+          
+  	
+    </div>
+			</div>	
+					
+    		
     <!-- Icons -->    
   <script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
   <script src="./resources/bootstrap/js/feather.min.js"></script>

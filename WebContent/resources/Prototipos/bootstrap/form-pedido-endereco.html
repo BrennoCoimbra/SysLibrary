@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
+
 
 
 <html lang="pt-br">
@@ -17,6 +17,8 @@
 
     <!-- Custom styles for this template -->
     <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
+   	<script src="./resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+  	<script src="./resources/bootstrap/js/bootstrap.min.js"></script>
   
   <style>
   footer {
@@ -212,42 +214,158 @@
             </tr>
 
 
-            </tbody>
+            <tr class="table-active">
+              <td></td>             
+               <td></td> 
+              <th colspan="2"class="text-center">ENDEREÇO</th>
+               <td></td> 
+               <td></td> 
+            </tr>
+
+            <tr>
+              <td></td>             
+              <td style="text-align: center; vertical-align: middle;"><b>Endereço de Entrega: </b></td>
+               <td style="text-align: center; vertical-align: middle;">
+                <select id="end" name="end" class="form-control">
+                  <option></option>
+                  <option>Entrega</option>
+                  <option>Trabalho</option>
+                </select>
+              </td>         
+              <td style="text-align: center; vertical-align: middle;"><b>OU </b></td>
+              <td style="text-align: center; vertical-align: middle;">
+				  <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+				    NOVO
+				  </a>
+              </td>
+            </tr>
+
+            
+
+          </tbody>
           
         </table>
-     
-         
-      </div>
-      </div>
+    
+     	<!-- COLLAPSE DO NOVO ENDEREÇO -->
 
-      
-
-      
-      <div class=col>
-              <hr>
-<!--         <h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='Comprar'/></h4> -->
-				      
-				
-               </div> 
-                  
-                <div class="row">
-          <div class="form-group col-md-10">
-						<a href="./carrinho.html" class="btn btn-success">Voltar</a>
-						
-            <label for="campo3"></label>
-            
-          </div>
-           <div class="form-group col-md-2">
+        <div class="collapse" id="collapseExample">
+         <div class="table-responsive col-12">
+        	<table class="table"> 	
+        	<tbody>
+		        <tr class="table-active">
+		              <td></td>             
+		               <td></td> 
+		              <th colspan="2"class="text-center">NOVO ENDEREÇO</th>
+		               <td></td> 
+		               <td></td> 
+		            </tr>
+		    </tbody>        
+            </table>
+            	</div>		          
+			<div class="container-fluid">
+				<h6 class="page-header"> Descrição </h6>
+					<div class="row">	
+							
+				<div class="form-group col-md-3">
+					<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+							value="">
+					</div>
 					
-						<a href="./form-pedido-endereco.html" class="btn btn-warning">Seguir p/ Endereço</a>
-            <label for="campo3"></label>
-            
+					</div>
+				</div>	
+					
+			<div class="container-fluid">
+				<h6 class="page-header"> Caracteristicas </h6>
+
+				<div class="row">
+				
+					<div class="form-group col-md-2">
+						<label for="campo1">Tipo Residência</label> <input type="text" maxlength="13"
+							class="form-control" id="logradouro" name="logradouro"
+							value="">
+					</div>
+					<div class="form-group col-md-2">
+						<label for="titulo">Tipo Logradouro</label> <input type="text"
+							class="form-control" id="numero" name="numero"
+							value="">
+					</div>
+					
+				</div>
+				
+				
+				<div class="row">
+				
+					<div class="form-group col-md-4">
+						<label for="campo1">Logradouro</label> <input type="text" maxlength="13"
+							class="form-control" id="logradouro" name="logradouro"
+							value="">
+					</div>
+					<div class="form-group col-md-2">
+						<label for="titulo">Numero</label> <input type="number"
+							class="form-control" id="numero" name="numero"
+							value="">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="ano">Bairro</label> <input type="text"
+							class="form-control" id="bairro" name="bairro"
+							value="">
+					</div>
+					<div class="form-group col-md-2">
+						<label for="numpgs">CEP</label> <input type="text"
+							class="form-control" id="cep" name="cep"
+							value="">
+					</div>
+				</div>
+					
+					<div class="row">
+					
+					<div class="form-group col-md-3">
+						<label for="edicao">Cidade</label> <input type="text"
+							class="form-control" id="cidade" name="cidade"
+							value="">
+					</div>
+					<div class="form-group col-md-1">
+						<label for="numpgs">Estado</label> 
+						<select id="estado" name="estado" class="form-control">
+						<option selected></option>
+						<option>SP</option>
+							</select>
+							
+					</div>
+					
+					<div class="form-group col-md-2">
+						<label for="numpgs">Pais</label> <input type="text"
+							class="form-control" id="pais" name="pais"
+							value=>
+					</div>
+					
+				</div>
+
+			</div>
+		</div>
+		<!-- FIM COLLAPSE DO NOVO ENDEREÇO -->
+      </div>
+      </div>
+		<hr>
+       <div class="row">
+          <div class="form-group col-md-10">
+			<a href="./form-pedido.html" class="btn btn-success">Voltar</a>
           </div>
+           <div class="form-group col-md-2">				
+			<a href="./form-pedido-cartao.html" class="btn btn-warning">Seguir p/ Pagamento</a>
+
           </div>
-      </form>
+       </div>
+       
+      <div class="row">
+          <div class="form-group col-md-2"></div>
+       </div>
+          
         </main>   
       </div>    
     </div>  
+    
+    		
     <!-- Icons -->    
   <script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
   <script src="./resources/bootstrap/js/feather.min.js"></script>

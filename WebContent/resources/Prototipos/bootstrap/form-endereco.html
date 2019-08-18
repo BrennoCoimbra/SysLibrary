@@ -174,7 +174,7 @@
 							
 				<div class="form-group col-md-3">
 					<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
-							value="Entrega">
+							value="">
 					</div>
 					
 					</div>
@@ -185,25 +185,41 @@
 
 				<div class="row">
 				
+					<div class="form-group col-md-2">
+						<label for="campo1">Tipo Residência</label> <input type="text" maxlength="13"
+							class="form-control" id="logradouro" name="logradouro"
+							value="">
+					</div>
+					<div class="form-group col-md-2">
+						<label for="titulo">Tipo Logradouro</label> <input type="text"
+							class="form-control" id="numero" name="numero"
+							value="">
+					</div>
+					
+				</div>
+				
+				
+				<div class="row">
+				
 					<div class="form-group col-md-4">
 						<label for="campo1">Logradouro</label> <input type="text" maxlength="13"
 							class="form-control" id="logradouro" name="logradouro"
-							value="Rua Abc">
+							value="">
 					</div>
 					<div class="form-group col-md-2">
 						<label for="titulo">Numero</label> <input type="number"
 							class="form-control" id="numero" name="numero"
-							value="302">
+							value="">
 					</div>
 					<div class="form-group col-md-3">
 						<label for="ano">Bairro</label> <input type="text"
 							class="form-control" id="bairro" name="bairro"
-							value="Jardim Antigo">
+							value="">
 					</div>
 					<div class="form-group col-md-2">
 						<label for="numpgs">CEP</label> <input type="text"
 							class="form-control" id="cep" name="cep"
-							value="00000-000">
+							value="">
 					</div>
 				</div>
 					
@@ -212,11 +228,12 @@
 					<div class="form-group col-md-3">
 						<label for="edicao">Cidade</label> <input type="text"
 							class="form-control" id="cidade" name="cidade"
-							value="Mogi das Cruzes">
+							value="">
 					</div>
 					<div class="form-group col-md-1">
 						<label for="numpgs">Estado</label> 
 						<select id="estado" name="estado" class="form-control">
+						<option selected></option>
 						<option>SP</option>
 							</select>
 							
@@ -225,7 +242,7 @@
 					<div class="form-group col-md-2">
 						<label for="numpgs">Pais</label> <input type="text"
 							class="form-control" id="pais" name="pais"
-							value='Brasil'>
+							value=>
 					</div>
 					
 				</div>
@@ -233,12 +250,14 @@
 
 							<hr />
 <!-- 				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>				 -->
-									<a href="./consultar-endereco.html" class="btn btn-success">SALVAR</a>
+					<a href="./consultar-endereco.html" class="btn btn-success">SALVAR</a>
+				
 			
 	</div>
 		
 	</form>
         </main>		
+
       </div>	  
     </div>	
     <!-- Icons -->    
