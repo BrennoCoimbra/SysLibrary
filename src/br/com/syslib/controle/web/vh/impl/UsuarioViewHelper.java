@@ -1,7 +1,6 @@
 package br.com.syslib.controle.web.vh.impl;
 
 import java.io.IOException;
-import java.util.ArrayList;
 
 import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
@@ -11,7 +10,6 @@ import javax.servlet.http.HttpSession;
 
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.core.util.Logged;
-import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Usuario;
 import br.com.syslib.enuns.TipoUsuario;
