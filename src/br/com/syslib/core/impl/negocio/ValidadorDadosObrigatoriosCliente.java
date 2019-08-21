@@ -5,25 +5,25 @@ import java.util.regex.Pattern;
 
 import br.com.syslib.core.IStrategy;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
+import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.EntidadeDominio;
-import br.com.syslib.dominio.Usuario;
 
-public class ValidadorDadosObrigatoriosUsuario implements IStrategy {
+public class ValidadorDadosObrigatoriosCliente implements IStrategy {
 
 	@Override
 	public String processar(EntidadeDominio entidade) {
 		StringBuilder erros = new StringBuilder();
 
 	
-	if(entidade instanceof Usuario){
-		Usuario usuario = (Usuario) entidade;
+	if(entidade instanceof Cliente){
+		Cliente cliente = (Cliente) entidade;
 		
-		String nome = usuario.getNome();
-		String cpf = usuario.getCpf();
-		String email = usuario.getEmail();
-		String senha = usuario.getSenha();
-		String senhaRepetida = usuario.getSenhaRepetida();
-		String privacidade = usuario.getPrivacidade();
+		String nome = cliente.getNome();
+		String cpf = cliente.getCpf();
+		String email = cliente.getEmail();
+		String senha = cliente.getSenha();
+		String senhaRepetida = cliente.getSenhaRepetida();
+		String privacidade = cliente.getPrivacidade();
 		
 		// Criterio 1: 
 	    if (senha.length() < 8) 

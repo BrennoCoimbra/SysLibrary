@@ -13,6 +13,9 @@ public class CartaoCredito extends FormaPagamento {
 	private int ano;
 	private int codigoSeguranca;
 	private BandeiraCartao bandeiraCartao;
+	private int idCliente;
+    private String preferencialCartao;
+    private String statusCartao;
 	
 	
 	
@@ -69,6 +72,24 @@ public class CartaoCredito extends FormaPagamento {
 	}
 	public void setBandeiraCartao(BandeiraCartao bandeiraCartao) {
 		this.bandeiraCartao = bandeiraCartao;
+	}
+	public int getIdCliente() {
+		return idCliente;
+	}
+	public void setIdCliente(int idCliente) {
+		this.idCliente = idCliente;
+	}
+	public String getPreferencialCartao() {
+		return preferencialCartao;
+	}
+	public void setPreferencialCartao(String preferencialCartao) {
+		this.preferencialCartao = preferencialCartao;
+	}
+	public String getStatusCartao() {
+		return statusCartao;
+	}
+	public void setStatusCartao(String statusCartao) {
+		this.statusCartao = statusCartao;
 	}
 	
 	

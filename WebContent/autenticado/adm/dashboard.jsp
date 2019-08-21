@@ -37,16 +37,19 @@
   </head>
 
   <body>
-  		<%
-    	Usuario usuario = Logged.getUsuario();
-  		
-    	%>	
+  		<%		
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+      %>
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="./login.jsp">Sign out <span data-feather="log-out"></span></a>
+          <%if(usuario !=null){%>
+        <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>	
+		<%  } else {%>
+        <a id="signOut" class="nav-link" href="./login.jsp">Login <span data-feather="log-in"></span></a>
+        <%} %>
         </li>
       </ul>
     </nav>
@@ -57,51 +60,52 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" href="./profile.jsp">
+            <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/dashboard.jsp">
                   <span data-feather="home"></span>
-                  Home <span class="sr-only"></span>
+                  Dashboard <span class="sr-only"></span>
                 </a>
                 </li>
               <li class="nav-item">
-                <a class="nav-link" href="./profile.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/alterar-senha.jsp">
+                  <span data-feather="key"></span>
+                  Alterar Senha <span class="sr-only"></span>
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/form-livro.jsp">
+                  <span data-feather="book">(current)</span>
+                  Cadastrar Livro
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
+                  <span data-feather="book"></span>
+                  Consultar Livro
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/estoque.jsp">
+                  <span data-feather="package"></span>
+                  Estoque
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-clientes.jsp">
                   <span data-feather="users"></span>
-                  Seu Perfil <span class="sr-only"></span>
+                  Consultar Clientes
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./form-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Cadastrar Endereço
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp">
+                  <span data-feather="rewind"></span>
+                  Trocas
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Consultar Endereço
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="shopping-cart"></span>
-                  Carrinho
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Empréstimos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Devoluções
-                </a>
-              </li>
+              
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Categorias</span>
+              <span>Relatorios</span>
               <a class="d-flex align-items-center text-muted" href="#">
                
               </a>
@@ -109,69 +113,91 @@
 			        			      
             <ul class="nav flex-column mb-2">
 			
-			<%
-        	List<EntidadeDominio> categorias = new CategoriaDAO().listar();
-            for (EntidadeDominio ed : categorias) {
-            	Categoria categoria = (Categoria) ed;	
-			%>
-              
+			
               <li class="nav-item">
-              <a class="nav-link" href="Index_Aluno.jsp?cat_id=<%=categoria.getId()%>"> 
-              <span data-feather="book"></span> <%=categoria.getNome()%>
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/reports.html">
+              <span data-feather="file-text"></span> 
+             Mais Vendidos
               </a>
               </li>
-              <%
-			      }
-			   %>
+             <li class="nav-item">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/log.jsp">
+              <span data-feather="file-text"></span> 
+              Log
+              </a>
+              </li>
 
       
             </ul>
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+
+        <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+		
 			<div style="text-align: center;">
-					<h1>Livros </h1>           
-            	</div>          
-          	  <%
-						       int i;
-						       boolean exibir;
-						       String iCategoria = request.getParameter("idCategoria");
-					      	   List<EntidadeDominio> livros = new LivroDAO().listarAtivos();
-						       for (EntidadeDominio ed : livros) {
-						    	   i = 0;
-						    	   exibir = false;
-						    	   Livro livro = (Livro) ed;
-						    	   
-						    	   if (iCategoria != null && !iCategoria.trim().equals("")) {
-						    		   for (Categoria categoria: livro.getCategorias()) {
-						    			   if (Integer.parseInt(iCategoria) == categoria.getId()) {
-						    				   exibir = true;
-						    			   }
-						    		   }   
-						    	   } else {
-						    		   exibir = true;
-						    	   }
-						    	   
-						    	   if (exibir) {
-						    %>
-							<div class="col-sm-9">
-								<div class="col-md-4 thumbnail text-center wow fadeInUp" data-wow-delay=".4s">
-										<a href="descricao_produto.jsp?IdLivro=<%=livro.getId()%>">
-											<img class="pic-1" src="resources/livros/<%=livro.getId()%>.jpg">	
-										</a>	
-									<div class="product-content">										
-									<a href="SalvarCarrinho?operacao=SALVAR&idLivro=<%=livro.getId() %>&idUsuario=<%=usuario.getId() %>">Carrinho - <span data-feather="shopping-cart"> </span></a>
-										</div>
-									</div>
-								</div>
-							<%
-						    	   }
-						       }
-							%>
-        </main>		
+					<h3>Status dos Pedidos </h3>
+					   
+            	</div>  
+
+			
+			<div class="table-responsive col-md-12">
+				<table class="table table-striped" >
+					<thead>
+						<tr>
+							<th class="text-center">Nº Pedido</th>
+							<th class="text-center">Cliente</th>
+							<th class="text-center">Endereço</th>
+							<th class="text-center">Valor</th>							
+							<th class="text-center">Status</th>
+							<th style="text-align: center">Ação</th>
+							<th></th>
+						</tr>
+					</thead>
+					<tbody>
+
+		            		
+						<tr>
+							<td style="text-align: center; vertical-align: middle;">00001</td>																				
+							<td style="text-align: center; vertical-align: middle;">Joao Paulo </td>
+							<td style="text-align: center; vertical-align: middle;">Rua X, 203 - São Paulo-SP </td>
+							<td style="text-align: center; vertical-align: middle;">R$99.90</td>																				
+							<td style="text-align: center; vertical-align: middle;">EM PROCESSAMENTO</td>
+							
+							<!-- Buttons actions -->
+							<td style="text-align: center; ">
+							<a href="#" class="btn btn-warning btn-sm">EM TRÂNSITO</a> 							
+							</td>
+							
+										
+						</tr>
+						
+						<tr>
+							<td style="text-align: center; vertical-align: middle;">00002</td>																				
+							<td style="text-align: center; vertical-align: middle;">Jose Silva </td>
+							<td style="text-align: center; vertical-align: middle;">Rua Y, 302 - Campinas-SP </td>
+							<td style="text-align: center; vertical-align: middle;">R$99.90</td>																				
+							<td style="text-align: center; vertical-align: middle;">EM TRÂNSITO</td>
+							
+							<!-- Buttons actions -->
+							<td style="text-align: center; ">
+							
+							<a href="#"class="btn btn-success btn-sm">ENTREGUE</a>
+							</td>
+							
+										
+						</tr>
+										
+
+					</tbody>
+				</table>
+			</div>
+			 </section>	
+		  </div>	  
+       
+
       </div>	  
-    </div>	
+
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>

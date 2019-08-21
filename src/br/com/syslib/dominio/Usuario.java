@@ -1,7 +1,5 @@
 package br.com.syslib.dominio;
 
-import java.util.List;
-
 import br.com.syslib.enuns.TipoUsuario;
 
 public class Usuario extends EntidadeDominio {
@@ -10,12 +8,8 @@ public class Usuario extends EntidadeDominio {
 	private String email;
 	private String senha;
 	private String confirmaSenha;
-	private String cpf;
 	private TipoUsuario tipoUsuario;
-	private Boolean ativo;
-	private Usuario usuario;
-	private List<Endereco> enderecos;
-	private Endereco endereco;
+	private Boolean ativo;	
 	private String privacidade;
 
 
@@ -50,12 +44,6 @@ public class Usuario extends EntidadeDominio {
 	public void setSenhaRepetida(String senhaRepetida) {
 		this.confirmaSenha = senhaRepetida;
 	}
-	public String getCpf() {
-		return cpf;
-	}
-	public void setCpf(String cpf) {
-		this.cpf = cpf;
-	}
 	public TipoUsuario getTipoUsuario() {
 		return tipoUsuario;
 	}
@@ -67,24 +55,6 @@ public class Usuario extends EntidadeDominio {
 	}
 	public void setAtivo(Boolean ativo) {
 		this.ativo = ativo;
-	}
-	public Usuario getUsuario() {
-		return usuario;
-	}
-	public void setUsuario(Usuario usuario) {
-		this.usuario = usuario;
-	}	
-	public List<Endereco> getEnderecos() {
-		return enderecos;
-	}
-	public void setEnderecos(List<Endereco> enderecos) {
-		this.enderecos = enderecos;
-	}
-	public Endereco getEndereco() {
-		return endereco;
-	}
-	public void setEndereco(Endereco endereco) {
-		this.endereco = endereco;
 	}
 	public String getPrivacidade() {
 		return privacidade;

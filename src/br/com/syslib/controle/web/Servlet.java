@@ -18,11 +18,11 @@ import br.com.syslib.controle.web.command.impl.SairCommand;
 import br.com.syslib.controle.web.command.impl.SalvarCommand;
 import br.com.syslib.controle.web.command.impl.VisualizarCommand;
 import br.com.syslib.controle.web.vh.impl.CartaoCreditoViewHelper;
+import br.com.syslib.controle.web.vh.impl.ClienteViewHelper;
 import br.com.syslib.controle.web.vh.impl.EnderecoViewHelper;
 import br.com.syslib.controle.web.vh.impl.EstoqueViewHelper;
 import br.com.syslib.controle.web.vh.impl.IViewHelper;
 import br.com.syslib.controle.web.vh.impl.LivroViewHelper;
-import br.com.syslib.controle.web.vh.impl.LoginViewHelper;
 import br.com.syslib.controle.web.vh.impl.UsuarioViewHelper;
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.dominio.EntidadeDominio;
@@ -64,9 +64,10 @@ public class Servlet extends HttpServlet {
 		 */
 		vhs.put("/SysLibrary/autenticado/adm/SalvarLivro", new LivroViewHelper());
 		vhs.put("/SysLibrary/SalvarUsuario", new UsuarioViewHelper());
+		vhs.put("/SysLibrary/SalvarCliente", new ClienteViewHelper());
 		vhs.put("/SysLibrary/autenticado/AtualizarPerfil", new UsuarioViewHelper());
-		vhs.put("/SysLibrary/autenticado/Login", new LoginViewHelper());
-		vhs.put("/SysLibrary/SairSys", new LoginViewHelper());
+		vhs.put("/SysLibrary/autenticado/Login", new UsuarioViewHelper());
+		vhs.put("/SysLibrary/SairSys", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarEndereco", new EnderecoViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarCartao", new CartaoCreditoViewHelper());
 		vhs.put("/SysLibrary/autenticado/adm/SalvarEstoque", new EstoqueViewHelper());

@@ -39,14 +39,21 @@
 
   <body>
   		<%
-    	Usuario usuario = Logged.getUsuario();
+  		Usuario usuario = (Usuario) session.getAttribute("usuario");
     	%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://localhost:8080/SysLibrary/index.jsp"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="../login.jsp">Sign out <span data-feather="log-out"></span></a>
+        
+        <%if(usuario != null){%>
+        <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>
+        	
+		<%  } else {%>
+        <a id="signOut" class="nav-link" href="./login.jsp">Login <span data-feather="log-in"></span></a>
+       <%} %>
+       
         </li>
       </ul>
     </nav>
@@ -55,51 +62,34 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
+          
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" href="./index.jsp">
+            <a class="nav-link active" href="http://localhost:8080/SysLibrary/index.jsp">
                   <span data-feather="home"></span>
                   Home <span class="sr-only"></span>
                 </a>
                 </li>
+                <%
+					if(usuario != null){
+          		%>
               <li class="nav-item">
-                <a class="nav-link" href="./profile.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/profile.jsp">
                   <span data-feather="users"></span>
                   Seu Perfil <span class="sr-only"></span>
                 </a>
+                 <%} else {%>
+			<%} %>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./form-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Cadastrar Endereço
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Consultar Endereço
-                </a>
-              </li>
-              <li class="nav-item">
+               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Empréstimos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="#">
-                  <span data-feather="file-text"></span>
-                  Devoluções
-                </a>
-              </li>
+              
             </ul>
-
+           
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Categorias</span>
               <a class="d-flex align-items-center text-muted" href="#">
@@ -108,7 +98,7 @@
             </h6>
 			        			      
             <ul class="nav flex-column mb-2">
-			
+             
 			<%
         	List<EntidadeDominio> categorias = new CategoriaDAO().listar();
             for (EntidadeDominio ed : categorias) {
@@ -116,12 +106,15 @@
 			%>
               
               <li class="nav-item">
-              <a class="nav-link" href="index.jsp?idCategoria=<%=categoria.getId()%>"> 
+              <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp?idCategoria=<%=categoria.getId()%>"> 
               <span data-feather="book"></span> <%=categoria.getNome()%>
               </a>
               </li>
               <%
 			      }
+			
+			
+			
 			   %>
 
       
@@ -147,7 +140,7 @@
 			}
     	}
 		%>
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
+    <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
     		<div style="text-align: center;">
 				<h3>Descrição</h3>  <hr>  
 				<div class="text-right">						
@@ -205,7 +198,7 @@
         </div>
       </div>
     </div>
-    </main>
+    </section>
       </div>	  
     </div>	
     <!-- Icons -->    

@@ -1,20 +1,17 @@
 <!DOCTYPE html>
+<%@page import="br.com.syslib.enuns.*"%>
 <%@page import="java.util.ArrayList"%>
 <%@page import="java.util.List"%>
 <%@page import="br.com.syslib.dominio.*"%>
+<%@page import="br.com.syslib.core.util.*"%>
 <%@page import="br.com.syslib.core.aplicacao.Resultado"%>
-<%@page import="br.com.syslib.dominio.EntidadeDominio"%>
-<%@page import="br.com.syslib.dominio.Livro"%>
 <%@page import="br.com.syslib.core.impl.dao.*"%>
-<%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
-<%@page import="java.util.*"%>
-
 
 <html>
   <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
-    <meta name="description" content="Página para buscar livros e acessar informações.">
+    <meta name="description" content="Página gerenciar emprestimos e devolucoes.">
     <meta name="author" content="Brenno Coimbra">
     <link rel="icon" href="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library_icon.ico">
 
@@ -40,14 +37,9 @@
   </head>
 
   <body>
-  		 <%
-		 Resultado resultado = (Resultado) request.getAttribute("resultado");
-		 StringBuilder sb;
-		 Usuario usuario = (Usuario) session.getAttribute("usuario");
-
-		 List<EntidadeDominio> livros = (List<EntidadeDominio>) request.getAttribute("livro");
-		 
-		  %>
+  		<%		
+		Usuario usuario = (Usuario) session.getAttribute("usuario");
+      %>
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
@@ -74,7 +66,7 @@
                 </a>
                 </li>
               <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/alterar-senha.jsp">
+                <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/alterar-senha.jsp">
                   <span data-feather="key"></span>
                   Alterar Senha <span class="sr-only"></span>
                 </a>
@@ -86,7 +78,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
                   <span data-feather="book"></span>
                   Consultar Livro
                 </a>
@@ -139,95 +131,43 @@
             </ul>
           </div>
         </nav>
+
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Livros </h3>           
-            	</div>          
-          	  	<form action="SalvarLivro" method="post" class="form-horizontal">
-		<div class="row">
-			<div class="col-lg-5">
+					<h3>Troca Senha </h3>
+					   <hr>
+            	</div> 
+            <form action="AtualizarSenha" method="POST">           
+            	<div class="container-fluid">
+				<div class="row">	
+		      		   <input type="hidden" name="idUsuario" value="<%=usuario.getId() %>" />
+		               <input class="form-control" type="hidden" id="operacao" name="operacao" value="ALTERAR">
+			      	<div class="form-group col-md-3">
+			      		<label for="Senha Antiga">Senha Antiga</label>
+			       	 	<input type="password" value=""  class="form-control input-lg" id="senhaOld" name="senhaOld">
+			      	</div>
+      	
+		      		<div class="form-group col-md-3">
+		      			<label class="form-control-label" for="Nova Senha">Nova Senha</label>
+		       	 		<input  type="password" value="" class="form-control input-lg" id="novaSenha" name="novaSenha">
+		      		</div>
+      	
+		      		<div class="form-group col-md-3">
+			      		<label class="form-control-label" for="confirmaSenhaNova">Confirmar Nova Senha</label>
+			       	 	<input  type="password" value=""class="form-control input-lg" id="confirmaSenhaNova" name="confirmaSenhaNova">
+		      		</div>
+      	    </div>
+      	
+						<hr />
+				<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></h4>
 			
-			</div>
-			<div class="col-4">
-			<input id="search" name="search" class="form-control" placeholder="Pesquisar" type="text">
-			</div>
-			<div class="col-0">
-			<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='VISUALIZAR'/>
-			 <a href="./form-livro.jsp" class="btn btn-primary">NOVO</a>
-				
-		</div>
-			
-		</div>
-		<!-- /#top -->
+         </div> 
+            </form>
+			</section>
+      
 
-		<div id="list" class="row">	
-			<div class="table-responsive col-md-12">
-				<table class="table table-striped" >
-					<thead>
-						<tr>
-
-							<th class="text-center">Titulo</th>
-							<th class="text-center">Editora</th>
-							<th class="text-center">Autor</th>
-							<th class="text-center">Ativo</th>
-							<th class="text-center">ISBN</th>
-							<th style="text-align: right">Ações</th>
-							<th></th>
-						</tr>
-					</thead>
-					<tbody>
-
-		            		<%
-		            		
-		            		
-		            		if (livros != null) {
-			            		for (EntidadeDominio ed : livros) {
-			            			Livro livro = (Livro) ed;
-			            			StringBuilder autores = new StringBuilder();
-			        				boolean isSecondOrMore = false;
-			        				
-			        				for (Autor autor : livro.getAutores()) {
-			        					if (isSecondOrMore)
-			        						autores.append("/");
-			        					autores.append(autor.getNome());
-			        					
-			        					isSecondOrMore = true;
-			        				}
-		            			
-		            		
-		            		%>
-						<tr>
-							
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getEditora().getNome() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=autores.toString() %> </td>																				
-							<td style="text-align: center; vertical-align: middle;"><% if(livro != null && livro.getAtivo()) out.print("sim"); else out.print("não") ; %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>
-							
-							<!-- Buttons actions -->
-							<td style="text-align: right; ">
-							<a href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>" class="btn btn-warning">Alterar</a> 
-							</td>
-							
-							<td style="text-align: left; ">
-							<a href="SalvarLivro?operacao=EXCLUIR&IdLivro=<%=livro.getId() %>"class="btn btn-danger">Remover</a>
-							</td>				
-										
-						</tr>
-						<%
-						}
-		            }
-		            	%>
-						
-
-					</tbody>
-				</table>
-			</div>
-			</div>
-			</form>
-        </section>		
       </div>	  
-    </div>	
+	</div>
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>

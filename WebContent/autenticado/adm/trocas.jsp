@@ -86,7 +86,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-livro.jsp">
                   <span data-feather="book"></span>
                   Consultar Livro
                 </a>
@@ -104,7 +104,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp">
+                <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp">
                   <span data-feather="rewind"></span>
                   Trocas
                 </a>
@@ -141,7 +141,7 @@
         </nav>
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Livros </h3>           
+					<h3>Trocas </h3>           
             	</div>          
           	  	<form action="SalvarLivro" method="post" class="form-horizontal">
 		<div class="row">

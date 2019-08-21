@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
+<%@page import="br.com.syslib.enuns.*" %>
 <html lang="pt-br">
   <head>
     <meta charset="utf-8">
@@ -18,7 +19,7 @@
   </head>
 
   <body class="text-center">
-    <form action="SalvarUsuario" method="POST"class="form-signin">
+    <form action="SalvarCliente" method="POST"class="form-signin">
 		<input class="form-control" type="hidden" id="operacao" name="operacao" value="SALVAR">
       <img class="mb-4" src="./resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h5 class="h5 mb-4 font-weight-normal">Informe seus dados para cadastro</h5>
@@ -29,6 +30,9 @@
 	  <label for="cpf" class="sr-only">CPF</label>
       <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF" required autofocus>
       
+      <label for="dataNasc" class="sr-only">Data Nascimento</label>
+      <input type="date" name="dataNasc" id="dataNasc" class="form-control" placeholder="Data Nascimento" required autofocus>
+      
 	  <label for="email" class="sr-only">Endereço de email</label>
       <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" required autofocus>
       
@@ -37,7 +41,50 @@
 	  
 	  <label for="confirmasenha" class="sr-only">Confirma senha</label>
       <input type="password" name="confirmaSenha" id="confirmaSenha" class="form-control" placeholder="Confirma senha" required>
+             <label for="tel">Genero</label>
       
+      <div class="row">
+  	<div class="form-group col-md-12">
+		<select id="genero" name="genero" class="form-control">
+			<%
+			
+				for (Genero generos : Genero.values()) {
+			%>
+			  <option id=<%=generos.getCodigo() %> value=<%=generos.getCodigo() %>><%=generos.getDescricao() %> </option>
+			<%
+				}
+			%>
+			</select>
+			
+			
+			
+      </div>
+      
+      </div>
+       <label for="tel">Telefone</label>
+      <div class="row">
+     
+      <div class="form-group col-md-6">
+       <select id="tpTelefone" name="tpTelefone" class="form-control">
+			<%
+			
+				for (TipoTelefone tpTelefone : TipoTelefone.values()) {
+			%>
+			  <option id=<%=tpTelefone.getCodigo() %> value=<%=tpTelefone.getCodigo() %>><%=tpTelefone.getDescricao() %> </option>
+			<%
+				}
+			%>
+			</select>
+			
+			
+      </div>
+      <div class="form-group col-md-6">
+      <input type="text" name="ddd" id="ddd" class="form-control" placeholder=DDD required>	 
+      </div>
+      <div class="form-group col-md-12">
+       <input type="tel" name="telefone" id="telefone" class="form-control" placeholder=Numero required>
+       </div>
+      </div>
 	  <div class="checkbox mb-2">
                 <input class="custom-control-input" id="privacidade" name="privacidade" type="checkbox">
                 <label class="custom-control-label" for="privacidade">

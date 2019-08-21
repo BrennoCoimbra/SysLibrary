@@ -40,7 +40,7 @@
 
   <body>
   		<%
-		Usuario usuario = Logged.getUsuario();
+  		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		usuario.getId();
 		List<EntidadeDominio> enderecos = (List<EntidadeDominio>) request.getAttribute("enderecos");
 		StringBuilder sb;
@@ -51,7 +51,12 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="../login.jsp">Sign out <span data-feather="log-out"></span></a>
+          <%if(usuario != null){%>
+        <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>
+        	
+		<% } else { %>
+        <a id="signOut" class="nav-link" href="./login.jsp">Login <span data-feather="log-in"></span></a>
+      <%} %>
         </li>
       </ul>
     </nav>
@@ -62,7 +67,7 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link" href="./index.jsp">
+            <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp">
                   <span data-feather="home"></span>
                   Home <span class="sr-only"></span>
                 </a>
@@ -123,34 +128,11 @@
               </li>
             </ul>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Categorias</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-               
-              </a>
-            </h6>
-			        			      
-            <ul class="nav flex-column mb-2">
-            	
-			<%
-        	List<EntidadeDominio> categorias = new CategoriaDAO().listar();
-            for (EntidadeDominio ed : categorias) {
-            	Categoria categoria = (Categoria) ed;	
-			%>
-              
-              <li class="nav-item">
-              <a class="nav-link" href="index.jsp?idCategoria=<%=categoria.getId()%>"> 
-              <span data-feather="book"></span> <%=categoria.getNome()%>
-              </a>
-              </li>
-              <%
-			      }
-			   %>
-            </ul>
+           
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
 			<h3>Endereço </h3>  
 				   <br>
@@ -226,7 +208,7 @@
 			</div>
 			</div>
 			</form>
-        </main>		
+        </section>		
       </div>	  
     </div>	
     <!-- Icons -->    

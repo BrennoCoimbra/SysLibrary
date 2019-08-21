@@ -39,7 +39,8 @@
 
   <body>
   		<%
-    	Usuario usuario = Logged.getUsuario();
+  		Usuario usuario = (Usuario) session.getAttribute("usuario");
+  		Cliente cliente = new Cliente();
     	%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -57,7 +58,7 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link" href="./index.jsp">
+            <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp">
                   <span data-feather="home"></span>
                   Home <span class="sr-only"></span>
                 </a>
@@ -118,36 +119,15 @@
               </li>
             </ul>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Categorias</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-               
-              </a>
-            </h6>
-			        			      
-            <ul class="nav flex-column mb-2">
-			
-			<%
-        	List<EntidadeDominio> categorias = new CategoriaDAO().listar();
-            for (EntidadeDominio ed : categorias) {
-            	Categoria categoria = (Categoria) ed;	
-			%>
-              
-              <li class="nav-item">
-              <a class="nav-link" href="index.jsp?idCategoria=<%=categoria.getId()%>"> 
-              <span data-feather="book"></span> <%=categoria.getNome()%>
-              </a>
-              </li>
-              <%
-			      }
-			   %>
-
-      
-            </ul>
+            
           </div>
         </nav>
-
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+		
+        <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        
+     
+        
+        
 			<div style="text-align: center;">
 					<h3>Perfil </h3>
 					<hr>   
@@ -159,27 +139,28 @@
                <input class="form-control" type="hidden" id="operacao" name="operacao" value="ALTERAR">
       	<div class="form-group col-md-3">
       		<label for="nome">Nome</label>
-       	 	<input type="text" value="<%=usuario.getNome() %>"  class="form-control input-lg" id="nome" name="nome" placeholder="Nome">
+       	 	<input type="text" value="<%=cliente.getNome() %>"  class="form-control input-lg" id="nome" name="nome" placeholder="Nome">
       	</div>
       	
       		<div class="form-group col-md-3">
       	<label class="form-control-label" for="cpf">CPF</label>
-       	 	<input readonly type="text" value="<%=usuario.getCpf() %>" class="form-control input-lg" id="cpf" name="cpf" placeholder="CPF">
+       	 	<input readonly type="text" value="<%=cliente.getCpf() %>" class="form-control input-lg" id="cpf" name="cpf" placeholder="CPF">
       	</div>
       	
       		<div class="form-group col-md-3">
       	<label class="form-control-label" for="email">Email</label>
-       	 	<input readonly type="email" value="<%=usuario.getEmail() %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
+       	 	<input readonly type="email" value="<%=cliente.getEmail() %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
       	</div>
       	    </div>
       	
 						<hr />
-				<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></></h4>
+				<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></h4>
 			
          </div>
       </form>
+       </section>	
     </div>
-        </main>		
+       	
       </div>	  
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>

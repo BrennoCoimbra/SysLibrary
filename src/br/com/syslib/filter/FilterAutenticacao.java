@@ -12,6 +12,7 @@ import javax.servlet.ServletResponse;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Usuario;
 
 
@@ -37,7 +38,7 @@ public class FilterAutenticacao implements Filter{
 		System.out.println(req.getServletPath());
 		// url para autenticar
 		String urlAutenticar = req.getServletPath();
-		Usuario user = (Usuario) session.getAttribute("usuario");		
+		EntidadeDominio user = (EntidadeDominio) session.getAttribute("usuario");		
 		
 		// retorna null caso nao esteja logado
 		if(user == null && !urlAutenticar.equalsIgnoreCase("/Login")) {			

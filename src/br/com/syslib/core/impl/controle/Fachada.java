@@ -11,18 +11,21 @@ import br.com.syslib.core.IFachada;
 import br.com.syslib.core.IStrategy;
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.core.impl.dao.CartaoCreditoDAO;
+import br.com.syslib.core.impl.dao.ClienteDAO;
 import br.com.syslib.core.impl.dao.EnderecoDAO;
 import br.com.syslib.core.impl.dao.EstoqueDAO;
 import br.com.syslib.core.impl.dao.LivroDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosCartaoCredito;
+import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosCliente;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosEndereco;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
-import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosUsuario;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
+import br.com.syslib.core.impl.negocio.ValidarLogin;
 import br.com.syslib.dominio.CartaoCredito;
+import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.Endereco;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Estoque;
@@ -45,6 +48,7 @@ public class Fachada implements IFachada {
 		/* Criando instâncias dos DAOs a serem utilizados */
 		LivroDAO livroDAO = new LivroDAO();
 		UsuarioDAO usuarioDAO = new UsuarioDAO();
+		ClienteDAO clienteDAO = new ClienteDAO();
 		EnderecoDAO enderecoDAO = new EnderecoDAO();
 		CartaoCreditoDAO cartaoCreditoDAO = new CartaoCreditoDAO();
 		EstoqueDAO estoqueDAO = new EstoqueDAO();
@@ -53,25 +57,36 @@ public class Fachada implements IFachada {
 		/* Adicionando cada dao no MAP indexando pelo nome da classe */
 		daos.put(Livro.class.getName(), livroDAO);
 		daos.put(Usuario.class.getName(), usuarioDAO);
+		daos.put(Cliente.class.getName(), clienteDAO);
 		daos.put(Endereco.class.getName(), enderecoDAO);
 		daos.put(CartaoCredito.class.getName(), cartaoCreditoDAO);
 		daos.put(Estoque.class.getName(), estoqueDAO);
 		
+	
+		
+		//usuario
+		ValidarLogin vrLogin = new ValidarLogin();
 		ValidadorDadosObrigatoriosLogin vrDadosObrigatoriosLogin = new ValidadorDadosObrigatoriosLogin();
-		List<IStrategy> rnsLogin = new ArrayList<IStrategy>();
-		rnsLogin.add(vrDadosObrigatoriosLogin);
-		
-		
-		ValidadorDadosObrigatoriosUsuario vrDadosObrigatoriosUsuario = new ValidadorDadosObrigatoriosUsuario();
-		ValidarCPF vrCPF = new ValidarCPF();
-		List<IStrategy> rnsSalvarUsuario = new ArrayList<IStrategy>();
-		rnsSalvarUsuario.add(vrDadosObrigatoriosUsuario);
-		rnsSalvarUsuario.add(vrCPF);
+		List<IStrategy> rnsValidarLogin = new ArrayList<IStrategy>();
+		List<IStrategy> rnsVerificarLogin = new ArrayList<IStrategy>();
+		rnsValidarLogin.add(vrLogin);
+		rnsVerificarLogin.add(vrDadosObrigatoriosLogin);
 		Map<String, List<IStrategy>> rnsUsuario = new HashMap<String, List<IStrategy>>();
-		rnsUsuario.put("SALVAR", rnsSalvarUsuario);
-//		rnsUsuario.put("ALTERAR", rnsSalvarUsuario);		-- ainda sem regras de negocio para alteracao
-
+		rnsUsuario.put("CONSULTAR", rnsVerificarLogin);
+		rnsUsuario. put("CONSULTAR", rnsValidarLogin);
 		
+		//cliente
+		ValidadorDadosObrigatoriosCliente vrDadosObrigatoriosCliente = new ValidadorDadosObrigatoriosCliente();
+		ValidarCPF vrCPF = new ValidarCPF();
+		List<IStrategy> rnsSalvarCliente = new ArrayList<IStrategy>();
+		rnsSalvarCliente.add(vrDadosObrigatoriosCliente);
+		rnsSalvarCliente.add(vrCPF);
+		Map<String, List<IStrategy>> rnsCliente = new HashMap<String, List<IStrategy>>();
+		rnsCliente.put("SALVAR", rnsSalvarCliente);
+		rnsCliente.put("ALTERAR", rnsSalvarCliente);		
+					
+
+		//endereco cliente
 		ValidadorDadosObrigatoriosEndereco vrDadosObrigatoriosEndereco = new ValidadorDadosObrigatoriosEndereco();
 		List<IStrategy> rnsSalvarEndereco = new ArrayList<IStrategy>();
 		rnsSalvarEndereco.add(vrDadosObrigatoriosEndereco);
@@ -79,7 +94,7 @@ public class Fachada implements IFachada {
 		rnsEndereco.put("SALVAR", rnsSalvarEndereco);
 		rnsEndereco.put("ALTERAR", rnsSalvarEndereco);
 		
-		
+		//cartao credito cliente
 		ValidadorDadosObrigatoriosCartaoCredito vrDadosObrigatorioCartaoCredito = new ValidadorDadosObrigatoriosCartaoCredito();
 		List<IStrategy> rnsSalvarCartaoCredito = new ArrayList<IStrategy>();
 		rnsSalvarCartaoCredito.add(vrDadosObrigatorioCartaoCredito);
@@ -87,6 +102,7 @@ public class Fachada implements IFachada {
 		rnsCartaoCredito.put("SALVAR", rnsSalvarCartaoCredito);
 		rnsCartaoCredito.put("ALTERAR", rnsSalvarCartaoCredito);
 		
+		//estoque
 		List<IStrategy> rnsSalvarEstoque = new ArrayList<IStrategy>();
 		Map<String, List<IStrategy>> rnsEstoque = new HashMap<String, List<IStrategy>>();
 		rnsEstoque.put("SALVAR", rnsSalvarEstoque);
@@ -131,6 +147,7 @@ public class Fachada implements IFachada {
 		 */
 		rns.put(Livro.class.getName(), rnsLivro);
 		rns.put(Usuario.class.getName(), rnsUsuario);
+		rns.put(Cliente.class.getName(), rnsCliente);
 		rns.put(Endereco.class.getName(), rnsEndereco);
 		rns.put(CartaoCredito.class.getName(), rnsCartaoCredito);
 		rns.put(EstoqueDAO.class.getName(), rnsEstoque);
@@ -247,28 +264,25 @@ public class Fachada implements IFachada {
 		}
 
 	private String executarRegras(EntidadeDominio entidade, String operacao) {
-		String nmClasse = entidade.getClass().getName();
-		StringBuilder msg = new StringBuilder();
+        String nmClasse = entidade.getClass().getName();
+        StringBuilder msg = new StringBuilder();
+        Map<String, List<IStrategy>> regrasOperacao = rns.get(nmClasse);
+        if (regrasOperacao != null) {
+            List<IStrategy> regras = regrasOperacao.get(operacao);
+            if (regras != null) {
+                for (IStrategy s : regras) {
+                    String m = s.processar(entidade);
+                    if (m != null) {
+                        msg.append(m);
+                    }
+                }
+            }
+        }
+        if (msg.length() > 0) {
+            return msg.toString();
+        } else {
+            return null;
+        }
+    }
 
-		Map<String, List<IStrategy>> regrasOperacao = rns.get(nmClasse);
-
-		if (regrasOperacao != null) {
-			List<IStrategy> regras = regrasOperacao.get(operacao);
-
-			if (regras != null) {
-				for (IStrategy s : regras) {
-					String m = s.processar(entidade);
-
-					if (m != null && !m.equals("")) {
-						msg.append(m);
-						msg.append("\n");
-					}
-				}
-			}
-		}
-		if (msg.length() > 0)
-			return msg.toString();
-		else
-			return null;
-	}
 }

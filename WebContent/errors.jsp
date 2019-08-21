@@ -41,7 +41,7 @@
  </div>
 </nav>
 	</header><!-- FIM Barra de navegação e busca -->
-	<main>
+	<section>
 	<div class="container-fluid">
 		<div class="Form-group">
        		<h3 class="text-center"> Pagina de Erros</h3>
@@ -59,7 +59,8 @@
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()
-    </script>  	
+    </script> 
+    </section> 	
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

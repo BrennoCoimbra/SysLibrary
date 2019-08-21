@@ -27,17 +27,18 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 			connection.setAutoCommit(false);
 			StringBuilder sql = new StringBuilder();
 			
-			sql.append("INSERT INTO USUARIO(us_nome,us_email,us_senha,us_cpf,us_tipoUsuario_id,us_dtCadastro)");
+			sql.append("INSERT INTO USUARIO(us_nome,us_email,us_senha,us_tipoUsuario_id,us_dtCadastro)");
 			
-			sql.append("VALUES(?,?,?,?,?,sysdate())");
+			sql.append("VALUES(?,?,?,?,sysdate())");
 			
 			pst = connection.prepareStatement(sql.toString(), Statement.RETURN_GENERATED_KEYS);
 			
 			pst.setString(1, usuario.getNome());
 			pst.setString(2, usuario.getEmail());
-			pst.setString(3, usuario.getSenha());
-			pst.setString(4, usuario.getCpf());		
-			pst.setInt(5, usuario.getTipoUsuario().getCodigo());						
+			pst.setString(3, usuario.getSenha());	
+			pst.setInt(4, usuario.getTipoUsuario().getCodigo());
+						
+			
 			
 			pst.executeUpdate();
 	
@@ -71,7 +72,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 			connection.setAutoCommit(false);
 			
 			StringBuilder sql = new StringBuilder();
-			sql.append("UPDATE usuario SET us_nome = ?, us_dtCadastro = sysdate() WHERE us_id = ?");
+			sql.append("UPDATE usuario SET us_senha = ?, us_dtCadastro = sysdate() WHERE us_id = ?");
 			
 			pst = connection.prepareStatement(sql.toString());
 			pst.setString(1, usuario.getNome());
@@ -119,8 +120,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 				usuario.setId(Integer.parseInt(rs.getString("us_id")));
 				usuario.setNome(rs.getString("us_nome"));
 				usuario.setEmail(rs.getString("us_email"));
-				usuario.setSenha(rs.getString("us_senha"));
-				usuario.setCpf(rs.getString("us_cpf"));
+				usuario.setSenha(rs.getString("us_senha"));				
 				usuario.setTipoUsuario(TipoUsuario.getTipoUsuario(Integer.parseInt(rs.getString("us_tipoUsuario_id"))));
 				usuario.setDtCadastro(rs.getDate("us_dtCadastro"));
 				
@@ -169,5 +169,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		
 		return false;
 	}
+	
+	
 
 }

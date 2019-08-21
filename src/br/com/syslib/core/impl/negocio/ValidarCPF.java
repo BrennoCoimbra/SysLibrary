@@ -3,17 +3,17 @@ package br.com.syslib.core.impl.negocio;
 import java.util.regex.Pattern;
 
 import br.com.syslib.core.IStrategy;
+import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.EntidadeDominio;
-import br.com.syslib.dominio.Usuario;
 
 public class ValidarCPF implements IStrategy{
 
 	@Override
 	public String processar(EntidadeDominio entidade) {
 		// TODO Auto-generated method stub
-		if (entidade instanceof Usuario) {
-			Usuario usuario = (Usuario) entidade;
-			String cpf = usuario.getCpf();
+		if (entidade instanceof Cliente) {
+			Cliente cliente = (Cliente) entidade;
+			String cpf = cliente.getCpf();
 
 			if (cpf == null)
 				return "CPF não pode ser nulo!";

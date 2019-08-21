@@ -51,7 +51,11 @@
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="./login.jsp">Sign out <span data-feather="log-out"></span></a>
+          <%if(usuario !=null){%>
+        <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>	
+		<%  } else {%>
+        <a id="signOut" class="nav-link" href="./login.jsp">Login <span data-feather="log-in"></span></a>
+        <%} %>
         </li>
       </ul>
     </nav>
@@ -68,9 +72,9 @@
                 </a>
                 </li>
               <li class="nav-item">
-                <a class="nav-link" href="./profile.jsp">
-                  <span data-feather="users"></span>
-                  Seu Perfil <span class="sr-only"></span>
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/alterar-senha.jsp">
+                  <span data-feather="key"></span>
+                  Alterar Senha <span class="sr-only"></span>
                 </a>
               </li>
               <li class="nav-item">
@@ -89,6 +93,12 @@
                 <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/estoque.jsp">
                   <span data-feather="package"></span>
                   Estoque
+                </a>
+              </li>
+              <li class="nav-item">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/consultar-clientes.jsp">
+                  <span data-feather="users"></span>
+                  Consultar Clientes
                 </a>
               </li>
               <li class="nav-item">
@@ -128,7 +138,7 @@
           </div>
         </nav>
 
-        <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
 					<h3>Livros </h3>           
             	</div>          
@@ -354,7 +364,7 @@
 					</div>
 					</div>
 	</form>
-        </main>		
+        </section>		
       </div>	  
     </div>	
     <!-- Icons -->    

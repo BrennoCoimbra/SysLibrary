@@ -27,12 +27,12 @@
     <form action="/SysLibrary/autenticado/Login" method="POST"class="form-signin">
     <input type="hidden" id="url" name="url" value="<%=request.getParameter("url")%>">
 	<input class="form-control" type="hidden" id="operacao" name="operacao" value="CONSULTAR">
-      <img class="mb-4" src="http://localhost:8084/SysLibrary/resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
+      <img class="mb-4" src="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h2 class="h4 mb-4 font-weight-normal">Faça Login</h2>
       <label for="inputEmail" class="sr-only">Endereço de email</label>
-      <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" required autofocus>
+      <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" >
       <label for="inputPassword" class="sr-only">Senha</label>
-      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required>
+      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" >
       <div class="checkbox mb-1">
         <label>
           <input type="checkbox" value="remember-me"> Lembrar de mim

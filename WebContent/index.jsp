@@ -55,11 +55,12 @@
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
         
-        <%if(usuario !=null){%>
-        <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>	
-		<%  } %>
+        <%if(usuario != null){%>
+        <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>
+        	
+		<%  } else {%>
         <a id="signOut" class="nav-link" href="./login.jsp">Login <span data-feather="log-in"></span></a>
-          
+       <%} %>
        
         </li>
       </ul>
@@ -69,73 +70,34 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-          <%
-			if(usuario != null){
-          %>
+          
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link active" href="./index.jsp">
+            <a class="nav-link active" href="http://localhost:8080/SysLibrary/index.jsp">
                   <span data-feather="home"></span>
                   Home <span class="sr-only"></span>
                 </a>
                 </li>
+                <%
+					if(usuario != null){
+          		%>
               <li class="nav-item">
-                <a class="nav-link" href="./profile.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/profile.jsp">
                   <span data-feather="users"></span>
                   Seu Perfil <span class="sr-only"></span>
                 </a>
+                 <%} else {%>
+			<%} %>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./form-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Cadastrar Endereço
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Consultar Endereço
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./form-cartao.jsp">
-                  <span data-feather="credit-card"></span>
-                  Cadastrar Cartão
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-cartao.jsp">
-                  <span data-feather="credit-card"></span>
-                  Consultar Cartão
-                </a>
-              </li>
-              <li class="nav-item">
+               <li class="nav-item">
                 <a class="nav-link" href="#">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
               </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-pedidos.jsp">
-                  <span data-feather="shopping-bag"></span>
-                  Pedidos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-cupons.jsp">
-                  <span data-feather="file-text"></span>
-                  Cupons
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-trocas.jsp">
-                  <span data-feather="code"></span>
-                  Trocas
-                </a>
-              </li>
+              
             </ul>
-            <%} %>
-			
+           
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
               <span>Categorias</span>
               <a class="d-flex align-items-center text-muted" href="#">
@@ -152,7 +114,7 @@
 			%>
               
               <li class="nav-item">
-              <a class="nav-link" href="index.jsp?idCategoria=<%=categoria.getId()%>"> 
+              <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp?idCategoria=<%=categoria.getId()%>"> 
               <span data-feather="book"></span> <%=categoria.getNome()%>
               </a>
               </li>
@@ -169,7 +131,7 @@
         </nav>
 
         <!-- Header -->
-    <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
+    <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
     		<div style="text-align: center;">
 				<h3>Livros </h3>  <hr>         
             </div>        
@@ -222,19 +184,20 @@
 							<%
 						    	   }
 						       }
+		
 							%>
 						</div>
 					</div>
-					<div>
-					<h1>Exemplos JQuery</h1>
-					<a href="paginaPai.jsp">Load jQuery</a>
-					</div>
+<!-- 					<div> -->
+<!-- 					<h1>Exemplos JQuery</h1> -->
+<!-- 					<a href="paginaPai.jsp">Load jQuery</a> -->
+<!-- 					</div> -->
 				</div>
 			</div>
         </div>
       </div>
     </div>
-    </main>
+    </section>
       </div>	  
     </div>	
     <!-- Icons -->    
