@@ -6,10 +6,12 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.EntidadeDominio;
+import br.com.syslib.enuns.Genero;
 import br.com.syslib.enuns.TipoTelefone;
 import br.com.syslib.enuns.TipoUsuario;
 
@@ -23,6 +25,7 @@ public class ClienteViewHelper implements IViewHelper {
 		String idUsuario;
 		
 		if (operacao.equals ("SALVAR") || (operacao.equals("ALTERAR"))){
+			//String ativo = request.getParameter("txtAtivo");
 			String id = request.getParameter("idUsuario");
 			String email = request.getParameter("email");
 			String senha = request.getParameter("senha");
@@ -38,6 +41,7 @@ public class ClienteViewHelper implements IViewHelper {
 			
 			
 			cliente = new Cliente();
+			//cliente.setAtivo(ativo.equals("1") ? true : false);
 			cliente.setEmail(email);
 			cliente.setSenha(senha);
 			cliente.setConfirmaSenha(confirmaSenha);
@@ -49,7 +53,12 @@ public class ClienteViewHelper implements IViewHelper {
 				cliente.setId(Integer.parseInt(id));
 			}
 			cliente.setDataNasc(dataNasc);
-			cliente.setGenero(genero);
+			for(Genero gen : Genero.values()) {
+				if(genero != null && Integer.parseInt(genero) == gen.getCodigo()) {
+					cliente.setGenero(gen);
+				}
+			}
+			
 			
 			for (TipoTelefone tpTel : TipoTelefone.values()) {
 				if (tpTelefone != null && Integer.parseInt(tpTelefone) == tpTel.getCodigo()) {
@@ -95,8 +104,12 @@ public class ClienteViewHelper implements IViewHelper {
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		RequestDispatcher d = null;
+		String operacao = request.getParameter("operacao");
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpSession session = req.getSession();
 		
-String operacao = request.getParameter("operacao");
+		EntidadeDominio usu = (EntidadeDominio) session.getAttribute("usuario");
+
 		
 		if(resultado.getMsg() == null) {
 			request.getSession().setAttribute("resultado", resultado);
@@ -107,9 +120,19 @@ String operacao = request.getParameter("operacao");
 				d = request.getRequestDispatcher("login.jsp");
 				
 			} else if (operacao.equals("ALTERAR")) {
-				d = request.getRequestDispatcher("consultar-clientes.jsp");
 				
+				session.setAttribute("usuario", usu);
+				for (EntidadeDominio ed : resultado.getEntidades()) {
+					if (ed instanceof Cliente) {
+						Cliente usuario = (Cliente) ed;
+												
+							//adiciona usuario logado na sessao						
+							session.setAttribute("usuario",usuario);	
+				d = request.getRequestDispatcher("profile.jsp");
+
+					}
 			} 
+			}
 		} else {
 			request.setAttribute("msg", resultado.getMsg());
 			d = request.getRequestDispatcher("errors.jsp");

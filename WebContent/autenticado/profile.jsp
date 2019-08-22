@@ -39,8 +39,7 @@
 
   <body>
   		<%
-  		Usuario usuario = (Usuario) session.getAttribute("usuario");
-  		Cliente cliente = new Cliente();
+  		Usuario usuario = (Usuario) session.getAttribute("usuario");  		
     	%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -126,33 +125,86 @@
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
         
      
+        <%
+        Cliente cliente = new Cliente();
+        if(cliente != null){
+        	cliente = (Cliente) usuario;
+        }
         
+        %>
         
 			<div style="text-align: center;">
 					<h3>Perfil </h3>
 					<hr>   
             	</div>          
-          <form action="AtualizarPerfil" method="POST">
+          <form action="SalvarCliente" method="POST">
 		<div class="container-fluid">
 		<div class="row">	
-      		   <input type="hidden" name="idUsuario" value="<%=usuario.getId() %>" />
-               <input class="form-control" type="hidden" id="operacao" name="operacao" value="ALTERAR">
+	      	<input type="hidden" name="idUsuario" value="<%if(cliente != null) out.print(usuario.getId()); %>" />      		   
+			<input type="hidden" name="operacao" value="<% if (cliente == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
+              
       	<div class="form-group col-md-3">
       		<label for="nome">Nome</label>
-       	 	<input type="text" value="<%=cliente.getNome() %>"  class="form-control input-lg" id="nome" name="nome" placeholder="Nome">
+       	 	<input type="text" value="<%if(cliente != null) out.print(cliente.getNome()); %>"  class="form-control input-lg" id="nome" name="nome" placeholder="Nome">
       	</div>
       	
       		<div class="form-group col-md-3">
       	<label class="form-control-label" for="cpf">CPF</label>
-       	 	<input readonly type="text" value="<%=cliente.getCpf() %>" class="form-control input-lg" id="cpf" name="cpf" placeholder="CPF">
+       	 	<input readonly type="text" value="<%if(cliente != null) out.print(cliente.getCpf()); %>" class="form-control input-lg" id="cpf" name="cpf" placeholder="CPF">
       	</div>
       	
       		<div class="form-group col-md-3">
       	<label class="form-control-label" for="email">Email</label>
-       	 	<input readonly type="email" value="<%=cliente.getEmail() %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
+       	 	<input readonly type="email" value="<%if(cliente != null) out.print(cliente.getEmail()); %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
       	</div>
       	    </div>
-      	
+      	    <div class="row">
+      	    <div class="form-group col-md-3">
+      	<label class="form-control-label" for="dataNasc">Data Nascimento</label>
+       	 	<input  type="date" value="<%if(cliente != null) out.print(cliente.getDataNasc()); %>" class="form-control input-lg" id="dataNasc" name="dataNasc">
+      	</div>
+      	<div class="form-group col-md-3">
+      	<label class="form-control-label" for="genero">Gênero</label>
+		<select id="genero" name="genero" class="form-control">
+			<%
+			
+				for (Genero generos : Genero.values()) {
+			%>
+			   <option id=<%=generos.getCodigo() %> value=<%=generos.getCodigo() %> <%if (cliente != null && cliente.getGenero().getCodigo() == generos.getCodigo()) out.print("selected"); %>><%=generos.getDescricao() %> </option>
+			<%
+				}
+			%>
+			</select>	
+      		</div>
+      	    </div>
+      	    <div class="row">
+      	    <div class="form-group col-md-3">
+      	    <label class="form-control-label" for="telefone">Tipo Telefone</label>
+		       <select id="tpTelefone" name="tpTelefone" class="form-control">
+					<%
+					
+						for (TipoTelefone tpTelefone : TipoTelefone.values()) {
+					%>
+					  <option id=<%=tpTelefone.getCodigo() %> value=<%=tpTelefone.getCodigo() %> <%if (cliente != null && cliente.getTelefone().getTpTelefone().getCodigo() == tpTelefone.getCodigo()) out.print("selected"); %>><%=tpTelefone.getDescricao() %> </option>
+					<%
+						}
+					%>
+					</select>
+					
+					
+		      </div>
+		      <div class="form-group col-md-1">
+		      <label class="form-control-label" for="DDD">DDD</label>
+		      <input type="text" name="ddd" id="ddd" class="form-control" placeholder=DDD
+		      value="<%if(cliente != null) out.print(cliente.getTelefone().getTelDDD()); %>">	 
+		      </div>
+		      <div class="form-group col-md-3">
+		      <label class="form-control-label" for="dataNasc">Telefone</label>
+		       <input type="tel" name="telefone" id="telefone" class="form-control" placeholder=Numero 
+		       value="<%if(cliente != null) out.print(cliente.getTelefone().getNumTel()); %>">
+		       </div>
+		      </div>
+		      	          	
 						<hr />
 				<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></h4>
 			

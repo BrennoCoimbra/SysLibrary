@@ -9,7 +9,7 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.syslib.core.aplicacao.Resultado;
-import br.com.syslib.core.util.Logged;
+import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Usuario;
 import br.com.syslib.enuns.TipoUsuario;
@@ -44,53 +44,55 @@ public class UsuarioViewHelper implements IViewHelper {
 
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-		String operacao = request.getParameter("operacao");
 		RequestDispatcher d = null;
+		String operacao = request.getParameter("operacao");
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpSession session = req.getSession();
+		EntidadeDominio usu = (EntidadeDominio) session.getAttribute("usuario");
 		
-		if(operacao.equals("SAIR")){
-            request.getSession().invalidate();
-            d = request.getRequestDispatcher("index.jsp");
-            d.forward(request, response);
-		 }
+		if(resultado.getMsg() == null) {
+			request.getSession().setAttribute("resultado", resultado);
 		
-		if (resultado.getMsg() != null) {
-			request.setAttribute("msg", resultado.getMsg());
-			
-			d = request.getRequestDispatcher("errors.jsp");
-
-		} else if (resultado.getEntidades().isEmpty()) {
-			request.setAttribute("msg", "Usuário e/ou Senha incorretos.");
-			
-			d = request.getRequestDispatcher("errors.jsp");
-            
-
-		} else {
+			if(operacao.equals("SAIR")){
+	            request.getSession().invalidate();
+	            d = request.getRequestDispatcher("index.jsp");
+	            d.forward(request, response);
+		
+		}else if(operacao.equals("CONSULTAR")) {
+			session.setAttribute("usuario", usu);
 			for (EntidadeDominio ed : resultado.getEntidades()) {
-				if (ed instanceof Usuario) {
-					Usuario usuario = (Usuario) ed;
-					
-					if (usuario.getEmail().equals(request.getParameter("email")) && 
-							usuario.getSenha().equals(request.getParameter("senha"))) {
-						
-						Logged.setUsuario(usuario);
-						
-						//adiciona usuario logado na sessao
-						HttpServletRequest req = (HttpServletRequest) request;
-						HttpSession session = req.getSession();
-						session.setAttribute("usuario",usuario);
-						
-						
+				if (ed instanceof Cliente) {
+					Cliente usuario = (Cliente) ed;
+											
+						//adiciona usuario logado na sessao						
+						session.setAttribute("usuario",usuario);												
 						
 						if (usuario.getTipoUsuario() == TipoUsuario.CUSTOMER) {							
 							d = request.getRequestDispatcher("profile.jsp");
 						} else if (usuario.getTipoUsuario() == TipoUsuario.ADMIN) {
-							d = request.getRequestDispatcher("form-livro.jsp");
+							d = request.getRequestDispatcher("adm/dashboard.jsp");
 						}
-					}
+					
+				} else if(ed instanceof Usuario){
+					Usuario usuario = (Usuario) ed;
+					session.setAttribute("usuario",usuario);
+					request.setAttribute("resultado", resultado);                       
+	                d = request.getRequestDispatcher("adm/dashboard.jsp");
+	
 				}
+								
 			}
+		
+
 		}
-		 
-		d.forward(request, response);
+	 
+		} else {
+		request.setAttribute("msg", resultado.getMsg());
+		d = request.getRequestDispatcher("errors.jsp");
+	}
+	
+	if (d != null)
+		d.forward(request,response);
+		
 	}
 }

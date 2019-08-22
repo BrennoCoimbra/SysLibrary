@@ -7,8 +7,11 @@ import java.sql.Statement;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Usuario;
+import br.com.syslib.enuns.Genero;
+import br.com.syslib.enuns.TipoTelefone;
 import br.com.syslib.enuns.TipoUsuario;
 
 public class UsuarioDAO extends AbstractJdbcDAO {
@@ -68,6 +71,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		PreparedStatement pst = null;
 		Usuario usuario = (Usuario) entidade;
 		
+		
 		try {
 			connection.setAutoCommit(false);
 			
@@ -77,7 +81,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 			pst = connection.prepareStatement(sql.toString());
 			pst.setString(1, usuario.getNome());
 			pst.setInt(2, usuario.getId());
-			
+		
 			pst.executeUpdate();
 			connection.commit();
 		} catch (SQLException e) {
@@ -105,6 +109,9 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		
 		Usuario usuario = (Usuario) entidade;
 		
+		//if ("ADMIN".equals(usuario.getTipoUsuario()) || usuario.getTipoUsuario()==null) {
+			
+	if (usuario.getTipoUsuario() == TipoUsuario.ADMIN || usuario.getTipoUsuario()==null) {	
 		try {
 			StringBuilder sql = new StringBuilder();
 			sql.append("SELECT * FROM usuario WHERE us_email = ? AND BINARY us_senha = ?");
@@ -138,6 +145,69 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		}
 		
 		return usuarios;
+	} else {
+		List<EntidadeDominio> clientes = new ArrayList<EntidadeDominio>();
+        int idUsuarios = 0;
+        
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM USUARIO T0 INNER JOIN CLIENTE T1 ON T1.cli_usu_id = T0.us_id "
+					+ " INNER JOIN CLIENTE_TELEFONE T2 ON T2.tel_id = T1.cli_usu_id WHERE T0.us_email = ? AND BINARY T0.us_senha = ?");
+			
+			pst = connection.prepareStatement(sql.toString());
+			pst.setString(1, usuario.getEmail());
+			pst.setString(2, usuario.getSenha());
+			
+			ResultSet rs = pst.executeQuery();
+			
+			while (rs.next()) {
+				Cliente cliente = new Cliente();
+				cliente.setId(Integer.parseInt(rs.getString("cli_usu_id")));
+				cliente.setNome(rs.getString("us_nome"));
+				cliente.setEmail(rs.getString("us_email"));
+				cliente.setSenha(rs.getString("us_senha"));	
+				cliente.setCpf(rs.getString("cli_cpf"));
+				cliente.setTipoUsuario(TipoUsuario.getTipoUsuario(Integer.parseInt(rs.getString("us_tipoUsuario_id"))));
+				cliente.setDtCadastro(rs.getDate("us_dtCadastro"));
+				cliente.setDataNasc(rs.getString("cli_data_nasc"));
+				cliente.getTelefone().setTelDDD(rs.getString("tel_ddd"));
+				cliente.getTelefone().setNumTel(rs.getString("tel_numero"));
+				int tpTel = rs.getInt("tel_tipo");				
+				
+				for (TipoTelefone tpTelBD : TipoTelefone.values()) {
+					if (tpTelBD.getCodigo() == tpTel) {
+						cliente.getTelefone().setTpTelefone(tpTelBD);
+					}
+				}
+				int gen = rs.getInt("cli_genero");
+				for (Genero genBD : Genero.values()) {
+					if (genBD.getCodigo() == gen) {
+						cliente.setGenero(genBD);
+						
+					}
+				}
+				
+				
+				
+				clientes.add(cliente);
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pst.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return clientes;
+		
+	}
+		
+		
+		
 	}
 	
 	public boolean cpfExiste(String cpf) throws SQLException {
@@ -146,7 +216,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		
 		try {
 			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT * FROM usuario WHERE us_cpf = ?");
+			sql.append("SELECT * FROM CLIENTE WHERE cli_cpf = ?");
 			
 			pst = connection.prepareStatement(sql.toString());
 			pst.setString(1, cpf);

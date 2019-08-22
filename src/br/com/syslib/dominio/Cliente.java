@@ -2,6 +2,8 @@ package br.com.syslib.dominio;
 
 import java.util.List;
 
+import br.com.syslib.enuns.Genero;
+
 public class Cliente extends Usuario {
 	
 	
@@ -17,8 +19,7 @@ public class Cliente extends Usuario {
     private String ranking;
     private String statusCliente;
     private String dataNasc;
-    private String genero;  
-
+    private Genero genero;
 
 	
 	public String getCpf() {
@@ -94,10 +95,10 @@ public class Cliente extends Usuario {
 	public void setDataNasc(String dataNasc) {
 		this.dataNasc = dataNasc;
 	}
-	public String getGenero() {
+	public Genero getGenero() {
 		return genero;
 	}
-	public void setGenero(String genero) {
+	public void setGenero(Genero genero) {
 		this.genero = genero;
 	}
 	

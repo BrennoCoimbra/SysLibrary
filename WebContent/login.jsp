@@ -40,7 +40,7 @@
       </div>
 	  <div style="text-align: left;">
             <span class="pull-center"><a href="#">Esqueceu senha?</a></span><br>
-         <span class="pull-center"><a href="./register.jsp">Criar nova conta</a></span>   
+         <span class="pull-center"><a href="http://localhost:8080/SysLibrary/register.jsp">Criar nova conta</a></span>   
          </div>
       <button class="btn-primary btn-block" type="submit">Entrar</button>
       <p class="mt-5 mb-3 text-muted">&copy;2018-2019</p>

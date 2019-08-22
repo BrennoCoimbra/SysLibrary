@@ -65,6 +65,7 @@ public class Servlet extends HttpServlet {
 		vhs.put("/SysLibrary/autenticado/adm/SalvarLivro", new LivroViewHelper());
 		vhs.put("/SysLibrary/SalvarUsuario", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/SalvarCliente", new ClienteViewHelper());
+		vhs.put("/SysLibrary/autenticado/SalvarCliente", new ClienteViewHelper());
 		vhs.put("/SysLibrary/autenticado/AtualizarPerfil", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/autenticado/Login", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/SairSys", new UsuarioViewHelper());

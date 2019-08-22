@@ -25,22 +25,22 @@
       <h5 class="h5 mb-4 font-weight-normal">Informe seus dados para cadastro</h5>
 	  
 	  <label for="nome" class="sr-only">Nome</label>
-      <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome completo" required autofocus>
+      <input type="text" name="nome" id="nome" class="form-control" placeholder="Nome completo" >
 	  
 	  <label for="cpf" class="sr-only">CPF</label>
-      <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF" required autofocus>
+      <input type="text" name="cpf" id="cpf" class="form-control" placeholder="CPF"  >
       
       <label for="dataNasc" class="sr-only">Data Nascimento</label>
-      <input type="date" name="dataNasc" id="dataNasc" class="form-control" placeholder="Data Nascimento" required autofocus>
+      <input type="date" name="dataNasc" id="dataNasc" class="form-control" placeholder="Data Nascimento"  >
       
 	  <label for="email" class="sr-only">Endereço de email</label>
-      <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" required autofocus>
+      <input type="email" name="email" id="email" class="form-control" placeholder="Seu email"  >
       
 	  <label for="senha" class="sr-only">Senha</label>
-      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" required>
+      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" >
 	  
 	  <label for="confirmasenha" class="sr-only">Confirma senha</label>
-      <input type="password" name="confirmaSenha" id="confirmaSenha" class="form-control" placeholder="Confirma senha" required>
+      <input type="password" name="confirmaSenha" id="confirmaSenha" class="form-control" placeholder="Confirma senha" >
              <label for="tel">Genero</label>
       
       <div class="row">
@@ -79,10 +79,10 @@
 			
       </div>
       <div class="form-group col-md-6">
-      <input type="text" name="ddd" id="ddd" class="form-control" placeholder=DDD required>	 
+      <input type="text" name="ddd" id="ddd" class="form-control" placeholder=DDD >	 
       </div>
       <div class="form-group col-md-12">
-       <input type="tel" name="telefone" id="telefone" class="form-control" placeholder=Numero required>
+       <input type="tel" name="telefone" id="telefone" class="form-control" placeholder=Numero >
        </div>
       </div>
 	  <div class="checkbox mb-2">
