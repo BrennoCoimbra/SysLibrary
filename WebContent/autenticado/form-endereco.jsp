@@ -138,7 +138,7 @@
 					<h3>Endereço </h3>           
             	</div>          
           	  	<form action="SalvarEndereco" method="post">
-		
+		<input type="hidden" name="idUsuario" value="<%if(usuario != null) out.print(usuario.getId()); %>" />      		   		
 		<input type="hidden" name="endereco_id" value="<% if (endereco != null) out.print(endereco.getId()); %>" />
 		<input type="hidden" name="operacao" value="<% if (endereco != null) out.print("ALTERAR"); else out.print("SALVAR");%>" />
 		

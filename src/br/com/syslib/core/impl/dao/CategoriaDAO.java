@@ -141,5 +141,11 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 		return categorias;
 	}
 
+	@Override
+	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 
 }

@@ -23,6 +23,8 @@
 
     <!-- Custom styles for this template -->
     <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+  	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.min.js"></script>
 	
 	<style>
 	footer {
@@ -43,10 +45,17 @@
     	%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="#"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://localhost:8080/SysLibrary/index.jsp"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
-          <a class="nav-link" href="../login.jsp">Sign out <span data-feather="log-out"></span></a>
+        
+        <%if(usuario != null){%>
+        <a id="signOut" class="nav-link" href="/SysLibrary/SairSys?operacao=SAIR">Sign out <span data-feather="log-out"></span></a>
+        	
+		<%  } else { %>
+        <a id="signOut" class="nav-link" href="./login.jsp">Login <span data-feather="log-in"></span></a>
+       <%} %>
+       
         </li>
       </ul>
     </nav>
@@ -155,7 +164,7 @@
       	
       		<div class="form-group col-md-3">
       	<label class="form-control-label" for="email">Email</label>
-       	 	<input readonly type="email" value="<%if(cliente != null) out.print(cliente.getEmail()); %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
+       	 	<input type="email" value="<%if(cliente != null) out.print(cliente.getEmail()); %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
       	</div>
       	    </div>
       	    <div class="row">
@@ -206,10 +215,56 @@
 		      </div>
 		      	          	
 						<hr />
-				<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></h4>
-			
+			 <div class="row">
+      	    	<div class="form-group col-md-1">			
+					<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></h4>
+				</div>
+				 <div class="form-group col-md-1">	
+					<a class="btn btn-primary" data-toggle="collapse" href="#collapseNovaSenha" role="button" aria-expanded="false" aria-controls="collapseNovaSenha">Troca Senha</a>
+				  </div>
+			 </div>
          </div>
       </form>
+	      <div class="collapse" id="collapseNovaSenha">				          
+				<div class="container-fluid">
+					<input type="hidden" name="idUsuario" value="<%if(cliente != null) out.print(usuario.getId()); %>" />      		   
+					<input type="hidden" name="operacao" value="<% if (cliente == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
+				<form action="AlterarSenha" method="POST"> 
+					<div style="text-align: center;">
+							<h3>Nova Senha </h3>
+							<hr>  
+							
+		            	</div>  
+					<div class="row">	
+						<div class="form-group col-md-3">
+			      		
+			       	 	<input type="password" value=""  class="form-control input-lg" id="senhaAntiga" name="senhaAntiga" placeholder="Senha Antiga">
+			      	</div>
+		      	
+		      		<div class="form-group col-md-3">
+				      	
+				       	 	<input type="password" value="" class="form-control input-lg" id="novaSenha" name="novaSenha" placeholder="Nova Senha">
+				     </div>
+		      	
+		      		<div class="form-group col-md-3">
+				      	
+				       	 	<input type="password" value=""class="form-control input-lg" id="confNovaSenha" name="confNovaSenha" placeholder="Confirma Nova Senha">
+				     </div>
+					
+					
+					
+						<div class="form-group col-md-3">
+						<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success btn-sm"></h4>
+						</div>
+					</div>
+					</form>
+					<div class="row">	
+						<div class="form-group col-md-3">
+						</div>
+					</div>
+				
+				</div>
+		 </div>
        </section>	
     </div>
        	

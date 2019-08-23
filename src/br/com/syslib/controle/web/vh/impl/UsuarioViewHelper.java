@@ -38,6 +38,8 @@ public class UsuarioViewHelper implements IViewHelper {
         	
         } 
 		
+		
+		
 		return user;
 		
 	}
@@ -56,7 +58,7 @@ public class UsuarioViewHelper implements IViewHelper {
 			if(operacao.equals("SAIR")){
 	            request.getSession().invalidate();
 	            d = request.getRequestDispatcher("index.jsp");
-	            d.forward(request, response);
+	            //d.forward(request, response);
 		
 		}else if(operacao.equals("CONSULTAR")) {
 			session.setAttribute("usuario", usu);

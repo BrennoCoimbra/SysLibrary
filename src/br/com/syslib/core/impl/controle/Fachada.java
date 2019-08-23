@@ -17,11 +17,13 @@ import br.com.syslib.core.impl.dao.EstoqueDAO;
 import br.com.syslib.core.impl.dao.LivroDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
+import br.com.syslib.core.impl.negocio.ValidadorClienteExistente;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosCartaoCredito;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosCliente;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosEndereco;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
+import br.com.syslib.core.impl.negocio.ValidadorSenha;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
 import br.com.syslib.core.impl.negocio.ValidarLogin;
 import br.com.syslib.dominio.CartaoCredito;
@@ -66,9 +68,9 @@ public class Fachada implements IFachada {
 		
 		//usuario
 		ValidarLogin vrLogin = new ValidarLogin();
-		ValidadorDadosObrigatoriosLogin vrDadosObrigatoriosLogin = new ValidadorDadosObrigatoriosLogin();
-		List<IStrategy> rnsValidarLogin = new ArrayList<IStrategy>();
+		ValidadorDadosObrigatoriosLogin vrDadosObrigatoriosLogin = new ValidadorDadosObrigatoriosLogin();		
 		List<IStrategy> rnsVerificarLogin = new ArrayList<IStrategy>();
+		List<IStrategy> rnsValidarLogin = new ArrayList<IStrategy>();
 		rnsValidarLogin.add(vrLogin);
 		rnsVerificarLogin.add(vrDadosObrigatoriosLogin);
 		Map<String, List<IStrategy>> rnsUsuario = new HashMap<String, List<IStrategy>>();
@@ -76,14 +78,21 @@ public class Fachada implements IFachada {
 		rnsUsuario. put("CONSULTAR", rnsValidarLogin);
 		
 		//cliente
+		ValidadorClienteExistente vrClienteExistente = new ValidadorClienteExistente();
 		ValidadorDadosObrigatoriosCliente vrDadosObrigatoriosCliente = new ValidadorDadosObrigatoriosCliente();
+		ValidadorSenha vrSenha = new ValidadorSenha();
 		ValidarCPF vrCPF = new ValidarCPF();
 		List<IStrategy> rnsSalvarCliente = new ArrayList<IStrategy>();
+		List<IStrategy> rnsAlterarCliente = new ArrayList<IStrategy>();
+		rnsSalvarCliente.add(vrClienteExistente);
 		rnsSalvarCliente.add(vrDadosObrigatoriosCliente);
 		rnsSalvarCliente.add(vrCPF);
+		rnsSalvarCliente.add(vrSenha);
+		rnsAlterarCliente.add(vrDadosObrigatoriosCliente);
+		rnsAlterarCliente.add(vrCPF);
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<String, List<IStrategy>>();
 		rnsCliente.put("SALVAR", rnsSalvarCliente);
-		rnsCliente.put("ALTERAR", rnsSalvarCliente);		
+		rnsCliente.put("ALTERAR", rnsAlterarCliente);		
 					
 
 		//endereco cliente

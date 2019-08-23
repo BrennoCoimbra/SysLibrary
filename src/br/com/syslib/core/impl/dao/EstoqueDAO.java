@@ -66,4 +66,10 @@ public class EstoqueDAO extends AbstractJdbcDAO {
 		return null;
 	}
 
+	@Override
+	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

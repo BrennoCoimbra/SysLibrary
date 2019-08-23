@@ -37,10 +37,10 @@
       <input type="email" name="email" id="email" class="form-control" placeholder="Seu email"  >
       
 	  <label for="senha" class="sr-only">Senha</label>
-      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" >
+      <input type="password" name="senha1" id="senha1" class="form-control" placeholder="Senha" >
 	  
 	  <label for="confirmasenha" class="sr-only">Confirma senha</label>
-      <input type="password" name="confirmaSenha" id="confirmaSenha" class="form-control" placeholder="Confirma senha" >
+      <input type="password" name="senha2" id="senha2" class="form-control" placeholder="Confirma senha" >
              <label for="tel">Genero</label>
       
       <div class="row">

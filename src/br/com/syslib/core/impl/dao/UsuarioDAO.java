@@ -106,6 +106,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		openConnection();
 		PreparedStatement pst = null;
 		List<EntidadeDominio> usuarios = new ArrayList<EntidadeDominio>();
+		ResultSet rs = null;
 		
 		Usuario usuario = (Usuario) entidade;
 		
@@ -113,14 +114,22 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 			
 	if (usuario.getTipoUsuario() == TipoUsuario.ADMIN || usuario.getTipoUsuario()==null) {	
 		try {
-			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT * FROM usuario WHERE us_email = ? AND BINARY us_senha = ?");
 			
-			pst = connection.prepareStatement(sql.toString());
-			pst.setString(1, usuario.getEmail());
-			pst.setString(2, usuario.getSenha());
+			if(usuario.getId() != null) {
+				StringBuilder sql = new StringBuilder();
+				sql.append("SELECT * FROM usuario WHERE us_id = ?");
+				pst = connection.prepareStatement(sql.toString());
+				pst.setInt(1, usuario.getId());
+				 rs = pst.executeQuery();
+			} else if(usuario.getEmail() != null) {
+				StringBuilder sql = new StringBuilder();
+				sql.append("SELECT * FROM usuario WHERE us_email = ?");
+				pst = connection.prepareStatement(sql.toString());
+				pst.setString(1, usuario.getEmail());
+				 rs = pst.executeQuery();
+			}
 			
-			ResultSet rs = pst.executeQuery();
+
 			
 			while (rs.next()) {
 				usuario = new Usuario();
@@ -133,6 +142,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 				
 				usuarios.add(usuario);
 			}
+			return usuarios;
 		} catch (SQLException e) {
 			e.printStackTrace();
 		} finally {
@@ -147,7 +157,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		return usuarios;
 	} else {
 		List<EntidadeDominio> clientes = new ArrayList<EntidadeDominio>();
-        int idUsuarios = 0;
+        
         
 		try {
 			StringBuilder sql = new StringBuilder();
@@ -158,7 +168,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 			pst.setString(1, usuario.getEmail());
 			pst.setString(2, usuario.getSenha());
 			
-			ResultSet rs = pst.executeQuery();
+			 rs = pst.executeQuery();
 			
 			while (rs.next()) {
 				Cliente cliente = new Cliente();
@@ -240,6 +250,39 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		return false;
 	}
 	
-	
+	public boolean emailExiste(String email) throws SQLException {
+		openConnection();
+		PreparedStatement pst = null;
+		
+		try {
+			StringBuilder sql = new StringBuilder();
+			sql.append("SELECT * FROM CLIENTE WHERE us_email = ?");
+			
+			pst = connection.prepareStatement(sql.toString());
+			pst.setString(1, email);
+			
+			ResultSet rs = pst.executeQuery();
+			
+			if (rs.next()) {
+				return true;
+			}
+		} catch (SQLException e) {
+			e.printStackTrace();
+		} finally {
+			try {
+				pst.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
+		
+		return false;
+	}
 
+	@Override
+	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
+		return ctrlTransaction;
+		
+	}
 }

@@ -94,6 +94,13 @@ public class FornecedorDAO extends AbstractJdbcDAO {
 
 		return fornecedor;
 	}
+
+
+	@Override
+	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }
 
 

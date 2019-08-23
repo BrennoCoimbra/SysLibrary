@@ -89,4 +89,10 @@ public class AcessoDAO extends AbstractJdbcDAO {
 		return acesso;
 	}
 
+	@Override
+	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
+
 }

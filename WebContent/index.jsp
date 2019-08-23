@@ -51,7 +51,8 @@
 
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
-      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://localhost:8080/SysLibrary/index.jsp"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
+      <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://localhost:8080/SysLibrary/index.jsp"> Bem - Vindo ! <span data-feather="smile"></span> </a>
+      <input class="form-control form-control-dark w-100" type="text" placeholder="Procurar Livros" aria-label="Search">	      
       <ul class="navbar-nav px-3">
         <li class="nav-item text-nowrap">
         

@@ -29,7 +29,8 @@ public class ClienteViewHelper implements IViewHelper {
 			String id = request.getParameter("idUsuario");
 			String email = request.getParameter("email");
 			String senha = request.getParameter("senha");
-			String confirmaSenha = request.getParameter("confirmaSenha");
+			String senha1 = request.getParameter("senha1");
+			String senha2 = request.getParameter("senha2");
 			String nome = request.getParameter("nome");
 			String cpf = request.getParameter("cpf");
 			String privacidade = request.getParameter("privacidade");
@@ -44,7 +45,8 @@ public class ClienteViewHelper implements IViewHelper {
 			//cliente.setAtivo(ativo.equals("1") ? true : false);
 			cliente.setEmail(email);
 			cliente.setSenha(senha);
-			cliente.setConfirmaSenha(confirmaSenha);
+			cliente.setSenha1(senha1);
+			cliente.setSenha2(senha2);
 			cliente.setNome(nome);
 			cliente.setTipoUsuario(TipoUsuario.CUSTOMER);
 			cliente.setPrivacidade(privacidade);

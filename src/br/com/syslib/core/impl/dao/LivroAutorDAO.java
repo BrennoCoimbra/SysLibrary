@@ -87,5 +87,10 @@ public class LivroAutorDAO extends AbstractJdbcDAO {
 		
 		return livrosAutores;
 }
+	@Override
+	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 
 }

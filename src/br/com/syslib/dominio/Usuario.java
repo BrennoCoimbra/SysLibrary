@@ -7,18 +7,13 @@ public class Usuario extends EntidadeDominio {
 	private String nome;
 	private String email;
 	private String senha;
-	private String confirmaSenha;
+	private String senha1;
+	private String senha2;
 	private TipoUsuario tipoUsuario;
 	private Boolean ativo;	
 	private String privacidade;
 
 
-	public String getConfirmaSenha() {
-		return confirmaSenha;
-	}
-	public void setConfirmaSenha(String confirmaSenha) {
-		this.confirmaSenha = confirmaSenha;
-	}
 	
 	public String getNome() {
 		return nome;
@@ -38,11 +33,18 @@ public class Usuario extends EntidadeDominio {
 	public void setSenha(String senha) {
 		this.senha = senha;
 	}
-	public String getSenhaRepetida() {
-		return confirmaSenha;
+	
+	public String getSenha1() {
+		return senha1;
 	}
-	public void setSenhaRepetida(String senhaRepetida) {
-		this.confirmaSenha = senhaRepetida;
+	public void setSenha1(String senha1) {
+		this.senha1 = senha1;
+	}
+	public String getSenha2() {
+		return senha2;
+	}
+	public void setSenha2(String senha2) {
+		this.senha2 = senha2;
 	}
 	public TipoUsuario getTipoUsuario() {
 		return tipoUsuario;

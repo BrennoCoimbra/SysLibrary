@@ -15,6 +15,7 @@ public class ValidarLogin implements IStrategy {
         
         List<EntidadeDominio> usuarios;         
         UsuarioDAO dao = new UsuarioDAO();
+        GeradorHash hash = new GeradorHash();
        
         try {
             usuarios = dao.consultar(entidade);
@@ -25,7 +26,11 @@ public class ValidarLogin implements IStrategy {
             Usuario user = (Usuario) entidade;
             Usuario userBD = (Usuario) usuarios.get(0);            
             if (user.getEmail().equals(userBD.getEmail())) {
-               
+            	/* aqui eu pego a senha q o usuario digitou e gero um hash dela e comparo com a senha de hash 
+            	gravada no banco, se o hash gerado for diferente do hash do banco entao o usuario errou a senha.
+            	se o hash gerado for igual ao do banco entao o usuario acertou a senha.
+            	*/
+            	user.setSenha(hash.senhaHash(user.getSenha()));
                 if (user.getSenha().equals(userBD.getSenha())) {
                     user.setTipoUsuario(userBD.getTipoUsuario());
                     user.setId(userBD.getId());             

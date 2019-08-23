@@ -25,6 +25,7 @@ public class EnderecoViewHelper implements IViewHelper {
 		String idEndereco;
 		
 		if(operacao.equals("SALVAR") || operacao.equals("ALTERAR")) {
+			String idUsu = request.getParameter("idUsuario");
 			String id = request.getParameter("endereco_id");
 			String descricao = request.getParameter("descricao");
 			String logradouro = request.getParameter("logradouro");
@@ -40,7 +41,7 @@ public class EnderecoViewHelper implements IViewHelper {
 			
 			endereco = new Endereco();
 			
-			endereco.setIdUsuario(Logged.getUsuario().getId());
+			endereco.setIdUsuario(Integer.parseInt(idUsu));
 			endereco.setDescricao(descricao);
 			endereco.setLogradouro(logradouro);
 			endereco.setNumero(Integer.parseInt(numero));
@@ -85,11 +86,11 @@ public class EnderecoViewHelper implements IViewHelper {
 	}
 
 	@Override
-	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response)
-			throws IOException, ServletException {
-RequestDispatcher d = null;
+	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response)throws IOException, ServletException {
 		
+		RequestDispatcher d = null;		
 		String operacao = request.getParameter("operacao");
+		
 		
 		if(resultado.getMsg() == null) {
 			request.getSession().setAttribute("resultado", resultado);

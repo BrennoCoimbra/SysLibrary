@@ -9,10 +9,10 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.core.impl.dao.CartaoCreditoDAO;
-import br.com.syslib.core.util.Logged;
 import br.com.syslib.dominio.CartaoCredito;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.enuns.BandeiraCartao;
@@ -27,6 +27,7 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 		String idCartaoCredito;
 		
 		if(operacao.equals("SALVAR") || operacao.equals("ALTERAR")) {
+			String idUsu = request.getParameter("idUsuario");
 			String id = request.getParameter("cartao_id");
 			String descricao = request.getParameter("descricao");
 			String nomeCartao = request.getParameter("nomeCartao");
@@ -45,7 +46,7 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 						
 			cartaoCredito = new CartaoCredito();
 			
-			cartaoCredito.setIdUsuario(Logged.getUsuario().getId());
+			cartaoCredito.setIdUsuario(Integer.parseInt(idUsu));
 			cartaoCredito.setDescricao(descricao);			
 			cartaoCredito.setNomeCartao(nomeCartao);
 			cartaoCredito.setNumeroCartao(numeroCartao);
@@ -96,8 +97,10 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 	@Override
 	public void setView(Resultado resultado, HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
 		RequestDispatcher d = null;
-		
 		String operacao = request.getParameter("operacao");
+		HttpServletRequest req = (HttpServletRequest) request;
+		HttpSession session = req.getSession();
+		EntidadeDominio usu = (EntidadeDominio) session.getAttribute("usuario");
 		
 		if(resultado.getMsg() == null) {
 			request.getSession().setAttribute("resultado", resultado);
@@ -127,6 +130,11 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 				d = request.getRequestDispatcher("form-cartao.jsp");
 			} else if (operacao.equals("EXCLUIR")) {
 				d = request.getRequestDispatcher("consultar-cartao.jsp");				
+			} else if (operacao.equals("SAIR")){
+	            request.getSession().invalidate();
+	            d = request.getRequestDispatcher("index.jsp");
+	            d.forward(request, response);
+		
 			}
 		} else {
 			request.setAttribute("msg", resultado.getMsg());

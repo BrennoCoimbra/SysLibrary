@@ -200,4 +200,10 @@ public class ControleAcessoDAO extends AbstractJdbcDAO {
 
 		return controlesDeAcesso;
 	}
+
+	@Override
+	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
+		// TODO Auto-generated method stub
+		return false;
+	}
 }

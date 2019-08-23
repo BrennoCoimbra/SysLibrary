@@ -142,6 +142,7 @@
           	  	<form action="SalvarCartao" method="post">
 		
 		<input type="hidden" name="cartao_id" value="<% if (cartao != null) out.print(cartao.getId()); %>" />
+		<input type="hidden" name="idUsuario" value="<%if(usuario != null) out.print(usuario.getId()); %>" />
 		<input type="hidden" name="operacao" value="<% if (cartao != null) out.print("ALTERAR"); else out.print("SALVAR");%>" />
 		
 
