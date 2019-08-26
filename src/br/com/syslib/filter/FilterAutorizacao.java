@@ -42,8 +42,8 @@ public class FilterAutorizacao implements Filter{
 			chain.doFilter(request, response);
 			System.out.println("usuario e administrador!");
 		} else {
-		request.setAttribute("msg", "Sem autorização!");
-		RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp?url="+urlAutenticar); //passando por parametros
+		request.setAttribute("msg", "Sem autorização!");		
+		RequestDispatcher dispatcher = request.getRequestDispatcher("/errors.jsp?url="+urlAutenticar); //passando por parametros
 		dispatcher.forward(request, response);	
 		System.out.println("Usuário não é administrador!");
 		}

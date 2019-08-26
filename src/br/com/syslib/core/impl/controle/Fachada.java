@@ -88,16 +88,18 @@ public class Fachada implements IFachada {
 		ValidarCPF vrCPF = new ValidarCPF();
 		List<IStrategy> rnsSalvarCliente = new ArrayList<IStrategy>();
 		List<IStrategy> rnsAlterarCliente = new ArrayList<IStrategy>();
+		List<IStrategy> rnsConsultaCliente = new ArrayList<IStrategy>();
 		rnsSalvarCliente.add(vrClienteExistente);
 		rnsSalvarCliente.add(vrDadosObrigatoriosCliente);
 		rnsSalvarCliente.add(vrCPF);
 		rnsSalvarCliente.add(vrSenha);
 		rnsAlterarCliente.add(vrDadosObrigatoriosCliente);
 		rnsAlterarCliente.add(vrCPF);
+		rnsConsultaCliente.add(vrClienteExistente);
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<String, List<IStrategy>>();
 		rnsCliente.put("SALVAR", rnsSalvarCliente);
 		rnsCliente.put("ALTERAR", rnsAlterarCliente);		
-					
+		rnsCliente.put("CONSULTAR",rnsConsultaCliente);			
 
 		//endereco cliente
 		ValidadorDadosObrigatoriosEndereco vrDadosObrigatoriosEndereco = new ValidadorDadosObrigatoriosEndereco();
@@ -108,6 +110,7 @@ public class Fachada implements IFachada {
 		Map<String, List<IStrategy>> rnsEndereco = new HashMap<String, List<IStrategy>>();
 		rnsEndereco.put("SALVAR", rnsSalvarEndereco);
 		rnsEndereco.put("ALTERAR", rnsSalvarEndereco);
+		
 		
 		//cartao credito cliente
 		ValidadorDadosObrigatoriosCartaoCredito vrDadosObrigatorioCartaoCredito = new ValidadorDadosObrigatoriosCartaoCredito();

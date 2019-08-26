@@ -23,6 +23,10 @@ public class ValidadorDadosObrigatoriosCliente implements IStrategy {
 		String dataNas = cliente.getDataNasc();
 		String ddd = cliente.getTelefone().getTelDDD();
 		String numeroTel = cliente.getTelefone().getNumTel();
+		Boolean status = cliente.getAtivo();
+		String tptel = cliente.getTelefone().getTpTelefone().getDescricao();
+		
+		if(status == true) {
 		
 		if(cliente.getId() == null) {
 		
@@ -38,7 +42,19 @@ public class ValidadorDadosObrigatoriosCliente implements IStrategy {
 		
 		if (privacidade == null) 
 			erros.append("Não aceitou a Politica de Privacidade.\n");
-		 
+		
+		if(tptel.equals("Residencial")) {
+			Pattern p6 = Pattern.compile("[0-9]{8}");
+			if (!p6.matcher(numeroTel).find())
+				return "Para telefone residencial, apenas valores numericos e 8 digitos.\n";
+		}
+		
+		if(tptel.equals("Celular")) {
+			Pattern p6 = Pattern.compile("[0-9]{9}");
+			if (!p6.matcher(numeroTel).find())
+				return "Para telefone celular, apenas valores numericos e 9 digitos.\n";
+		}
+		
 		
 		if(nome == null || cpf == null || email == null || dataNas == null || ddd == null || numeroTel == null)
 			erros.append("Nome, CPF, E-mail, Data Nascimento, DDD e Telefone são de preenchimento obrigatório!\n");
@@ -51,7 +67,19 @@ public class ValidadorDadosObrigatoriosCliente implements IStrategy {
 		
 		} else if (cliente.getId() != null) {
 			
-
+			
+			if(tptel.equals("Residencial")) {
+				Pattern p6 = Pattern.compile("[0-9]");
+				if (p6.matcher(numeroTel).find() && numeroTel.length() != 8)
+					return "Para telefone residencial, apenas valores numericos e 8 digitos.\n";
+			}
+			
+			if(tptel.equals("Celular")) {
+				Pattern p6 = Pattern.compile("[0-9]");
+				if (p6.matcher(numeroTel).find() && numeroTel.length() != 9)
+					return "Para telefone celular, apenas valores numericos e 9 digitos.\n";
+			}
+			
 			// Criterio 4:
 			Pattern p4 = Pattern.compile("[0-9]");
 			if (p4.matcher(nome).find())
@@ -67,6 +95,9 @@ public class ValidadorDadosObrigatoriosCliente implements IStrategy {
 				ddd.trim().equals("") || numeroTel.trim().equals(""))
 			
 			erros.append("Nome, CPF, E-mail, Data Nascimento, DDD e Telefone são de preenchimento obrigatório!\n");
+		}
+		} else {
+			return null;
 		}
 		if (erros.length() > 0)
 			return erros.toString();

@@ -144,6 +144,7 @@
 					<h3>Clientes </h3>           
             	</div>          
           	  	<form action="SalvarCliente" method="post" class="form-horizontal">
+          	  	<input type="hidden" id="tpUsu" name="tpUsu" value="<%if(usuario != null) out.print(usuario.getTipoUsuario()); %>" />
 		<div class="row">
 			<div class="col-lg-5">
 			
@@ -205,7 +206,7 @@
 							
 							%>
 							
-							<a href="SalvarCliente?operacao=EXCLUIR&IdCliente=<%=cliente.getId() %>" class="btn btn-danger">Inativar</a> 
+							<a href="SalvarCliente?operacao=EXCLUIR&IdCliente=<%=cliente.getId() %>&tpUsu=<%=usuario.getTipoUsuario() %>" class="btn btn-danger btn-sm">Inativar</a> 
 							
 							
 							<%
@@ -214,7 +215,7 @@
 								
 							%>	
 							
-							<a href="SalvarCliente?operacao=ALTERAR&IdCliente=<%=cliente.getId() %>" class="btn btn-success">Ativar</a> 
+							<a href="SalvarCliente?operacao=ALTERAR&IdCliente=<%=cliente.getId() %>&tpUsu=<%=usuario.getTipoUsuario() %>" class="btn btn-success btn-sm">Ativar</a> 
 							</td>	
 							<%	
 							}

@@ -102,7 +102,7 @@
 		<url-pattern>/autenticado/AlterarSenha</url-pattern>
 	</servlet-mapping>
 	
-<!-- 	<error-page> -->
-<!--         <location>/errors.jsp</location> -->
-<!--     </error-page> -->
+	<error-page>
+        <location>/errors.jsp</location>
+    </error-page>
 </web-app>

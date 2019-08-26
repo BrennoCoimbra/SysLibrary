@@ -13,7 +13,6 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
 import br.com.syslib.dominio.EntidadeDominio;
-import br.com.syslib.dominio.Usuario;
 
 
 public class FilterAutenticacao implements Filter{

@@ -13,7 +13,9 @@ public class ValidarCPF implements IStrategy{
 		// TODO Auto-generated method stub
 		if (entidade instanceof Cliente) {
 			Cliente cliente = (Cliente) entidade;
+			Boolean status = cliente.getAtivo();
 			
+			if(status == true) {
 
 			 if(cliente.getCpf().matches("\\d{11}")==false || (cliente.getCpf().equals("00000000000") ||
 	                    cliente.getCpf().equals("11111111111") ||
@@ -68,7 +70,9 @@ public class ValidarCPF implements IStrategy{
 	                }
 	            }        
 	            return null;
-				
+			} else {
+				return null;
+			}
 	        }else{
 	            return "Erro não é clienteente";
 		}

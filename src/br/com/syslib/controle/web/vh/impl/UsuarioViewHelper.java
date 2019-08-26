@@ -20,7 +20,7 @@ public class UsuarioViewHelper implements IViewHelper {
 	public EntidadeDominio getEntidade(HttpServletRequest request) {
 		String operacao = request.getParameter("operacao");
 		Usuario user = new Usuario();
-		
+		 
 		if(operacao.equals("CONSULTAR")) {
 		String email = request.getParameter("email");
 		String senha = request.getParameter("senha");

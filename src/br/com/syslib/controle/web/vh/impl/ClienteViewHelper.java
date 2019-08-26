@@ -14,6 +14,7 @@ import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.core.impl.dao.ClienteDAO;
 import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.EntidadeDominio;
+import br.com.syslib.dominio.Usuario;
 import br.com.syslib.enuns.Genero;
 import br.com.syslib.enuns.TipoTelefone;
 import br.com.syslib.enuns.TipoUsuario;
@@ -26,8 +27,42 @@ public class ClienteViewHelper implements IViewHelper {
 		String operacao = request.getParameter("operacao");
 		Cliente cliente = null;
 		String idUsuario;
+		String tpUsu = request.getParameter("tpUsu");
+		String url = request.getParameter("url");
 		
-		if (operacao.equals ("SALVAR") || (operacao.equals("ALTERAR"))){
+
+		if(operacao.equals("CONSULTAR") && (url.equals("PASSWD"))) {
+			String email = request.getParameter("email");
+			String cpf = request.getParameter("cpf");
+			
+			cliente = new Cliente();
+			cliente.setEmail(email);
+			cliente.setCpf(cpf);
+		
+		
+		} else if (tpUsu.equals ("ADMIN") && (operacao.equals("ALTERAR"))){
+			idUsuario = request.getParameter("IdCliente");
+			int id = 0;
+
+			if (idUsuario != null && !idUsuario.trim().equals("")) {
+				id = Integer.parseInt(idUsuario);
+
+				cliente = new Cliente();
+				cliente.setId(id);
+				cliente.setAtivo(false);
+			}
+		}else if (tpUsu.equals ("ADMIN") || tpUsu.equals ("CUSTOMER") && (operacao.equals("EXCLUIR"))){
+			idUsuario = request.getParameter("IdCliente");
+			int id = 0;
+
+			if (idUsuario != null && !idUsuario.trim().equals("")) {
+				id = Integer.parseInt(idUsuario);
+
+				cliente = new Cliente();
+				cliente.setId(id);
+			}
+		}else if (operacao.equals ("SALVAR") || (operacao.equals("ALTERAR"))){
+			
 			//String ativo = request.getParameter("txtAtivo");
 			String id = request.getParameter("idUsuario");
 			String email = request.getParameter("email");
@@ -80,7 +115,7 @@ public class ClienteViewHelper implements IViewHelper {
 			
 			
 		} else if (operacao.equals("EXCLUIR") || operacao.equals("CONSULTAR")) {
-			idUsuario = request.getParameter("IdUsuario");
+			idUsuario = request.getParameter("IdCliente");
 			int id = 0;
 
 			if (idUsuario != null && !idUsuario.trim().equals("")) {
@@ -106,7 +141,8 @@ public class ClienteViewHelper implements IViewHelper {
 				}
 			}
 		}
-
+		 
+		
 		return cliente;
 	}
 
@@ -118,7 +154,7 @@ public class ClienteViewHelper implements IViewHelper {
 		HttpSession session = req.getSession();
 		
 		EntidadeDominio usu = (EntidadeDominio) session.getAttribute("usuario");
-
+		Usuario user = (Usuario) session.getAttribute("usuario");
 		
 		if(resultado.getMsg() == null) {
 			request.getSession().setAttribute("resultado", resultado);
@@ -128,6 +164,17 @@ public class ClienteViewHelper implements IViewHelper {
 				
 				d = request.getRequestDispatcher("login.jsp");
 				
+			}	else if (user.getTipoUsuario().getDescriao().equals("admin") && (operacao.equals("ALTERAR"))){
+				d = request.getRequestDispatcher("consultar-clientes.jsp");
+			
+			}else if (user.getTipoUsuario().getDescriao().equals("customer") && (operacao.equals("EXCLUIR"))){
+				
+				request.getSession().invalidate();
+				//String index = "." 
+				//response.sendRedirect(index);
+	            d = request.getRequestDispatcher("./index.jsp");
+				//session.invalidate();
+			
 			} else if (operacao.equals("VISUALIZAR")) {
 					try {
 						String filter = request.getParameter("search");
@@ -155,6 +202,9 @@ public class ClienteViewHelper implements IViewHelper {
 			} else if (operacao.equals("ALTERAR")) {
 				
 				session.setAttribute("usuario", usu);
+				
+				
+				
 				for (EntidadeDominio ed : resultado.getEntidades()) {
 					if (ed instanceof Cliente) {
 						Cliente usuario = (Cliente) ed;
@@ -165,6 +215,8 @@ public class ClienteViewHelper implements IViewHelper {
 
 					}
 				}
+			} else if (operacao.equals("EXCLUIR")) {
+				d = request.getRequestDispatcher("consultar-clientes.jsp");
 			}
 		
 		} else {
@@ -175,4 +227,4 @@ public class ClienteViewHelper implements IViewHelper {
 		if (d != null)
 			d.forward(request,response);
 	}
-}
+} 

@@ -35,14 +35,27 @@ public class ValidarLogin implements IStrategy {
             	user.setSenha(hash.senhaHash(user.getSenha()));
                 if (user.getSenha().equals(userBD.getSenha())) {
                 	user.setTipoUsuario(userBD.getTipoUsuario());
-                    user.setId(userBD.getId());             
+                    user.setId(userBD.getId());
+                    user.setAtivo(userBD.getAtivo());
+                    if( user.getAtivo() == false) {
+                    	return "Problema de acesso, favor contactar nossa central no 0800 300 300";
+                    }
+                    
                    return null; 
                    
                 }
             }
             
+           } else {
+        	   if (user.getEmail().equals(userBD.getEmail())) {
+        		   if (user.getSenha().equals(userBD.getSenha())) {
+        			   return null;
+        		   }
+        		   return "Usuário ou senha incorretos!";
+        	   }
+        	   return "Usuário ou senha incorretos!";
            }
-           return null;
+           return "Usuário ou senha incorretos!";
         }
         return "Usuário ou senha incorretos!";
 

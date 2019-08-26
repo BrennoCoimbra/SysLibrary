@@ -139,7 +139,12 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 				usuario.setSenha(rs.getString("us_senha"));				
 				usuario.setTipoUsuario(TipoUsuario.getTipoUsuario(Integer.parseInt(rs.getString("us_tipoUsuario_id"))));
 				usuario.setDtCadastro(rs.getDate("us_dtCadastro"));
-				
+				int status = rs.getInt("us_ativo");
+				if(status ==1) {
+				usuario.setAtivo(true);
+				} else {
+				usuario.setAtivo(false);	
+				}
 				usuarios.add(usuario);
 			}
 			return usuarios;
@@ -221,66 +226,6 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		
 	}
 	
-	public boolean cpfExiste(String cpf) throws SQLException {
-		openConnection();
-		PreparedStatement pst = null;
-		
-		try {
-			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT * FROM CLIENTE WHERE cli_cpf = ?");
-			
-			pst = connection.prepareStatement(sql.toString());
-			pst.setString(1, cpf);
-			
-			ResultSet rs = pst.executeQuery();
-			
-			if (rs.next()) {
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				pst.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return false;
-	}
-	
-	public boolean emailExiste(String email) throws SQLException {
-		openConnection();
-		PreparedStatement pst = null;
-		
-		try {
-			StringBuilder sql = new StringBuilder();
-			sql.append("SELECT * FROM CLIENTE WHERE us_email = ?");
-			
-			pst = connection.prepareStatement(sql.toString());
-			pst.setString(1, email);
-			
-			ResultSet rs = pst.executeQuery();
-			
-			if (rs.next()) {
-				return true;
-			}
-		} catch (SQLException e) {
-			e.printStackTrace();
-		} finally {
-			try {
-				pst.close();
-				connection.close();
-			} catch (SQLException e) {
-				e.printStackTrace();
-			}
-		}
-		
-		return false;
-	}
-
 	@Override
 	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
 		return ctrlTransaction;

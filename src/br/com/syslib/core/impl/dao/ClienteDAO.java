@@ -39,14 +39,15 @@ public class ClienteDAO extends AbstractJdbcDAO {
 			StringBuilder sqlTelefone = new StringBuilder();
 			
 
-			sqlUsuario.append("INSERT INTO USUARIO(us_nome,us_email,us_senha,us_tipoUsuario_id,us_dtCadastro)");
-			sqlUsuario.append("VALUES(?,?,?,?,sysdate())");
+			sqlUsuario.append("INSERT INTO USUARIO(us_nome,us_ativo,us_email,us_senha,us_tipoUsuario_id,us_dtCadastro)");
+			sqlUsuario.append("VALUES(?,?,?,?,?,sysdate())");
 
 			pst = connection.prepareStatement(sqlUsuario.toString(), Statement.RETURN_GENERATED_KEYS);
 			pst.setString(1, cliente.getNome());
-			pst.setString(2, cliente.getEmail());
-			pst.setString(3, cliente.getSenha());
-			pst.setInt(4, cliente.getTipoUsuario().getCodigo());
+			pst.setBoolean(2, cliente.getAtivo());
+			pst.setString(3, cliente.getEmail());
+			pst.setString(4, cliente.getSenha());
+			pst.setInt(5, cliente.getTipoUsuario().getCodigo());
 
 			pst.executeUpdate();
 			ResultSet rs = pst.getGeneratedKeys();
@@ -111,13 +112,33 @@ public class ClienteDAO extends AbstractJdbcDAO {
 		PreparedStatement pst = null;
 		PreparedStatement pst1 = null;
 		PreparedStatement pst2 = null;
+		PreparedStatement pst3 = null;
+		PreparedStatement pst4 = null;
 		Cliente cliente = (Cliente) entidade;
+		
 
 		try {
 			connection.setAutoCommit(false);
 			StringBuilder sqlUsuario = new StringBuilder();
 			StringBuilder sqlCliente = new StringBuilder();
 			StringBuilder sqlTelefone = new StringBuilder();
+			StringBuilder sqlCliAtivo = new StringBuilder();
+			StringBuilder sqlUsuAtivo = new StringBuilder();
+			
+			if(cliente.getAtivo() == false) {
+				sqlUsuAtivo.append("UPDATE USUARIO SET us_ativo = 1 WHERE us_id = ?");
+				pst3 = connection.prepareStatement(sqlUsuAtivo.toString());
+				pst3.setInt(1, cliente.getId());
+				pst3.executeUpdate();
+				
+				
+				sqlCliAtivo.append("UPDATE CLIENTE SET cli_status = 1 WHERE cli_usu_id = ?");
+				pst4 = connection.prepareStatement(sqlCliAtivo.toString());
+				pst4.setInt(1, cliente.getId());
+				pst4.executeUpdate();
+			
+				connection.commit();
+			} else {
 
 			sqlUsuario.append("UPDATE USUARIO SET us_nome = ? ,us_email = ?");
 			sqlUsuario.append("WHERE us_id = ?");
@@ -153,6 +174,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 			pst2.close();
 
 			connection.commit();
+			}
 
 		} catch (SQLException e) {
 			try {
@@ -163,7 +185,13 @@ public class ClienteDAO extends AbstractJdbcDAO {
 			e.printStackTrace();
 		} finally {
 			try {
+				if(pst == null) {
+					pst3.close();
+					pst4.close();
+					connection.close();
+				} else {
 				pst.close();
+				}
 				connection.close();
 			} catch (SQLException e) {
 				e.printStackTrace();
@@ -253,6 +281,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 				cliente.setDataNasc(rs.getString("cli_data_nasc"));
 				cliente.getTelefone().setTelDDD(rs.getString("tel_ddd"));
 				cliente.getTelefone().setNumTel(rs.getString("tel_numero"));
+				cliente.setAtivo(rs.getBoolean("cli_status"));
 				int tpTel = rs.getInt("tel_tipo");				
 				
 				for (TipoTelefone tpTelBD : TipoTelefone.values()) {
@@ -538,6 +567,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 	public void excluir(EntidadeDominio entidade) {
 		openConnection();
 		PreparedStatement pst = null;
+		PreparedStatement pst1 = null;
 		StringBuilder sb;
 
 		try {
@@ -549,6 +579,11 @@ public class ClienteDAO extends AbstractJdbcDAO {
 			pst.setInt(1, entidade.getId());
 			pst.executeUpdate();
 
+			sb = new StringBuilder();
+			sb.append("UPDATE usuario SET us_ativo = 0 WHERE us_id = ?");
+			pst1 = connection.prepareStatement(sb.toString());
+			pst1.setInt(1, entidade.getId());
+			pst1.executeUpdate();
 			
 			connection.commit();
 		} catch (SQLException e) {
@@ -561,6 +596,7 @@ public class ClienteDAO extends AbstractJdbcDAO {
 		} finally {
 			try {
 				pst.close();
+				pst1.close();
 				if (ctrlTransaction)
 					connection.close();
 			} catch (SQLException e) {
@@ -569,3 +605,4 @@ public class ClienteDAO extends AbstractJdbcDAO {
 		}
 	}
 }
+;

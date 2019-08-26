@@ -149,7 +149,8 @@
           <form action="SalvarCliente" method="POST">
 		<div class="container-fluid">
 		<div class="row">	
-	      	<input type="hidden" name="idUsuario" value="<%if(cliente != null) out.print(usuario.getId()); %>" />      		   
+	      	<input type="hidden" name="idUsuario" value="<%if(cliente != null) out.print(usuario.getId()); %>" /> 
+	      	<input type="hidden" id="tpUsu" name="tpUsu" value="<%if(usuario != null) out.print(usuario.getTipoUsuario()); %>" />   		   
 			<input type="hidden" name="operacao" value="<% if (cliente == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
               
       	<div class="form-group col-md-3">
@@ -217,11 +218,15 @@
 						<hr />
 			 <div class="row">
       	    	<div class="form-group col-md-1">			
-					<h4 class="page-header"> <input type="submit" value="SALVAR" class="btn btn-success"></h4>
+					 <input type="submit" value="SALVAR" class="btn btn-success">
 				</div>
+<!-- 				<div class="form-group col-md-1">			 -->
+<%-- 					<a href="SalvarCliente?operacao=EXCLUIR&IdCliente=<%=cliente.getId() %>&tpUsu=<%=usuario.getTipoUsuario() %>" class="btn btn-danger btn-sm">Inativar</a> --%>
+<!-- 				</div> -->
 				 <div class="form-group col-md-1">	
 					<a class="btn btn-primary" data-toggle="collapse" href="#collapseNovaSenha" role="button" aria-expanded="false" aria-controls="collapseNovaSenha">Troca Senha</a>
 				  </div>
+				  
 			 </div>
          </div>
       </form>

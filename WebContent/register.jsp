@@ -21,6 +21,7 @@
   <body class="text-center">
     <form action="SalvarCliente" method="POST"class="form-signin">
 		<input class="form-control" type="hidden" id="operacao" name="operacao" value="SALVAR">
+		<input type="hidden" id="tpUsu" name="tpUsu" value="CUSTOMER" />
 		<input type="hidden" id="status" name="status" value=1>
       <img class="mb-4" src="./resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h5 class="h5 mb-4 font-weight-normal">Informe seus dados para cadastro</h5>

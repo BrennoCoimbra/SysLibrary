@@ -24,25 +24,21 @@
   <%
             Resultado resultado = (Resultado) request.getAttribute("resultado");
         %> 
-    <form action="/SysLibrary/autenticado/Login" method="POST"class="form-signin">
-    <input type="hidden" id="url" name="url" value="<%=request.getParameter("url")%>">
+    <form action="SalvarCliente" method="POST"class="form-signin">
+    <input type="hidden" id="url" name="url" value="PASSWD">
 	<input class="form-control" type="hidden" id="operacao" name="operacao" value="CONSULTAR">
       <img class="mb-4" src="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
-      <h2 class="h4 mb-4 font-weight-normal">Faça Login</h2>
+      <h4 class="h4 mb-4 font-weight-normal">Insira seu e-mail e 4 ultimos digitos do CPF</h4>
       <label for="inputEmail" class="sr-only">Endereço de email</label>
       <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" >
-      <label for="inputPassword" class="sr-only">Senha</label>
-      <input type="password" name="senha" id="senha" class="form-control" placeholder="Senha" >
+      <label for="inputPassword" class="sr-only">CPF</label>
+      <input type="password" name="cpf" id="cpf" class="form-control" placeholder="CPF" >
       <div class="checkbox mb-1">
-        <label>
-          <input type="checkbox" value="remember-me"> Lembrar de mim
-        </label>
+      
       </div>
 	  <div style="text-align: left;">
-            <span class="pull-center"><a href="http://localhost:8080/SysLibrary/passwd.jsp">Esqueceu senha?</a></span><br>
-         <span class="pull-center"><a href="http://localhost:8080/SysLibrary/register.jsp">Criar nova conta</a></span>   
-         </div>
-      <button class="btn-primary btn-block" type="submit">Entrar</button>
+           </div>
+      <button class="btn-primary btn-block" type="submit">Recuperar</button>
       <p class="mt-5 mb-3 text-muted">&copy;2018-2019</p>
     </form>	
 	<!-- Icons -->    

@@ -244,6 +244,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 
 	}
 
+	@SuppressWarnings("deprecation")
 	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
@@ -447,6 +448,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public EntidadeDominio getEntidadeDominio(EntidadeDominio entidade) throws SQLException {
 		PreparedStatement pst = null;
 		String sql = null;
@@ -500,6 +502,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 		return null;
 	}
 
+	@SuppressWarnings("deprecation")
 	public EntidadeDominio getEntidadeDominio(int idLivro) throws SQLException {
 		PreparedStatement pst = null;
 		String sql = null;
@@ -598,7 +601,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			
 			while(rs.next()) {
 			
-			int id = rs.getInt("liv_id");
+			
 			int precific = rs.getInt("liv_precificacao");
 			
 			
