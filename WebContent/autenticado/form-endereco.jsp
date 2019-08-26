@@ -16,7 +16,7 @@
     <meta name="description" content="Página para buscar livros e acessar informações.">
     <meta name="author" content="Brenno Coimbra">
     <link rel="icon" href="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library_icon.ico">
-
+	
     <title>SysLibrary</title>
 
     <!-- Bootstrap core CSS -->
@@ -24,6 +24,9 @@
 
     <!-- Custom styles for this template -->
     <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
+	
+	   
+   
 	
 	<style>
 	footer {
@@ -46,6 +49,8 @@
 		StringBuilder sb;
 		%>	
     	
+    	 
+    	 
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
       <a class="navbar-brand col-sm-3 col-md-2 mr-0" href="http://localhost:8080/SysLibrary/index.jsp"> Bem - Vindo ! <span data-feather="smile"></span> </a>      
       <ul class="navbar-nav px-3">
@@ -146,24 +151,89 @@
 			<!-- area de campos do form -->
 				<hr/>
 			<div class="container-fluid">
-				<h6 class="page-header"> Descrição </h6>
-					<div class="row">	
+					
+				<div class="row">	
 							
-				<div class="form-group col-md-3">
-					<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+					<div class="form-group col-md-3">
+					<label for="numpgs">Descrição</label>
+						<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
 							value="<%if(endereco != null) out.print(endereco.getDescricao()); %>">
 					</div>
 					
+					<div class="form-group col-md-2">
+						<label for="numpgs">Tipo Endereço</label> 
+						<select id="tpEnd" name="tpEnd" class="form-control">
+							<%
+								for (TipoEndereco tpEnd : TipoEndereco.values()) {
+							%>
+							  <option id=<%=tpEnd.getCodigo() %> value=<%=tpEnd.getCodigo() %> <%if (endereco != null && endereco.getTpEnd().getCodigo() == tpEnd.getCodigo()) out.print("selected"); %>><%=tpEnd.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
 					</div>
-				</div>	
 					
+					<div class="form-group col-sm-2">
+					<label class="form-control-label" for="pref">Preferencial</label>
+						<select id="pref" name="pref" class="form-control">
+							<%
+								if (endereco == null) {
+							%>  
+								<option id=0 value=0 >Não</option>
+								<option id=1 value=1 >Sim</option>
+							<%
+								} else if (endereco != null && endereco.getPreferencial() == true) {
+							%>
+								<option id=0 value=0 >Não</option>
+								<option id=1 value=1 selected>Sim</option>
+							<%	
+								} else if (endereco != null && endereco.getPreferencial() == false) {
+									%>
+									
+									<option id=0 value=0 selected>Não</option>
+									<option id=1 value=1 >Sim</option>
+								<%	
+									}
+								%>
+						
+							</select> 				
+					</div>
+					
+				</div>
+						
+			</div>
+				
 			<div class="container-fluid">
 				<h6 class="page-header"> Caracteristicas </h6>
-
+				
 				<div class="row">
 				
+					<div class="form-group col-md-2">
+					<label for="numpgs">Tipo Residência</label> 
+						<select id="tpRes" name="tpRes" class="form-control">
+							<%
+								for (TipoResidencia residencias : TipoResidencia.values()) {
+							%>
+							  <option id=<%=residencias.getCodigo() %> value=<%=residencias.getCodigo() %> <%if (endereco != null && endereco.getTpResid().getCodigo() == residencias.getCodigo()) out.print("selected"); %>><%=residencias.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
+					</div>
+					<div class="form-group col-md-2">
+					<label for="numpgs">Tipo Logradouro</label> 
+						<select id="tpLog" name="tpLog" class="form-control">
+							<%
+								for (TipoLogradouro logradouros : TipoLogradouro.values()) {
+							%>
+							  <option id=<%=logradouros.getCodigo() %> value=<%=logradouros.getCodigo() %> <%if (endereco != null && endereco.getTpLogrdo().getCodigo() == logradouros.getCodigo()) out.print("selected"); %>><%=logradouros.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
+					</div>
 					<div class="form-group col-md-4">
-						<label for="campo1">Logradouro</label> <input type="text" maxlength="13"
+						<label for="campo1">Logradouro</label> <input type="text" maxlength="100"
 							class="form-control" id="logradouro" name="logradouro"
 							value="<%if(endereco != null) out.print(endereco.getLogradouro()); %>">
 					</div>
@@ -172,6 +242,11 @@
 							class="form-control" id="numero" name="numero"
 							value="<%if(endereco != null) out.print(endereco.getNumero()); %>">
 					</div>
+				</div>	
+
+				<div class="row">
+				
+					
 					<div class="form-group col-md-3">
 						<label for="ano">Bairro</label> <input type="text"
 							class="form-control" id="bairro" name="bairro"
@@ -186,23 +261,28 @@
 					
 					<div class="row">
 					
+					
 					<div class="form-group col-md-3">
-						<label for="edicao">Cidade</label> <input type="text"
-							class="form-control" id="cidade" name="cidade"
-							value="<%if(endereco != null) out.print(endereco.getCidade()); %>">
-					</div>
-					<div class="form-group col-md-1">
 						<label for="numpgs">Estado</label> 
 						<select id="estado" name="estado" class="form-control">
 							<%
-								for (Estados estado : Estados.values()) {
+								for (Estados estados : Estados.values()) {
 							%>
-							  <option id=<%=estado.name() %> value=<%=estado.name() %> <%if (endereco != null && endereco.getEstado().equals(estado.name())) out.print("selected"); %>><%=estado.name() %> </option>
+							  <option id=<%=estados.getCodigo() %> value=<%=estados.getCodigo() %> <%if (endereco != null && endereco.getEstado().equals(estados.getDescricao())) out.print("selected"); %>><%=estados.getDescricao() %> </option>
 							<%
 								}
 							%>
 							</select>
-							
+													
+					</div>
+					
+					
+					<div class="form-group col-md-3">
+						<label for="numpgs">Cidade</label> 
+						<input type="text"
+							class="form-control" id="cidade" name="cidade"
+						 value="<%if(endereco != null) out.print(endereco.getCidade()); %>">
+													
 					</div>
 					
 					<div class="form-group col-md-2">
@@ -210,21 +290,29 @@
 							class="form-control" id="pais" name="pais"
 							value="<%if(endereco != null) out.print(endereco.getPais()); %>">
 					</div>
-					
+								
+		
 				</div>
 
 
-							<hr />
+							<hr>
 				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>				
 			
 	</div>
 		
 	</form>
+	
         </section>		
-      </div>	  
+      </div>
+      	  
     </div>	
-    <!-- Icons -->    
-	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+    
+    
+   
+     <!-- JQuery carrega os estados/cidades de um arquivo .json -->
+    <script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/js/estados_cidades.js"></script>
+	 <!-- Icons -->
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()

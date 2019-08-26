@@ -28,6 +28,10 @@ public class ValidadorDadosObrigatoriosCartaoCredito implements IStrategy{
 				return "Mes invalido!";
 			}
 			
+			if(numeroDoCartao.length() != 16 ) {
+				return "Número do cartão inválido!";
+			}
+			
 			
 		} else {
 			return "Deve ser registrado um cartão de crédito!";

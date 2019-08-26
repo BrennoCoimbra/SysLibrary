@@ -1,5 +1,10 @@
 package br.com.syslib.dominio;
 
+import br.com.syslib.enuns.Estados;
+import br.com.syslib.enuns.TipoEndereco;
+import br.com.syslib.enuns.TipoLogradouro;
+import br.com.syslib.enuns.TipoResidencia;
+
 public class Endereco extends EntidadeDominio {
 	
 	private int idUsuario;
@@ -11,6 +16,11 @@ public class Endereco extends EntidadeDominio {
 	private String estado;
 	private String cep;
 	private String pais;
+	private Estados estados;
+	private TipoLogradouro tpLogrdo;
+	private TipoResidencia tpResid;
+	private TipoEndereco tpEnd;
+	private Boolean preferencial;
 	
 	public int getIdUsuario() {
 		return idUsuario;
@@ -70,6 +80,37 @@ public class Endereco extends EntidadeDominio {
 	public void setPais(String pais) {
 		this.pais = pais;
 	}
+	public TipoLogradouro getTpLogrdo() {
+		return tpLogrdo;
+	}
+	public void setTpLogrdo(TipoLogradouro tpLogrdo) {
+		this.tpLogrdo = tpLogrdo;
+	}
+	public TipoResidencia getTpResid() {
+		return tpResid;
+	}
+	public void setTpResid(TipoResidencia tpResid) {
+		this.tpResid = tpResid;
+	}
+	public TipoEndereco getTpEnd() {
+		return tpEnd;
+	}
+	public void setTpEnd(TipoEndereco tpEnd) {
+		this.tpEnd = tpEnd;
+	}
+	public Estados getEstados() {
+		return estados;
+	}
+	public void setEstados(Estados estados) {
+		this.estados = estados;
+	}
+	public Boolean getPreferencial() {
+		return preferencial;
+	}
+	public void setPreferencial(Boolean preferencial) {
+		this.preferencial = preferencial;
+	}
+	
 	
 	
 

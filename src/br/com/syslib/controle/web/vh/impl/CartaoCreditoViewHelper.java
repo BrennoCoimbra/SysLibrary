@@ -36,6 +36,7 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 			String ano = request.getParameter("ano");
 			String cvv = request.getParameter("cvv");
 			String bandeira = request.getParameter("bandeira");
+			String preferencial = request.getParameter("pref");
 			
 			if (mes == null || mes.trim().equals(""))
 				mes = "0";
@@ -45,7 +46,7 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 				cvv = "0";
 						
 			cartaoCredito = new CartaoCredito();
-			
+			cartaoCredito.setPreferencial(preferencial.equals("1") ? true : false);
 			cartaoCredito.setIdUsuario(Integer.parseInt(idUsu));
 			cartaoCredito.setDescricao(descricao);			
 			cartaoCredito.setNomeCartao(nomeCartao);
@@ -110,7 +111,8 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 			} else if (operacao.equals("VISUALIZAR")) {
 				try {
 					String filter = request.getParameter("search");
-					List<EntidadeDominio> cartoes = new CartaoCreditoDAO().visualizar(filter);
+					Integer idCliente = usu.getId();
+					List<EntidadeDominio> cartoes = new CartaoCreditoDAO().visualizar(filter,idCliente);
 					request.setAttribute("cartoes", cartoes);
 				} catch (SQLException e) {
 					resultado.setMsg("Não foi possível listar cartões.");

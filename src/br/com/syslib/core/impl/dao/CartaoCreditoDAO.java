@@ -30,8 +30,8 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 
 			sql = new StringBuilder();
 			sql.append("INSERT INTO cartaocredito (cartao_desc, cartao_idUsuario, cartao_nome, cartao_numero, " +
-					"cartao_mes, cartao_ano, cartao_codigoSeg, cartao_bandeira, dtCadastro) ");
-			sql.append("VALUES (?,?,?,?,?,?,?,?,sysdate())");
+					"cartao_mes, cartao_ano, cartao_codigoSeg, cartao_bandeira,cartao_pref, dtCadastro) ");
+			sql.append("VALUES (?,?,?,?,?,?,?,?,?,sysdate())");
 			
 			pst = connection.prepareStatement(sql.toString());
 			
@@ -42,7 +42,8 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			pst.setInt(5, cartaoCredito.getMes());
 			pst.setInt(6, cartaoCredito.getAno());
 			pst.setInt(7, cartaoCredito.getCodigoSeguranca());
-			pst.setInt(8, cartaoCredito.getBandeiraCartao().getCodigo());
+			pst.setString(8, cartaoCredito.getBandeiraCartao().getDescricao());
+			pst.setBoolean(9, cartaoCredito.getPreferencial());
 			
 			pst.executeUpdate();
 		
@@ -78,7 +79,7 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			
 			sql = new StringBuilder();
 			sql.append("UPDATE cartaocredito SET cartao_desc = ?, cartao_idUsuario = ?, cartao_nome = ?, cartao_numero = ?, " + 
-					"cartao_mes = ?, cartao_ano = ?, cartao_codigoSeg = ?, cartao_bandeira = ?, dtCadastro = sysdate() WHERE cartao_id = ?");
+					"cartao_mes = ?, cartao_ano = ?, cartao_codigoSeg = ?, cartao_bandeira = ?, cartao_pref = ?, dtCadastro = sysdate() WHERE cartao_id = ?");
 			
 			pst = connection.prepareStatement(sql.toString());
 			
@@ -89,9 +90,9 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			pst.setInt(5, cartaoCredito.getMes());
 			pst.setInt(6, cartaoCredito.getAno());
 			pst.setInt(7, cartaoCredito.getCodigoSeguranca());
-			pst.setInt(8, cartaoCredito.getBandeiraCartao().getCodigo());
-			
-			pst.setInt(9, cartaoCredito.getId());
+			pst.setString(8, cartaoCredito.getBandeiraCartao().getDescricao());
+			pst.setBoolean(9, cartaoCredito.getPreferencial());
+			pst.setInt(10, cartaoCredito.getId());
 			
 			pst.executeUpdate();
 			
@@ -140,20 +141,21 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			int mes = rs.getInt("cartao_mes");
 			int ano = rs.getInt("cartao_ano");
 			int cvv = rs.getInt("cartao_codigoSeg");
-			int bandeira = rs.getInt("cartao_bandeira");
+			String bandeira = rs.getString("cartao_bandeira");
 			Date dtCadastro = rs.getDate("dtCadastro");
-			
+			Boolean pref = rs.getBoolean("cartao_pref");
 			cartao = new CartaoCredito();
 			cartao.setId(id);
 			cartao.setIdUsuario(idUsu);
 			cartao.setDescricao(descricao);
+			cartao.setPreferencial(pref);
 			cartao.setNomeCartao(nome);
 			cartao.setNumeroCartao(numero);
 			cartao.setMes(mes);
 			cartao.setAno(ano);
 			cartao.setCodigoSeguranca(cvv);
 			for(BandeiraCartao bd : BandeiraCartao.values()) {
-				if(bd.getCodigo() == bandeira) {
+				if(bd.getDescricao().equals(bandeira)) {
 					cartao.setBandeiraCartao(bd);
 				}
 			}
@@ -195,20 +197,21 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			int mes = rs.getInt("cartao_mes");
 			int ano = rs.getInt("cartao_ano");
 			int cvv = rs.getInt("cartao_codigoSeg");
-			int bandeira = rs.getInt("cartao_bandeira");
+			String bandeira = rs.getString("cartao_bandeira");
 			Date dtCadastro = rs.getDate("dtCadastro");
-			
+			Boolean pref = rs.getBoolean("end_pref");
 			cartao = new CartaoCredito();
 			cartao.setId(id);
 			cartao.setIdUsuario(idUsu);
 			cartao.setDescricao(descricao);
+			cartao.setPreferencial(pref);
 			cartao.setNomeCartao(nome);
 			cartao.setNumeroCartao(numero);
 			cartao.setMes(mes);
 			cartao.setAno(ano);
 			cartao.setCodigoSeguranca(cvv);
 			for(BandeiraCartao bd : BandeiraCartao.values()) {
-				if(bd.getCodigo() == bandeira) {
+				if(bd.getDescricao().equals(bandeira)) {
 					cartao.setBandeiraCartao(bd);
 				}
 			}
@@ -225,15 +228,26 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 		return cartoes;
 	}
 
-	public List<EntidadeDominio> visualizar(String filter) throws SQLException {
+	public List<EntidadeDominio> visualizar(String filter,int idCliente) throws SQLException {
 		openConnection();
 		List<EntidadeDominio> cartoes = new	ArrayList<EntidadeDominio>();
 		CartaoCredito cartao = null;
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT * FROM cartaocredito");
+		
 		if (!filter.equals("")) {
-			sql.append(" WHERE cartao_desc LIKE '%" + filter + "%'");
+			sql.append("SELECT * FROM cartaocredito T1 INNER JOIN cliente T2 on T2.cli_usu_id = T1.cartao_idUsuario");
+			sql.append(" WHERE t2.cli_usu_id = " + idCliente + "");
+			sql.append(" OR cartao_desc LIKE '%" + filter + "%'");
+			sql.append(" OR cartao_nome LIKE '%" + filter + "%'");
+			sql.append(" OR cartao_numero LIKE '%" + filter + "%'");
+			sql.append(" OR cartao_mes LIKE '%" + filter + "%'");
+			sql.append(" OR cartao_ano LIKE '%" + filter + "%'");
+			sql.append(" OR cartao_codigoSeg LIKE '%" + filter + "%'");
+			sql.append(" OR cartao_bandeira LIKE '%" + filter + "%'");
+			sql.append(" OR cartao_pref LIKE '%" + filter + "%'");
+		} else {
+			sql.append("SELECT * FROM cartaocredito T1 INNER JOIN cliente T2 on T2.cli_usu_id = T1.cartao_idUsuario WHERE t2.cli_usu_id = " + idCliente + "");
 		}
 		
 		PreparedStatement stmt = connection.prepareStatement(sql.toString());
@@ -248,7 +262,7 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			int mes = rs.getInt("cartao_mes");
 			int ano = rs.getInt("cartao_ano");
 			int cvv = rs.getInt("cartao_codigoSeg");
-			int bandeira = rs.getInt("cartao_bandeira");
+			String bandeira = rs.getString("cartao_bandeira");
 			Date dtCadastro = rs.getDate("dtCadastro");
 			
 			cartao = new CartaoCredito();
@@ -261,7 +275,7 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			cartao.setAno(ano);
 			cartao.setCodigoSeguranca(cvv);
 			for(BandeiraCartao bd : BandeiraCartao.values()) {
-				if(bd.getCodigo() == bandeira) {
+				if(bd.getDescricao().contentEquals(bandeira)) {
 					cartao.setBandeiraCartao(bd);
 				}
 			}
@@ -277,9 +291,7 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 		return cartoes;
 	}
 	
-	public List<EntidadeDominio> visualizar() throws SQLException {
-		return visualizar("");
-	}
+	
 	
 	public EntidadeDominio getEntidadeDominioCartaoCredito(int idCartao) throws SQLException {
 		openConnection();
@@ -305,8 +317,9 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			int mes = rs.getInt("cartao_mes");
 			int ano = rs.getInt("cartao_ano");
 			int cvv = rs.getInt("cartao_codigoSeg");
-			int bandeira = rs.getInt("cartao_bandeira");
+			String bandeira = rs.getString("cartao_bandeira");
 			Date dtCadastro = rs.getDate("dtCadastro");
+			Boolean pref = rs.getBoolean("cartao_pref");
 			
 			cartoes = new CartaoCredito();
 			cartoes.setId(id);
@@ -314,11 +327,12 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			cartoes.setDescricao(descricao);
 			cartoes.setNomeCartao(nome);
 			cartoes.setNumeroCartao(numero);
+			cartoes.setPreferencial(pref);
 			cartoes.setMes(mes);
 			cartoes.setAno(ano);
 			cartoes.setCodigoSeguranca(cvv);
 			for(BandeiraCartao bd : BandeiraCartao.values()) {
-				if(bd.getCodigo() == bandeira) {
+				if(bd.getDescricao().equals(bandeira)) {
 					cartoes.setBandeiraCartao(bd);
 				}
 			}

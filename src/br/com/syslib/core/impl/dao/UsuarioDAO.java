@@ -79,7 +79,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 			sql.append("UPDATE usuario SET us_senha = ?, us_dtCadastro = sysdate() WHERE us_id = ?");
 			
 			pst = connection.prepareStatement(sql.toString());
-			pst.setString(1, usuario.getNome());
+			pst.setString(1, usuario.getSenha1());
 			pst.setInt(2, usuario.getId());
 		
 			pst.executeUpdate();
@@ -182,6 +182,7 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 				cliente.setDataNasc(rs.getString("cli_data_nasc"));
 				cliente.getTelefone().setTelDDD(rs.getString("tel_ddd"));
 				cliente.getTelefone().setNumTel(rs.getString("tel_numero"));
+				cliente.setAtivo(rs.getBoolean("cli_status"));
 				int tpTel = rs.getInt("tel_tipo");				
 				
 				for (TipoTelefone tpTelBD : TipoTelefone.values()) {

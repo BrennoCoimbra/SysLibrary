@@ -182,10 +182,10 @@
 						<tr>
 							
 							<td style="text-align: center; vertical-align: middle;"><%=end.getDescricao() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=end.getLogradouro() %> </td>							
+							<td style="text-align: center; vertical-align: middle;"><%=end.getTpLogrdo()+ "."+ end.getLogradouro() %> </td>							
 							<td style="text-align: center; vertical-align: middle;"><%=end.getNumero() %> </td>																				
 							<td style="text-align: center; vertical-align: middle;"><%=end.getCidade() %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=end.getEstado() %></td>
+							<td style="text-align: center; vertical-align: middle;"><%=end.getEstados().getDescricao() %></td>
 							
 							<!-- Buttons actions -->
 							<td style="text-align: right; ">

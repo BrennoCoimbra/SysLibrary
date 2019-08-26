@@ -13,13 +13,14 @@ public class Cliente extends Usuario {
 	private List<Endereco> enderecos;
 	private List<CartaoCredito> cartoes;
 	private List<Cupom> cupons;
-	private Endereco endereco;
+	private Endereco endereco = new Endereco();
 	private String privacidade;
 	private Telefone telefone = new Telefone();  
     private String ranking;
     private String statusCliente;
     private String dataNasc;
     private Genero genero;
+    private ClienteStatus status;
 
 	
 	public String getCpf() {
@@ -100,6 +101,12 @@ public class Cliente extends Usuario {
 	}
 	public void setGenero(Genero genero) {
 		this.genero = genero;
+	}
+	public ClienteStatus getStatus() {
+		return status;
+	}
+	public void setStatus(ClienteStatus status) {
+		this.status = status;
 	}
 	
 	

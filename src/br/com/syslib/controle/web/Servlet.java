@@ -63,10 +63,12 @@ public class Servlet extends HttpServlet {
 		 * no web.xml e sendo utilizada no action do html
 		 */
 		vhs.put("/SysLibrary/autenticado/adm/SalvarLivro", new LivroViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/SalvarCliente", new ClienteViewHelper());
 		vhs.put("/SysLibrary/SalvarUsuario", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/SalvarCliente", new ClienteViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarCliente", new ClienteViewHelper());
 		vhs.put("/SysLibrary/autenticado/AtualizarPerfil", new UsuarioViewHelper());
+		vhs.put("/SysLibrary/autenticado/AlterarSenha", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/autenticado/Login", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/SairSys", new UsuarioViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarEndereco", new EnderecoViewHelper());

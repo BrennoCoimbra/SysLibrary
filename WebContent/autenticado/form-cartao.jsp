@@ -149,16 +149,40 @@
 			<!-- area de campos do form -->
 				<hr/>
 			<div class="container-fluid">
-				<h6 class="page-header"> Descrição </h6>
-					<div class="row">	
+				<div class="row">	
 							
-				<div class="form-group col-md-3">
-					<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
-							value="<%if(cartao != null) out.print(cartao.getDescricao()); %>">
+					<div class="form-group col-md-3">
+					<label for="numpgs">Descrição</label>
+						<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+						value="<%if(cartao != null) out.print(cartao.getDescricao()); %>">
 					</div>
 					
+					<div class="form-group col-sm-2">
+						<label class="form-control-label" for="pref">Preferencial</label>
+							<select id="pref" name="pref" class="form-control">
+								<%
+									if (cartao == null) {
+								%>  
+									<option id=0 value=0 >Não</option>
+									<option id=1 value=1 >Sim</option>
+								<%
+									} else if (cartao != null && cartao.getPreferencial() == true) {
+								%>
+									
+									<option id=1 value=1 selected>Sim</option>
+								<%	
+									} else if (cartao != null && cartao.getPreferencial() == false) {
+										%>
+										
+										<option id=0 value=0 selected>Não</option>
+									<%	
+										}
+									%>
+							
+								</select> 				
 					</div>
-				</div>	
+				</div>
+			</div>	
 					
 			<div class="container-fluid">
 				<h6 class="page-header"> Identificação </h6>

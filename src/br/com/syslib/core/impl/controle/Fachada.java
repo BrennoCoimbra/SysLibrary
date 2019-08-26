@@ -68,14 +68,18 @@ public class Fachada implements IFachada {
 		
 		//usuario
 		ValidarLogin vrLogin = new ValidarLogin();
-		ValidadorDadosObrigatoriosLogin vrDadosObrigatoriosLogin = new ValidadorDadosObrigatoriosLogin();		
+		ValidadorDadosObrigatoriosLogin vrDadosObrigatoriosLogin = new ValidadorDadosObrigatoriosLogin();	
+		ValidadorSenha vrNovaSenha = new ValidadorSenha();
 		List<IStrategy> rnsVerificarLogin = new ArrayList<IStrategy>();
 		List<IStrategy> rnsValidarLogin = new ArrayList<IStrategy>();
+		List<IStrategy> rnsValidarNovaSenha = new ArrayList<IStrategy>();
 		rnsValidarLogin.add(vrLogin);
 		rnsVerificarLogin.add(vrDadosObrigatoriosLogin);
+		rnsValidarNovaSenha.add(vrNovaSenha);
 		Map<String, List<IStrategy>> rnsUsuario = new HashMap<String, List<IStrategy>>();
 		rnsUsuario.put("CONSULTAR", rnsVerificarLogin);
 		rnsUsuario. put("CONSULTAR", rnsValidarLogin);
+		rnsUsuario. put("ALTERAR", rnsValidarNovaSenha);
 		
 		//cliente
 		ValidadorClienteExistente vrClienteExistente = new ValidadorClienteExistente();
@@ -97,8 +101,10 @@ public class Fachada implements IFachada {
 
 		//endereco cliente
 		ValidadorDadosObrigatoriosEndereco vrDadosObrigatoriosEndereco = new ValidadorDadosObrigatoriosEndereco();
+		//ValidadorPreferenciaEnd vrPrefEndereco = new ValidadorPreferenciaEnd();
 		List<IStrategy> rnsSalvarEndereco = new ArrayList<IStrategy>();
 		rnsSalvarEndereco.add(vrDadosObrigatoriosEndereco);
+		//rnsSalvarEndereco.add(vrPrefEndereco);
 		Map<String, List<IStrategy>> rnsEndereco = new HashMap<String, List<IStrategy>>();
 		rnsEndereco.put("SALVAR", rnsSalvarEndereco);
 		rnsEndereco.put("ALTERAR", rnsSalvarEndereco);

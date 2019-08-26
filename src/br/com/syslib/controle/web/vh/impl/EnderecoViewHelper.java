@@ -9,12 +9,16 @@ import javax.servlet.RequestDispatcher;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import javax.servlet.http.HttpSession;
 
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.core.impl.dao.EnderecoDAO;
-import br.com.syslib.core.util.Logged;
 import br.com.syslib.dominio.Endereco;
 import br.com.syslib.dominio.EntidadeDominio;
+import br.com.syslib.enuns.Estados;
+import br.com.syslib.enuns.TipoEndereco;
+import br.com.syslib.enuns.TipoLogradouro;
+import br.com.syslib.enuns.TipoResidencia;
 
 public class EnderecoViewHelper implements IViewHelper {
 
@@ -28,6 +32,9 @@ public class EnderecoViewHelper implements IViewHelper {
 			String idUsu = request.getParameter("idUsuario");
 			String id = request.getParameter("endereco_id");
 			String descricao = request.getParameter("descricao");
+			String tpEnd = request.getParameter("tpEnd");
+			String residencia = request.getParameter("tpRes");
+			String tpLog = request.getParameter("tpLog");
 			String logradouro = request.getParameter("logradouro");
 			String numero = request.getParameter("numero");
 			String bairro = request.getParameter("bairro");
@@ -35,6 +42,7 @@ public class EnderecoViewHelper implements IViewHelper {
 			String estado = request.getParameter("estado");			
 			String cep = request.getParameter("cep");
 			String pais = request.getParameter("pais");
+			String preferencial = request.getParameter("pref");
 			
 			if (numero == null || numero.trim().equals(""))
 				numero = "0";
@@ -43,11 +51,36 @@ public class EnderecoViewHelper implements IViewHelper {
 			
 			endereco.setIdUsuario(Integer.parseInt(idUsu));
 			endereco.setDescricao(descricao);
+			endereco.setPreferencial(preferencial.equals("1") ? true : false);
+			
+			for (TipoEndereco end : TipoEndereco.values()) {
+				if (tpEnd != null && Integer.parseInt(tpEnd) == end.getCodigo()) {
+					endereco.setTpEnd(end);
+				}
+			}
+			
+			for (TipoResidencia res : TipoResidencia.values()) {
+				if (residencia != null && Integer.parseInt(residencia) == res.getCodigo()) {
+					endereco.setTpResid(res);
+				}
+			}
+			for (TipoLogradouro log : TipoLogradouro.values()) {
+				if (tpLog != null && Integer.parseInt(tpLog) == log.getCodigo()) {
+					endereco.setTpLogrdo(log);
+				}
+			}
+			
+			
+			
 			endereco.setLogradouro(logradouro);
 			endereco.setNumero(Integer.parseInt(numero));
 			endereco.setBairro(bairro);
 			endereco.setCidade(cidade);
-			endereco.setEstado(estado);
+			for (Estados est : Estados.values()) {
+				if (estado != null && Integer.parseInt(estado) == est.getCodigo()) {
+					endereco.setEstados(est);
+				}
+			}
 			endereco.setCep(cep);
 			endereco.setPais(pais);
 			endereco.setDtCadastro(new Date());
@@ -90,6 +123,8 @@ public class EnderecoViewHelper implements IViewHelper {
 		
 		RequestDispatcher d = null;		
 		String operacao = request.getParameter("operacao");
+		HttpSession session = request.getSession();
+		EntidadeDominio usu = (EntidadeDominio) session.getAttribute("usuario");
 		
 		
 		if(resultado.getMsg() == null) {
@@ -101,7 +136,8 @@ public class EnderecoViewHelper implements IViewHelper {
 			} else if (operacao.equals("VISUALIZAR")) {
 				try {
 					String filter = request.getParameter("search");
-					List<EntidadeDominio> enderecos = new EnderecoDAO().visualizar(filter);
+					Integer idCliente = usu.getId();
+					List<EntidadeDominio> enderecos = new EnderecoDAO().visualizar(filter,idCliente);
 					request.setAttribute("enderecos", enderecos);
 				} catch (SQLException e) {
 					resultado.setMsg("Não foi possível listar endereços.");

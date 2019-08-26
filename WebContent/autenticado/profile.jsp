@@ -164,7 +164,7 @@
       	
       		<div class="form-group col-md-3">
       	<label class="form-control-label" for="email">Email</label>
-       	 	<input type="email" value="<%if(cliente != null) out.print(cliente.getEmail()); %>"class="form-control input-lg" id="email" name="email" placeholder="Email">
+       	 	<input type="email" value="<%if(cliente != null) out.print(cliente.getEmail()); %>"class="form-control input-lg" id="email" name="email" placeholder="Email" required>
       	</div>
       	    </div>
       	    <div class="row">
@@ -227,9 +227,10 @@
       </form>
 	      <div class="collapse" id="collapseNovaSenha">				          
 				<div class="container-fluid">
-					<input type="hidden" name="idUsuario" value="<%if(cliente != null) out.print(usuario.getId()); %>" />      		   
-					<input type="hidden" name="operacao" value="<% if (cliente == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
-				<form action="AlterarSenha" method="POST"> 
+					
+				<form action="AlterarSenha" method="POST"> 				  
+				<input type="hidden" name="idUsuario" value="<%if(cliente != null) out.print(usuario.getId()); %>" />    		   
+				<input type="hidden" name="operacao" value="<% if (cliente == null) out.print("SALVAR"); else out.print("ALTERAR");%>" />
 					<div style="text-align: center;">
 							<h3>Nova Senha </h3>
 							<hr>  

@@ -34,8 +34,15 @@ public class UsuarioViewHelper implements IViewHelper {
             user = (Usuario) usuarioLogado;
             user.setId(user.getId());
           
-        } else if("ALTERAR".equals("operacao")) {
-        	
+		} else if (operacao.equals("ALTERAR")) {
+        	String idUsuario = request.getParameter("idUsuario");
+            String senha = request.getParameter("senhaAntiga");
+            String senha1 = request.getParameter("novaSenha");
+            String senha2 = request.getParameter("confNovaSenha");
+            user.setSenha(senha);
+            user.setSenha1(senha1);
+            user.setSenha2(senha2);
+        	user.setId(Integer.parseInt(idUsuario));
         } 
 		
 		
@@ -62,41 +69,45 @@ public class UsuarioViewHelper implements IViewHelper {
 	            // FIXME testar
 	            //d.forward(request, response);
 		
-		}else if(operacao.equals("CONSULTAR")) {
-			session.setAttribute("usuario", usu);
-			for (EntidadeDominio ed : resultado.getEntidades()) {
-				if (ed instanceof Cliente) {
-					Cliente usuario = (Cliente) ed;
-											
-						//adiciona usuario logado na sessao						
-						session.setAttribute("usuario",usuario);												
-						
-						if (usuario.getTipoUsuario() == TipoUsuario.CUSTOMER) {							
-							d = request.getRequestDispatcher("profile.jsp");
-						} else if (usuario.getTipoUsuario() == TipoUsuario.ADMIN) {
-							d = request.getRequestDispatcher("adm/dashboard.jsp");
-						}
-					
-				} else if(ed instanceof Usuario){
-					Usuario usuario = (Usuario) ed;
-					session.setAttribute("usuario",usuario);
-					request.setAttribute("resultado", resultado);                       
-	                d = request.getRequestDispatcher("adm/dashboard.jsp");
-	
-				}
-								
-			}
-		
+		} else if(operacao.equals("ALTERAR")){
 
-		}
-	 
-		} else {
-		request.setAttribute("msg", resultado.getMsg());
-		d = request.getRequestDispatcher("errors.jsp");
-	}
-	
-	if (d != null)
-		d.forward(request,response);
+            d = request.getRequestDispatcher("profile.jsp");
+
+			}else if(operacao.equals("CONSULTAR")) {
+					session.setAttribute("usuario", usu);
+					for (EntidadeDominio ed : resultado.getEntidades()) {
+						if (ed instanceof Cliente) {
+							Cliente usuario = (Cliente) ed;
+													
+								//adiciona usuario logado na sessao						
+								session.setAttribute("usuario",usuario);												
+								
+								if (usuario.getTipoUsuario() == TipoUsuario.CUSTOMER) {							
+									d = request.getRequestDispatcher("profile.jsp");
+								} else if (usuario.getTipoUsuario() == TipoUsuario.ADMIN) {
+									d = request.getRequestDispatcher("adm/dashboard.jsp");
+								}
+							
+						} else if(ed instanceof Usuario){
+							Usuario usuario = (Usuario) ed;
+							session.setAttribute("usuario",usuario);
+							request.setAttribute("resultado", resultado);                       
+			                d = request.getRequestDispatcher("adm/dashboard.jsp");
+			
+						}
+										
+					}
+				
 		
-	}
+				}
+			 
+				} else {
+				request.setAttribute("msg", resultado.getMsg());
+				d = request.getRequestDispatcher("errors.jsp");
+			}
+			
+			if (d != null)
+				d.forward(request,response);
+				
+			}
 }

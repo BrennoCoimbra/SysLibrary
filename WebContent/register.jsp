@@ -21,6 +21,7 @@
   <body class="text-center">
     <form action="SalvarCliente" method="POST"class="form-signin">
 		<input class="form-control" type="hidden" id="operacao" name="operacao" value="SALVAR">
+		<input type="hidden" id="status" name="status" value=1>
       <img class="mb-4" src="./resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h5 class="h5 mb-4 font-weight-normal">Informe seus dados para cadastro</h5>
 	  
@@ -34,7 +35,7 @@
       <input type="date" name="dataNasc" id="dataNasc" class="form-control" placeholder="Data Nascimento"  >
       
 	  <label for="email" class="sr-only">Endereço de email</label>
-      <input type="email" name="email" id="email" class="form-control" placeholder="Seu email"  >
+      <input type="email" name="email" id="email" class="form-control" placeholder="Seu email" required autofocus>
       
 	  <label for="senha" class="sr-only">Senha</label>
       <input type="password" name="senha1" id="senha1" class="form-control" placeholder="Senha" >

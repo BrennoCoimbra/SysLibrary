@@ -4,7 +4,7 @@
 <%@page import="br.com.syslib.dominio.*"%>
 <%@page import="br.com.syslib.core.aplicacao.Resultado"%>
 <%@page import="br.com.syslib.dominio.EntidadeDominio"%>
-<%@page import="br.com.syslib.dominio.Livro"%>
+<%@page import="br.com.syslib.dominio.Cliente"%>
 <%@page import="br.com.syslib.core.impl.dao.*"%>
 <%@page import="org.apache.jasper.tagplugins.jstl.core.ForEach"%>
 <%@page import="java.util.*"%>
@@ -45,7 +45,7 @@
 		 StringBuilder sb;
 		 Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-		 List<EntidadeDominio> livros = (List<EntidadeDominio>) request.getAttribute("livro");
+		 List<EntidadeDominio> clientes = (List<EntidadeDominio>) request.getAttribute("clientes");
 		 
 		  %>
     	
@@ -143,7 +143,7 @@
 			<div style="text-align: center;">
 					<h3>Clientes </h3>           
             	</div>          
-          	  	<form action="SalvarUsuario" method="post" class="form-horizontal">
+          	  	<form action="SalvarCliente" method="post" class="form-horizontal">
 		<div class="row">
 			<div class="col-lg-5">
 			
@@ -170,9 +170,11 @@
 							<th class="text-center">Ativo</th>
 							<th class="text-center">Nome</th>
 							<th class="text-center">CPF</th>
+							<th class="text-center">Gênero</th>
 							<th class="text-center">Telefone</th>
-							<th class="text-center">E-mail</th>							
-							<th style="text-align: right">Ações</th>
+							<th class="text-center">E-mail</th>	
+							<th class="text-center">Endereço</th>							
+							<th class="text-center">Ações</th>
 							<th></th>
 						</tr>
 					</thead>
@@ -181,39 +183,42 @@
 		            		<%
 		            		
 		            		
-		            		if (livros != null) {
-			            		for (EntidadeDominio ed : livros) {
-			            			Livro livro = (Livro) ed;
-			            			StringBuilder autores = new StringBuilder();
-			        				boolean isSecondOrMore = false;
-			        				
-			        				for (Autor autor : livro.getAutores()) {
-			        					if (isSecondOrMore)
-			        						autores.append("/");
-			        					autores.append(autor.getNome());
-			        					
-			        					isSecondOrMore = true;
-			        				}
-		            			
-		            		
+		            		if (clientes != null) {
+			            		for (EntidadeDominio ed : clientes) {
+			            			Cliente cliente = (Cliente) ed;
 		            		%>
 						<tr>
 							
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getEditora().getNome() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=autores.toString() %> </td>																				
-							<td style="text-align: center; vertical-align: middle;"><% if(livro != null && livro.getAtivo()) out.print("sim"); else out.print("não") ; %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>
-						
+							<td style="text-align: center; vertical-align: middle;"><%=cliente.getId() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><% if(cliente != null && cliente.getAtivo()) out.print("sim"); else out.print("não") ; %></td>
+							<td style="text-align: center; vertical-align: middle;"><%=cliente.getNome() %> </td>																				
+							<td style="text-align: center; vertical-align: middle;"><%=cliente.getCpf() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=cliente.getGenero().getDescricao() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=cliente.getTelefone().getTelDDD() + "-" + cliente.getTelefone().getNumTel() %></td>
+							<td style="text-align: center; vertical-align: middle;"><%=cliente.getEmail() %></td>
+							<td style="text-align: center; vertical-align: middle;"><%=cliente.getEndereco().getTpLogrdo().getDescricao() + "." + cliente.getEndereco().getLogradouro() + "," + cliente.getEndereco().getNumero() + "-" + cliente.getEndereco().getCidade() + "," + cliente.getEndereco().getEstados() %></td>
 							<!-- Buttons actions -->
-							<td style="text-align: right; ">
-							<a href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>" class="btn btn-warning">Alterar</a> 
-							</td>
+							<td>
 							
-							<td style="text-align: left; ">
-							<a href="SalvarLivro?operacao=EXCLUIR&IdLivro=<%=livro.getId() %>"class="btn btn-danger">Remover</a>
-							</td>				
+							<%
+							if(cliente.getAtivo() == true) {
+							
+							%>
+							
+							<a href="SalvarCliente?operacao=EXCLUIR&IdCliente=<%=cliente.getId() %>" class="btn btn-danger">Inativar</a> 
+							
+							
+							<%
+							
+							} else {
+								
+							%>	
+							
+							<a href="SalvarCliente?operacao=ALTERAR&IdCliente=<%=cliente.getId() %>" class="btn btn-success">Ativar</a> 
+							</td>	
+							<%	
+							}
+							%>			
 										
 						</tr>
 						<%

@@ -16,6 +16,7 @@ public class CartaoCredito extends FormaPagamento {
 	private int idCliente;
     private String preferencialCartao;
     private String statusCartao;
+    private Boolean preferencial;
 	
 	
 	
@@ -90,6 +91,12 @@ public class CartaoCredito extends FormaPagamento {
 	}
 	public void setStatusCartao(String statusCartao) {
 		this.statusCartao = statusCartao;
+	}
+	public Boolean getPreferencial() {
+		return preferencial;
+	}
+	public void setPreferencial(Boolean preferencial) {
+		this.preferencial = preferencial;
 	}
 	
 	

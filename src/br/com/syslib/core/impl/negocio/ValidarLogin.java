@@ -24,7 +24,9 @@ public class ValidarLogin implements IStrategy {
         }
         if (usuarios.size()>0){            
             Usuario user = (Usuario) entidade;
-            Usuario userBD = (Usuario) usuarios.get(0);            
+            Usuario userBD = (Usuario) usuarios.get(0); 
+            
+           if(!userBD.getTipoUsuario().getDescriao().equals("admin")) { 
             if (user.getEmail().equals(userBD.getEmail())) {
             	/* aqui eu pego a senha q o usuario digitou e gero um hash dela e comparo com a senha de hash 
             	gravada no banco, se o hash gerado for diferente do hash do banco entao o usuario errou a senha.
@@ -32,12 +34,15 @@ public class ValidarLogin implements IStrategy {
             	*/
             	user.setSenha(hash.senhaHash(user.getSenha()));
                 if (user.getSenha().equals(userBD.getSenha())) {
-                    user.setTipoUsuario(userBD.getTipoUsuario());
+                	user.setTipoUsuario(userBD.getTipoUsuario());
                     user.setId(userBD.getId());             
                    return null; 
                    
                 }
             }
+            
+           }
+           return null;
         }
         return "Usuário ou senha incorretos!";
 

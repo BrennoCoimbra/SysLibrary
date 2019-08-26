@@ -28,6 +28,7 @@
 
 		<url-pattern>/autenticado/adm/form-livro.jsp</url-pattern>
 		<url-pattern>/autenticado/adm/consultar-livro.jsp</url-pattern>
+		<url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
 		<url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
 		<url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
 	</filter-mapping>
@@ -43,6 +44,7 @@
 		<url-pattern>/autenticado/adm/consultar-livro.jsp</url-pattern>
 		<url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
 		<url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
+		<url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
 	</filter-mapping>
 	
 	<servlet>
@@ -69,6 +71,10 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Servlet</servlet-name>
+		<url-pattern>/autenticado/adm/SalvarCliente</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Servlet</servlet-name>
 		<url-pattern>/autenticado/Login</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>
@@ -91,8 +97,12 @@
 		<servlet-name>Servlet</servlet-name>
 		<url-pattern>/autenticado/AtualizarPerfil</url-pattern>
 	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Servlet</servlet-name>
+		<url-pattern>/autenticado/AlterarSenha</url-pattern>
+	</servlet-mapping>
 	
-	<error-page>
-        <location>/errors.jsp</location>
-    </error-page>
+<!-- 	<error-page> -->
+<!--         <location>/errors.jsp</location> -->
+<!--     </error-page> -->
 </web-app>
