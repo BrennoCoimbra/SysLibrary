@@ -11,6 +11,7 @@ public class Estoque extends EntidadeDominio {
 	public int qtde;
 	public int qtdeTemp;
 	public Fornecedor fornecedor;
+	public String dataEnt;
 	
 	public int getId_Livro() {
 		return idLivro;
@@ -65,6 +66,12 @@ public class Estoque extends EntidadeDominio {
 	}
 	public void setFornecedor(Fornecedor fornecedor) {
 		this.fornecedor = fornecedor;
+	}
+	public String getDataEnt() {
+		return dataEnt;
+	}
+	public void setDataEnt(String dataEnt) {
+		this.dataEnt = dataEnt;
 	}
 	
 	

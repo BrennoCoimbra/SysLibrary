@@ -24,10 +24,10 @@ public class ValidadorDadosObrigatoriosCliente implements IStrategy {
 		String ddd = cliente.getTelefone().getTelDDD();
 		String numeroTel = cliente.getTelefone().getNumTel();
 		Boolean status = cliente.getAtivo();
-		String tptel = cliente.getTelefone().getTpTelefone().getDescricao();
+
 		
 		if(status == true) {
-		
+			String tptel = cliente.getTelefone().getTpTelefone().getDescricao();
 		if(cliente.getId() == null) {
 		
 			

@@ -370,19 +370,18 @@ public class ClienteDAO extends AbstractJdbcDAO {
 				+ "INNER JOIN endereco T3 ON T3.end_us_id = T1.cli_usu_id "
 				+ "INNER JOIN cartaocredito T4 ON T4.cartao_idUsuario = T1.cli_usu_id "
 				+ "INNER JOIN cliente_telefone T5 ON T5.tel_id = T1.cli_usu_id "
-				+ "WHERE T3.end_pref = 1");
+				+ "WHERE T3.end_pref = 1 AND T4.cartao_pref = 1");
 		if (!filtro.equals("")) {
-			sql.append(" AND T2.us_nome LIKE '%" + filtro + "%'");
+			sql.append(" AND (T2.us_nome LIKE '%" + filtro + "%'");
 			sql.append(" OR T2.us_email LIKE '%" + filtro + "%'");
 			sql.append(" OR T1.cli_status LIKE '%" + filtro + "%'");
 			sql.append(" OR T1.cli_ranking LIKE '%" + filtro + "%'");
 			sql.append(" OR T1.cli_genero LIKE '%" + filtro + "%'");
 			sql.append(" OR T1.cli_data_nasc LIKE '%" + filtro + "%'");
-			sql.append(" OR T1.cli_data_nasc LIKE '%" + filtro + "%'");
 			sql.append(" OR T1.cli_cpf LIKE '%" + filtro + "%'");
 			sql.append(" OR T5.tel_tipo LIKE '%" + filtro + "%'");
 			sql.append(" OR T5.tel_numero LIKE '%" + filtro + "%'");
-			sql.append(" OR T5.tel_ddd LIKE '%" + filtro + "%'");
+			sql.append(" OR T5.tel_ddd LIKE '%" + filtro + "%')");
 		}
 		
 		PreparedStatement stmt = connection.prepareStatement(sql.toString());

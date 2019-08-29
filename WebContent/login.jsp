@@ -27,6 +27,12 @@
     <form action="/SysLibrary/autenticado/Login" method="POST"class="form-signin">
     <input type="hidden" id="url" name="url" value="<%=request.getParameter("url")%>">
 	<input class="form-control" type="hidden" id="operacao" name="operacao" value="CONSULTAR">
+	<% if(request.getAttribute("msg") != null) { %>
+	 <div class="alert alert-danger">
+		<br>
+		<h4>${msg}</h4>
+		</div>
+		<%} else { } %>
       <img class="mb-4" src="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library.svg" alt="" width="72" height="72">	  
       <h2 class="h4 mb-4 font-weight-normal">Faça Login</h2>
       <label for="inputEmail" class="sr-only">Endereço de email</label>
@@ -39,13 +45,17 @@
         </label>
       </div>
 	  <div style="text-align: left;">
-            <span class="pull-center"><a href="http://localhost:8080/SysLibrary/passwd.jsp">Esqueceu senha?</a></span><br>
+<!--             <span class="pull-center"><a href="http://localhost:8080/SysLibrary/passwd.jsp">Esqueceu senha?</a></span><br> -->
          <span class="pull-center"><a href="http://localhost:8080/SysLibrary/register.jsp">Criar nova conta</a></span>   
          </div>
       <button class="btn-primary btn-block" type="submit">Entrar</button>
+    
+		
+		
       <p class="mt-5 mb-3 text-muted">&copy;2018-2019</p>
     </form>	
-	<!-- Icons -->    
+	<!-- Icons --> 
+	
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
     <script>

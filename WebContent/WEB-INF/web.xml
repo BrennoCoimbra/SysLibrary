@@ -20,7 +20,7 @@
 	
 	<filter-mapping>
 		<filter-name>FilterAutenticacao</filter-name>
-		<url-pattern>/consultar-cartao.jsp</url-pattern>
+		<url-pattern>/autenticado/consultar-cartao.jsp</url-pattern>
 		<url-pattern>/autenticado/consultar-endereco.jsp</url-pattern>
 		<url-pattern>/autenticado/form-cartao.jsp</url-pattern>
 		<url-pattern>/autenticado/form-endereco.jsp</url-pattern>

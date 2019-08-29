@@ -236,16 +236,16 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 		StringBuilder sql = new StringBuilder();
 		
 		if (!filter.equals("")) {
-			sql.append("SELECT * FROM cartaocredito T1 INNER JOIN cliente T2 on T2.cli_usu_id = T1.cartao_idUsuario");
+			sql.append("SELECT * FROM cartaocredito T1 INNER JOIN cliente T2 on T2.cli_usu_id = T1.cartao_idUsuario AND T1.cartao_idUsuario = " + idCliente + "");
 			sql.append(" WHERE t2.cli_usu_id = " + idCliente + "");
-			sql.append(" OR cartao_desc LIKE '%" + filter + "%'");
-			sql.append(" OR cartao_nome LIKE '%" + filter + "%'");
-			sql.append(" OR cartao_numero LIKE '%" + filter + "%'");
-			sql.append(" OR cartao_mes LIKE '%" + filter + "%'");
-			sql.append(" OR cartao_ano LIKE '%" + filter + "%'");
-			sql.append(" OR cartao_codigoSeg LIKE '%" + filter + "%'");
-			sql.append(" OR cartao_bandeira LIKE '%" + filter + "%'");
-			sql.append(" OR cartao_pref LIKE '%" + filter + "%'");
+			sql.append(" AND T1.cartao_desc LIKE '%" + filter + "%'");
+			sql.append(" OR T1.cartao_nome LIKE '%" + filter + "%'");
+			sql.append(" OR T1.cartao_numero LIKE '%" + filter + "%'");
+			sql.append(" OR T1.cartao_mes LIKE '%" + filter + "%'");
+			sql.append(" OR T1.cartao_ano LIKE '%" + filter + "%'");
+			sql.append(" OR T1.cartao_codigoSeg LIKE '%" + filter + "%'");
+			sql.append(" OR T1.cartao_bandeira LIKE '%" + filter + "%'");
+			sql.append(" OR T1.cartao_pref LIKE '%" + filter + "%'");
 		} else {
 			sql.append("SELECT * FROM cartaocredito T1 INNER JOIN cliente T2 on T2.cli_usu_id = T1.cartao_idUsuario WHERE t2.cli_usu_id = " + idCliente + "");
 		}

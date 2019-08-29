@@ -170,7 +170,8 @@
 							<th class="text-center">Editora</th>
 							<th class="text-center">Autor</th>
 							<th class="text-center">Ativo</th>
-							<th class="text-center">ISBN</th>
+							<th class="text-center">ISBN</th>							
+							<th class="text-center">Preço Venda</th>
 							<th style="text-align: right">Ações</th>
 							<th></th>
 						</tr>
@@ -202,8 +203,9 @@
 							<td style="text-align: center; vertical-align: middle;"><%=livro.getEditora().getNome() %> </td>
 							<td style="text-align: center; vertical-align: middle;"><%=autores.toString() %> </td>																				
 							<td style="text-align: center; vertical-align: middle;"><% if(livro != null && livro.getAtivo()) out.print("sim"); else out.print("não") ; %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>
-							
+							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>	
+							<td style="text-align: center; vertical-align: middle;"><%= "R$" + String.format("%.2f", livro.getEstoque().getValorVenda()) %></td>
+													
 							<!-- Buttons actions -->
 							<td style="text-align: right; ">
 							<a href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>" class="btn btn-warning">Alterar</a> 

@@ -342,20 +342,20 @@ public class EnderecoDAO extends AbstractJdbcDAO {
 		StringBuilder sql = new StringBuilder();
 		
 		if (!filter.equals("")) {
-			sql.append("SELECT * FROM endereco T1 INNER JOIN cliente T2 on T2.cli_usu_id = T1.end_us_id");
+			sql.append("SELECT * FROM endereco T1 INNER JOIN cliente T2 on T2.cli_usu_id = T1.end_us_id AND T1.end_us_id = " + idCliente + "");
 			sql.append(" WHERE t2.cli_usu_id = " + idCliente + "");
-			sql.append(" OR end_descricao LIKE '%" + filter + "%'");
-			sql.append(" OR end_logrd LIKE '%" + filter + "%'");
-			sql.append(" OR end_num LIKE '%" + filter + "%'");
-			sql.append(" OR end_cep LIKE '%" + filter + "%'");
-			sql.append(" OR end_bairro LIKE '%" + filter + "%'");
-			sql.append(" OR end_cidade LIKE '%" + filter + "%'");
-			sql.append(" OR end_estado LIKE '%" + filter + "%'");
-			sql.append(" OR end_pais LIKE '%" + filter + "%'");
-			sql.append(" OR end_tpRes LIKE '%" + filter + "%'");
-			sql.append(" OR end_tpLog LIKE '%" + filter + "%'");
-			sql.append(" OR end_tpEnd LIKE '%" + filter + "%'");
-			sql.append(" OR end_pref LIKE '%" + filter + "%'");
+			sql.append(" AND T1.end_descricao LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_logrd LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_num LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_cep LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_bairro LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_cidade LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_estado LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_pais LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_tpRes LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_tpLog LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_tpEnd LIKE '%" + filter + "%'");
+			sql.append(" OR T1.end_pref LIKE '%" + filter + "%'");
 		
 				
 		

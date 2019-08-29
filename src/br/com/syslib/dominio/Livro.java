@@ -26,6 +26,7 @@ public class Livro extends EntidadeDominio {
 	private List<Categoria> categorias;
 	private Editora editora;
 	private Precificacoes preficacao;
+	private Estoque estoque = new Estoque();
 	
 	
 	
@@ -157,5 +158,13 @@ public class Livro extends EntidadeDominio {
 	public void setPreficacao(Precificacoes preficacao) {
 		this.preficacao = preficacao;
 	}
+	public Estoque getEstoque() {
+		return estoque;
+	}
+	public void setEstoque(Estoque estoque) {
+		this.estoque = estoque;
+	}
+	
+	
 	
 }

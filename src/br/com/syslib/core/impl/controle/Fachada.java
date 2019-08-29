@@ -25,7 +25,9 @@ import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
 import br.com.syslib.core.impl.negocio.ValidadorSenha;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
+import br.com.syslib.core.impl.negocio.ValidarEstoque;
 import br.com.syslib.core.impl.negocio.ValidarLogin;
+import br.com.syslib.core.impl.negocio.ValidarValorVenda;
 import br.com.syslib.dominio.CartaoCredito;
 import br.com.syslib.dominio.Cliente;
 import br.com.syslib.dominio.Endereco;
@@ -94,7 +96,7 @@ public class Fachada implements IFachada {
 		rnsSalvarCliente.add(vrCPF);
 		rnsSalvarCliente.add(vrSenha);
 		rnsAlterarCliente.add(vrDadosObrigatoriosCliente);
-		rnsAlterarCliente.add(vrCPF);
+		//rnsAlterarCliente.add(vrCPF);
 		rnsConsultaCliente.add(vrClienteExistente);
 		Map<String, List<IStrategy>> rnsCliente = new HashMap<String, List<IStrategy>>();
 		rnsCliente.put("SALVAR", rnsSalvarCliente);
@@ -111,7 +113,15 @@ public class Fachada implements IFachada {
 		rnsEndereco.put("SALVAR", rnsSalvarEndereco);
 		rnsEndereco.put("ALTERAR", rnsSalvarEndereco);
 		
-		
+		//estoque
+		ValidarEstoque vrEstoque = new ValidarEstoque();
+		ValidarValorVenda vrValorVenda = new ValidarValorVenda();
+		List<IStrategy> rnsSalvarEstoque = new ArrayList<IStrategy>();
+		rnsSalvarEstoque.add(vrEstoque);
+		rnsSalvarEstoque.add(vrValorVenda);
+		Map<String, List<IStrategy>> rnsEstoque = new HashMap<String, List<IStrategy>>();
+		rnsEstoque.put("SALVAR", rnsSalvarEstoque);
+
 		//cartao credito cliente
 		ValidadorDadosObrigatoriosCartaoCredito vrDadosObrigatorioCartaoCredito = new ValidadorDadosObrigatoriosCartaoCredito();
 		List<IStrategy> rnsSalvarCartaoCredito = new ArrayList<IStrategy>();
@@ -120,47 +130,20 @@ public class Fachada implements IFachada {
 		rnsCartaoCredito.put("SALVAR", rnsSalvarCartaoCredito);
 		rnsCartaoCredito.put("ALTERAR", rnsSalvarCartaoCredito);
 		
-		//estoque
-		List<IStrategy> rnsSalvarEstoque = new ArrayList<IStrategy>();
-		Map<String, List<IStrategy>> rnsEstoque = new HashMap<String, List<IStrategy>>();
-		rnsEstoque.put("SALVAR", rnsSalvarEstoque);
 		
-		/* Criando instâncias de regras de negócio a serem utilizados */
+		
+		//livros
 		ValidadorDadosObrigatoriosLivro vrDadosObrigatoriosLivro = new ValidadorDadosObrigatoriosLivro();
 		ComplementarDtCadastro cDtCadastro = new ComplementarDtCadastro();
-		
-		/*
-		 * Criando uma lista para conter as regras de negócio de livro quando a
-		 * operação for salvar
-		 */
 		List<IStrategy> rnsSalvarLivro = new ArrayList<IStrategy>();
-
-		
-		
-		/* Adicionando as regras a serem utilizadas na operação salvar do livro/usuario */
 		rnsSalvarLivro.add(vrDadosObrigatoriosLivro);
 		rnsSalvarLivro.add(cDtCadastro);
-		
-
-		/*
-		 * Cria o mapa que poderá conter todas as listas de regras de negócio específica
-		 * por operação do livro/usuario
-		 */
 		Map<String, List<IStrategy>> rnsLivro = new HashMap<String, List<IStrategy>>();
-		
-		
-		
-		
-		/*
-		 * Adiciona a listra de regras na operação salvar no mapa do livro (lista
-		 * criada na linha 61)
-		 */
 		rnsLivro.put("SALVAR", rnsSalvarLivro);
 		rnsLivro.put("ALTERAR", rnsSalvarLivro);
-		
 
 		/*
-		 * Adiciona o mapa(criado a partir da linha 74) com as regras indexadas pelas operações
+		 * Adiciona o mapa com as regras indexadas pelas operações
 		 * no mapa geral indexado pelo nome da entidade
 		 */
 		rns.put(Livro.class.getName(), rnsLivro);
@@ -168,7 +151,7 @@ public class Fachada implements IFachada {
 		rns.put(Cliente.class.getName(), rnsCliente);
 		rns.put(Endereco.class.getName(), rnsEndereco);
 		rns.put(CartaoCredito.class.getName(), rnsCartaoCredito);
-		rns.put(EstoqueDAO.class.getName(), rnsEstoque);
+		rns.put(Estoque.class.getName(), rnsEstoque);
 	}
 
 	@Override

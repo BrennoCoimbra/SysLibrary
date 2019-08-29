@@ -336,6 +336,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			sql.append(" OR liv_largura LIKE '%" + filtro + "%'");
 			sql.append(" OR liv_peso LIKE '%" + filtro + "%'");
 			sql.append(" OR liv_profundidade LIKE '%" + filtro + "%'");
+			sql.append(" OR liv_valorVenda LIKE '%" + filtro + "%'");
 		}
 		
 		PreparedStatement stmt = connection.prepareStatement(sql.toString());
@@ -349,7 +350,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			int ativo = rs.getInt("liv_isativo");
 			String ISBN = rs.getString("liv_ISBN");
 			String motivo = rs.getString("liv_motivo");
-			
+			Double valorVenda = rs.getDouble("liv_valorVenda");
 			Editora editora = (Editora) new EditoraDAO().getEntidadeDominio(idEditora);
 			List<EntidadeDominio> livrosAutores = new LivroAutorDAO().getEntidadeDominioLivro(id);
 			List<EntidadeDominio> livrosCategorias = new LivroCategoriaDAO().getEntidadeDominioLivro(id);
@@ -376,6 +377,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			livro.setEditora(editora);
 			livro.setAutores(autores);
 			livro.setCategorias(categorias);
+			livro.getEstoque().setValorVenda(valorVenda);
 			
 			
 			livros.add(livro);
@@ -600,11 +602,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			ResultSet rs = pst.executeQuery();
 			
 			while(rs.next()) {
-			
-			
 			int precific = rs.getInt("liv_precificacao");
-			
-			
 			liv.setId(rs.getInt("liv_id"));
 			liv.setIdLivro(rs.getInt("liv_id"));
 			liv.setISBN(rs.getString("liv_ISBN"));
@@ -612,13 +610,13 @@ public class LivroDAO extends AbstractJdbcDAO {
 			for(Precificacoes precf : Precificacoes.values()) {
 				if(precf.getCodigo() == precific) {
 					liv.setPreficacao(precf);
-				}					
-			}			
-
-		}
-
+					}					
+				}
+			}
+			
 			rs.close();
 			pst.close();
+			connection.close();
 			return liv;
 							
 		}

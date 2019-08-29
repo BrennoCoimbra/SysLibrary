@@ -162,6 +162,10 @@ public class LivroViewHelper implements IViewHelper {
 				try {
 					String isbn = request.getParameter("search");
 					EntidadeDominio livros = new LivroDAO().buscarISBN(isbn);
+					if(livros.getId() == null) {
+						request.setAttribute("msg", "Livro não encontrando!");
+						d = request.getRequestDispatcher("errors.jsp");
+					}
 					request.setAttribute("livro", livros);
 				} catch (SQLException e) {
 					resultado.setMsg("Não foi possível listar livros.");;

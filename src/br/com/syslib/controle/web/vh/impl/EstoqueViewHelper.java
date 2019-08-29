@@ -14,6 +14,7 @@ import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Estoque;
 import br.com.syslib.dominio.Fornecedor;
 import br.com.syslib.dominio.Livro;
+import br.com.syslib.enuns.TipoMovimentacaoEstoque;
 
 public class EstoqueViewHelper implements IViewHelper {
 
@@ -30,7 +31,7 @@ public class EstoqueViewHelper implements IViewHelper {
 			String idFornecedor = request.getParameter("fornecedor");
 			String qtde = request.getParameter("qtde");
 			String valorCompra = request.getParameter("valorCompra");
-			
+			String dataEnt = request.getParameter("dataEnt");
 			
 			
 			estoque = new Estoque();
@@ -44,8 +45,23 @@ public class EstoqueViewHelper implements IViewHelper {
 					e.printStackTrace();
 				}
 			
-			estoque.setQtde(Integer.parseInt(qtde));
-			estoque.setValorCompra(Double.parseDouble(valorCompra));
+			
+			
+			try {
+				estoque.setQtde(Integer.parseInt(qtde));
+			} catch (Exception e) {
+				estoque.setQtde(0);
+			}
+			
+			try {
+				estoque.setValorCompra(Double.parseDouble(valorCompra));
+			} catch (Exception e) {
+				estoque.setValorCompra(0);
+			}
+			
+			estoque.setTpMov(TipoMovimentacaoEstoque.ENTRADA);
+			
+			estoque.setDataEnt(dataEnt);
 			
 			
 			

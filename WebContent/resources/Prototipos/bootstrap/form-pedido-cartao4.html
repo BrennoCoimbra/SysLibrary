@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<%@page contentType="text/html" import="java.util.*, java.text.*" pageEncoding="UTF-8"%>
+
 
 
 <html lang="pt-br">
@@ -17,6 +17,8 @@
 
     <!-- Custom styles for this template -->
     <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
+   	<script src="./resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+  	<script src="./resources/bootstrap/js/bootstrap.min.js"></script>
   
   <style>
   footer {
@@ -158,24 +160,10 @@
 
         <main role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
       <div style="text-align: center;">
-          <h3>Detalhe Pedido </h3>   
+          <h3>Pedido </h3>   
                
-              </div> 
-              <div class="row">
-      <div class="col-lg-5">
-      
-      </div>
-      <div class="col-4">
-     
-      </div>
-      <div class="col-0">
-              <a href="./detalhe-itens.html" class="btn btn-primary btn-lg">Detalhes</a> 
-      
-        
-    </div>
-      
-    </div> 
-    <form action="SalvarCarrinho" method="post">
+              </div>  
+    <form >
            <div class="row">
 
     </div>   
@@ -238,24 +226,22 @@
               <td></td>             
               <td style="text-align: center; vertical-align: middle;"><b>Endereço de Entrega: </b></td>
                <td style="text-align: center; vertical-align: middle;">
-                <select id="end" name="end" class="form-control">
-                  <option>Casa</option>
-                  <option>Entrega</option>
-                  <option>Trabalho</option>
+                <select  id="end" name="end" class="form-control">
+                  <option  selected >Entrega</option>
                 </select>
               </td>         
-              <td style="text-align: center; vertical-align: middle;"><b>Valor Frete </b></td>
+              <td style="text-align: center; vertical-align: middle;"><b>Frete </b></td>
               <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$20.00> </td>
             </tr>
-				
-				
-				<tr class="table-active">
+            
+             <tr class="table-active">
               <td></td>             
                <td></td> 
               <th colspan="2"class="text-center">CUPOM</th>
                <td></td> 
                <td></td> 
             </tr>
+            
              <tr>
               <td></td>             
               <td style="text-align: center; vertical-align: middle;"><b>Cupom: </b></td>
@@ -265,90 +251,207 @@
               <td style="text-align: center; vertical-align: middle;"> </td>
               <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$-39.70></td>
             </tr>
-            
-             <tr class="table-active">
-              <td></td>             
-               <td></td> 
-              <th colspan="2"class="text-center">TOTAL</th>
-               <td></td> 
-               <td></td> 
-            </tr>
-             
-            <tr>
+			
+			<tr>
               <td></td>             
               <td></td>     
                <td></td>     
-              <th class="text-center">Total Pedido</th>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$160.00> </td>
+              <th class="text-center"><h4>TOTAL</h4></th>
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$199.70> </td>
             </tr>
-
-             <tr class="table-active">
-              <td></td>             
-               <td></td> 
-              <th colspan="2"class="text-center">FORMA DE PAGAMENTO</th>
-               <td></td> 
-               <td></td> 
-            </tr>
-
+          
+          
+			
+			
           </tbody>
           
         </table>
-    
-      
-        <table class="table table-striped" >
-          <thead>
+    </div>
+    </div>
+     				          
+			<div class="container-fluid">
+			<div class="row">	
+			<table class="table"> 	
+        	<tbody>
+		        <tr class="table-active">
+		              <td></td>             
+		               <td></td> 
+		              <th colspan="2"class="text-center">FORMAS DE PAGAMENTO
+		              
+		              </th>
+		               <td></td> 
+		               <td></td> 
+		            </tr>
+		    </tbody>        
+            </table>
+            						
+			<table class="table table-striped" >
+			
+			
+	          <thead>
+	          
+				
+           		 
+	            <tr>
+	              <th></th>            
+	              <th class="text-center">Seleção</th>
+	              <th class="text-center">Descrição</th>
+	              <th class="text-center">Número</th>
+	             <th><a class="btn btn-primary btn-sm" data-target="#modalCartao" data-toggle="modal" > Novo Cartão </a></th>
+	            </tr>
+	
+	          </thead>
+	          <tbody>     
+	                  
+	            <tr>
+	              <td></td>
+	              <td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>"></td>              
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Bradesco'> </td>
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'XXXX.0123'> </td>              
+	              <td></td>       
+	            </tr>
+	
+	             <tr>
+	              <td></td>
+	              <td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>"></td>              
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Safra'> </td>
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'XXXX.4356'> </td>              
+	              <td></td>       
+	            </tr>
+	          
+	             
+	          
+	          </tbody>
+	          
+        </table>	
+			</div>
+			</div>	
+					
+			
+		
+		
+		
+		<div class="modal fade" id="modalCartao">
+	    <div class="modal-dialog">
+	         <div class="modal-content modal-lg">
+	             <div class="modal-header">
+	             <h4 class="modal-title">Novo cartão</h4>
+	                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+	                 
+	             </div>
+	             <div class="container-fluid">
+				<div class="row">	
+							
+					<div class="form-group col-md-6">
+					<label for="numpgs">Descrição</label>
+						<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+						value="">
+					</div>
+					
+					<div class="form-group col-sm-4">
+						<label class="form-control-label" for="pref">Preferencial</label>
+							<select id="pref" name="pref" class="form-control">
+								  
+									<option id=0 value=0 >Não</option>
+									<option id=1 value=1 >Sim</option>
+								
+							
+								</select> 				
+					</div>
+				</div>
+			</div>	
+					
+			<div class="container-fluid">
+				<h6 class="page-header"> Identificação </h6>
 
-            <tr>
-              <th></th>            
-             
-              <th class="text-center">Tipo</th>
-              <th class="text-center">Descrição</th>
-              <th class="text-center">Valor</th>
-            </tr>
+				<div class="row">
+				
+					<div class="form-group col-md-6">
+						<label for="campo1">Nome no Cartão</label> <input type="text"
+							class="form-control" id="nomeCartao" name="nomeCartao"
+							value="">
+					</div>
+					<div class="form-group col-md-6">
+						<label for="titulo">Numero</label> <input type="text" 
+							class="form-control" id="numero" name="numero"
+							value="">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="ano">Mês</label> <input type="text" maxlength="2"
+							class="form-control" id="mes" name="mes"
+							value="">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="ano">Ano</label> <input type="text" maxlength="2"
+							class="form-control" id="ano" name="ano"
+							value="">
+					</div>
+					
+				</div>
+					
+					<div class="row">
+					
+					<div class="form-group col-md-3">
+						<label for="edicao">CVV</label> <input type="text" maxlength="3"
+							class="form-control" id="cvv" name="cvv"
+							value="">
+					</div>
+					<div class="form-group col-md-5">
+						<label for="numpgs">Bandeira</label> 
+						<select id="bandeira" name="bandeira" class="form-control">
+							
+							  <option id=1 value=1 >Visa </option>
+							
+							  <option id=2 value=2 >MasterCard </option>
+							
+							  <option id=3 value=3 >Elo </option>
+							
+							  <option id=4 value=4 >Americacan Express </option>
+							
+							  <option id=5 value=5 >Dinners Club </option>
+							
+							  <option id=6 value=6 >Hiper </option>
+							
+							  <option id=7 value=7 >Hipercard </option>
+							
+							</select>
+							
+					</div>
+					
+				
+					
+				</div>
 
-          </thead>
-          <tbody>     
-                  
-            <tr>
-              <td></td>
-                          
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Cartao Credito'> </td>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Bradesco'> </td>              
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 140.00'> </td>              
-            </tr>
 
-             <tr>
-              <td></td>
-                          
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Cartao Credito'> </td>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Safra'> </td>              
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 20.00'> </td>              
-            </tr>
-
-            
-          
-          </tbody>
-          
-        </table>
-     
-         
-      </div>
-      </div>
-
-      
-
-      
-     
-                <div class="row">
-          <div class="form-group col-md-8">
-            <label for="campo3"></label>
-            
+							<hr />
+				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>				
+			
+	</div>
+	             
+	         </div>
+	     </div>
+	 	</div>
+		
+		<hr>
+       <div class="row">
+          <div class="form-group col-md-10">
+			<a href="./form-pedido-endereco.html" class="btn btn-success">Voltar</a>
           </div>
+           <div class="form-group col-md-2">				
+			<a href="./form-pedido-cartao3.html" class="btn btn-danger">Finalizar Compra</a>
+
           </div>
-      </form>
-        </main>   
-      </div>    
-    </div>  
+       </div>
+       
+      <div class="row">
+          <div class="form-group col-md-2"></div>
+       </div>
+          
+  	
+    </div>
+			</div>	
+					
+    		
     <!-- Icons -->    
   <script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
   <script src="./resources/bootstrap/js/feather.min.js"></script>

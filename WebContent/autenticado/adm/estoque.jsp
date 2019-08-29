@@ -212,16 +212,21 @@
 							</select>				
 					</div>
 
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-2">
 						<label for="campo1">Quantidade</label> <input type="text" maxlength="13"
 							class="form-control" id="qtde" name="qtde"
 							value="">
 					</div>
-					<div class="form-group col-md-3">
+					<div class="form-group col-md-2">
 						<label for="campo1">Valor</label> <input type="text" maxlength="13"
 							class="form-control" id="valorCompra" name="valorCompra"
 							value="">
-					</div>	
+					</div>
+					<div class="form-group col-md-3">
+						<label for="campo1">Data de Entrada</label> <input type="date" maxlength="13"
+							class="form-control" id="dataEnt" name="dataEnt"
+							value="">
+					</div>		
 					</div>	
 					<div class=col>            	
 				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>

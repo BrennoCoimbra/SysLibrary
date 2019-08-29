@@ -248,7 +248,7 @@
                <td style="text-align: center; vertical-align: middle;">
                 <input>
               </td>         
-              <td style="text-align: center; vertical-align: middle;"><a href="#" class="btn btn-success btn-sm">Validar</a> </td>
+              <td style="text-align: center; vertical-align: middle;"><a href="./form-pedido-cartao2.html" class="btn btn-success btn-sm">Validar</a> </td>
               <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$00.00></td>
             </tr>
 			
@@ -257,41 +257,18 @@
               <td></td>     
                <td></td>     
               <th class="text-center"><h4>TOTAL</h4></th>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$179.70> </td>
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= R$199.70> </td>
             </tr>
-            
-			<tr class="table-active">
-              <td></td>             
-               <td></td> 
-              <th colspan="2"class="text-center">FORMAS DE PAGAMENTO</th>
-               <td></td> 
-               <td></td> 
-            </tr>
-            
-            <tr>
-              <td></td>             
-              <td></td>
-			<td style="text-align: center;">
-				  <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseCartao" role="button" aria-expanded="false" aria-controls="collapseCartao">
-				    Cartão de Crédito
-				    </a> 
-			</td>
+          
+          
 			
-          <td>	
-			<a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseBoleto" role="button" aria-expanded="false" aria-controls="collapseBoleto">
-				    Boleto
-			</a> 
-			</td>			               
-            </tr>
-
+			
           </tbody>
           
         </table>
     </div>
     </div>
-     	<!-- COLLAPSE DO CARTAO -->
-
-        <div class="collapse" id="collapseCartao">				          
+     				          
 			<div class="container-fluid">
 			<div class="row">	
 			<table class="table"> 	
@@ -299,7 +276,9 @@
 		        <tr class="table-active">
 		              <td></td>             
 		               <td></td> 
-		              <th colspan="2"class="text-center">Cartões</th>
+		              <th colspan="2"class="text-center">FORMAS DE PAGAMENTO
+		              
+		              </th>
 		               <td></td> 
 		               <td></td> 
 		            </tr>
@@ -307,6 +286,7 @@
             </table>
             						
 			<table class="table table-striped" >
+			
 			
 	          <thead>
 	          
@@ -317,7 +297,7 @@
 	              <th class="text-center">Seleção</th>
 	              <th class="text-center">Descrição</th>
 	              <th class="text-center">Número</th>
-	              <th class="text-center">Valor</th>
+	             <th><a class="btn btn-primary btn-sm" data-target="#modalCartao" data-toggle="modal" > Novo Cartão </a></th>
 	            </tr>
 	
 	          </thead>
@@ -326,30 +306,13 @@
 	            <tr>
 	              <td></td>
 	              <td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>"></td>              
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'cartao comum'> </td>
+	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'Bradesco'> </td>
 	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'XXXX.0123'> </td>              
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 120.00'> </td>              
+	              <td></td>       
 	            </tr>
 	
-	             <tr>
-	              <td></td>
-	              <td style="text-align: center; vertical-align: middle;"><input type="checkbox" id="chkSelect^<%=i %>" name="chkSelect^<%=i %>"></td>              
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'cartao 2'> </td>
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'XXXX.4321'> </td>              
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$ 00.00'> </td>              
-	            </tr>
 	            
-	            <tr>
-	              <td></td>
-	              <td style="text-align: center;">
-				  <a class="btn btn-primary btn-sm" data-toggle="collapse" href="#collapseCartaoNovo" role="button" aria-expanded="false" aria-controls="collapseCartaoNovo">
-				    Novo
-				    </a> 
-					</td>
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= ''> </td>
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= ''> </td>              
-	              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= 'R$00.00'> </td>           
-	            </tr>
+	          
 	             
 	          
 	          </tbody>
@@ -359,89 +322,117 @@
 			</div>	
 					
 			
-		</div>
-		<!-- FIM COLLAPSE DO NOVO CARTAO -->
-		<div class="collapse" id="collapseCartaoNovo">				          
-			<div class="container-fluid">
-			<div class="row">							
-			<table class="table table-striped" >
-	          <thead>
-	          
-				<tr class="table-active">
-	              <td></td>             
-	               <td></td> 
-	              <th colspan="2"class="text-center">Novo Cartão</th>
-	               <td></td> 
-	               <td></td> 
-           		 </tr>
-	          </thead>
-        	</table>
-        
-			<div class="container-fluid">
-				<h6 class="page-header"> Descrição </h6>
-					<div class="row">	
-						<form action="SalvarCartao" method="post">	
-				<div class="form-group col-md-3">
-					<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
-							value="">
+		
+		
+		
+		<div class="modal fade" id="modalCartao">
+	    <div class="modal-dialog">
+	         <div class="modal-content modal-lg">
+	             <div class="modal-header">
+	             <h4 class="modal-title">Novo cartão</h4>
+	                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+	                 
+	             </div>
+	             <div class="container-fluid">
+				<div class="row">	
+							
+					<div class="form-group col-md-6">
+					<label for="numpgs">Descrição</label>
+						<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+						value="">
 					</div>
 					
+					<div class="form-group col-sm-4">
+						<label class="form-control-label" for="pref">Preferencial</label>
+							<select id="pref" name="pref" class="form-control">
+								  
+									<option id=0 value=0 >Não</option>
+									<option id=1 value=1 >Sim</option>
+								
+							
+								</select> 				
 					</div>
-				</div>	
 				</div>
-				</div>
+			</div>	
+					
 			<div class="container-fluid">
 				<h6 class="page-header"> Identificação </h6>
 
 				<div class="row">
 				
-					<div class="form-group col-md-4">
-						<label for="campo1">Nome no cartão</label> <input type="text" maxlength="13"
-							class="form-control" id="logradouro" name="logradouro"
+					<div class="form-group col-md-6">
+						<label for="campo1">Nome no Cartão</label> <input type="text"
+							class="form-control" id="nomeCartao" name="nomeCartao"
 							value="">
 					</div>
-					<div class="form-group col-md-4">
-						<label for="titulo">Numero</label> <input type="number"
+					<div class="form-group col-md-6">
+						<label for="titulo">Numero</label> <input type="text" 
 							class="form-control" id="numero" name="numero"
 							value="">
 					</div>
 					<div class="form-group col-md-3">
-						<label for="ano">Válido Até</label> <input type="text"
+						<label for="ano">Mês</label> <input type="text" maxlength="2"
+							class="form-control" id="mes" name="mes"
+							value="">
+					</div>
+					<div class="form-group col-md-3">
+						<label for="ano">Ano</label> <input type="text" maxlength="2"
 							class="form-control" id="ano" name="ano"
 							value="">
 					</div>
-					<div class="form-group col-md-2">
-						<label for="cvv">CVV</label> <input type="text"
+					
+				</div>
+					
+					<div class="row">
+					
+					<div class="form-group col-md-3">
+						<label for="edicao">CVV</label> <input type="text" maxlength="3"
 							class="form-control" id="cvv" name="cvv"
 							value="">
 					</div>
-					<div class="form-group col-md-2">
-						<label for="cartao">Bandeira</label> 
-						<select id="cartao" name="cartao" class="form-control">
-						<option>Visa</option>
-						<option>Elo</option>
-						<option>MasterCard</option>
+					<div class="form-group col-md-5">
+						<label for="numpgs">Bandeira</label> 
+						<select id="bandeira" name="bandeira" class="form-control">
+							
+							  <option id=1 value=1 >Visa </option>
+							
+							  <option id=2 value=2 >MasterCard </option>
+							
+							  <option id=3 value=3 >Elo </option>
+							
+							  <option id=4 value=4 >Americacan Express </option>
+							
+							  <option id=5 value=5 >Dinners Club </option>
+							
+							  <option id=6 value=6 >Hiper </option>
+							
+							  <option id=7 value=7 >Hipercard </option>
+							
 							</select>
 							
 					</div>
 					
+				
+					
 				</div>
-			</div>
-			</div>
-		</form>	
-		
 
+
+							<hr />
+				<a href="./form-pedido-cartao4.html" class="btn btn-success">SALVAR</a>			
 			
-
-		<!-- FIM COLLAPSE DO NOVO CARTAO -->
- 
+	</div>
+	             
+	         </div>
+	     </div>
+	 	</div>
+		
 		<hr>
        <div class="row">
           <div class="form-group col-md-10">
 			<a href="./form-pedido-endereco.html" class="btn btn-success">Voltar</a>
           </div>
            <div class="form-group col-md-2">				
-			<a href="./consultar-pedido.html" class="btn btn-danger">Finalizar Compra</a>
+			<a href="./form-pedido-cartao2.html" class="btn btn-danger">Finalizar Compra</a>
 
           </div>
        </div>
