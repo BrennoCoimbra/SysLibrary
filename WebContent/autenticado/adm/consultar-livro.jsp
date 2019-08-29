@@ -211,7 +211,7 @@
 							<a href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>" class="btn btn-warning">Alterar</a> 
 							</td>
 							
-							<td style="text-align: left; ">
+							<td style="text-align: left;">
 							<a href="SalvarLivro?operacao=EXCLUIR&IdLivro=<%=livro.getId() %>"class="btn btn-danger">Remover</a>
 							</td>				
 										
