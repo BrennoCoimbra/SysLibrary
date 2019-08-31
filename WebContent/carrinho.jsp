@@ -43,6 +43,7 @@
 		<%
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		
+		
 	    Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
   	    ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? null : (ArrayList) session.getAttribute("livros");
   	    Resultado resultado = (Resultado) request.getAttribute("resultado");
