@@ -263,6 +263,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 		} else if (livro.getId() == null && !livro.getTitulo().equals("")) {
 			sql = "SELECT * FROM livros WHERE titulo like ?";
 
+		} else if(livro.getId() != null && !livro.getTitulo().equals("")) {
+			sql = "SELECT * FROM livros WHERE liv_id = ?";
 		}
 
 		try {
@@ -273,6 +275,8 @@ public class LivroDAO extends AbstractJdbcDAO {
 				pst.setInt(1, livro.getId());
 			} else if (livro.getId() == null && !livro.getTitulo().equals("")) {
 				pst.setString(1, "%" + livro.getTitulo() + "%");
+			} else if (livro.getId() != null && !livro.getTitulo().equals("")) {
+				pst.setInt(1, livro.getId());
 			}
 
 			ResultSet rs = pst.executeQuery();
@@ -297,6 +301,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 				liv.setAltura(rs.getDouble("liv_altura"));
 				liv.setLargura(rs.getDouble("liv_largura"));
 				liv.setPeso(rs.getDouble("liv_peso"));
+				liv.setValorVenda(rs.getDouble("liv_valorVenda"));
 				liv.setProfundidade(rs.getDouble("liv_profundidade"));
 				for(Precificacoes precf : Precificacoes.values()) {
 					if(precf.getCodigo() == precific) {
@@ -539,9 +544,11 @@ public class LivroDAO extends AbstractJdbcDAO {
 			liv.setLargura(rs.getDouble("liv_largura"));
 			liv.setPeso(rs.getDouble("liv_peso"));
 			liv.setProfundidade(rs.getDouble("liv_profundidade"));
+			liv.getEstoque().setValorVenda(rs.getDouble("liv_valorVenda"));
 			for(Precificacoes precf : Precificacoes.values()) {
 				if(precf.getCodigo() == precific) {
 					liv.setPreficacao(precf);
+					
 				}					
 			}			
 			liv.setMotivo(rs.getString("liv_motivo"));
@@ -641,6 +648,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			int ativo = rs.getInt("liv_isativo");
 			String ISBN = rs.getString("liv_ISBN");
 			String motivo = rs.getString("liv_motivo");
+			Double valorVenda = rs.getDouble("liv_valorVenda");
 			
 			Editora editora = (Editora) new EditoraDAO().getEntidadeDominio(idEditora);
 			List<EntidadeDominio> livrosAutores = new LivroAutorDAO().getEntidadeDominioLivro(id);
@@ -668,6 +676,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			livro.setEditora(editora);
 			livro.setAutores(autores);
 			livro.setCategorias(categorias);
+			livro.getEstoque().setValorVenda(valorVenda);
 			
 			livros.add(livro);
 		}

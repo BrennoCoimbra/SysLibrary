@@ -9,11 +9,13 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import br.com.syslib.controle.web.command.impl.AddCommand;
 import br.com.syslib.controle.web.command.impl.AlterarCommand;
 import br.com.syslib.controle.web.command.impl.BuscarCommand;
 import br.com.syslib.controle.web.command.impl.ConsultarCommand;
 import br.com.syslib.controle.web.command.impl.ExcluirCommand;
 import br.com.syslib.controle.web.command.impl.ICommand;
+import br.com.syslib.controle.web.command.impl.RemoveCommand;
 import br.com.syslib.controle.web.command.impl.SairCommand;
 import br.com.syslib.controle.web.command.impl.SalvarCommand;
 import br.com.syslib.controle.web.command.impl.VisualizarCommand;
@@ -23,6 +25,7 @@ import br.com.syslib.controle.web.vh.impl.EnderecoViewHelper;
 import br.com.syslib.controle.web.vh.impl.EstoqueViewHelper;
 import br.com.syslib.controle.web.vh.impl.IViewHelper;
 import br.com.syslib.controle.web.vh.impl.LivroViewHelper;
+import br.com.syslib.controle.web.vh.impl.PedidoViewHelper;
 import br.com.syslib.controle.web.vh.impl.UsuarioViewHelper;
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.dominio.EntidadeDominio;
@@ -50,7 +53,8 @@ public class Servlet extends HttpServlet {
 		commands.put("ALTERAR", new AlterarCommand());
 		commands.put("SAIR", new SairCommand());
 		commands.put("BUSCAR", new BuscarCommand());
-		
+		commands.put("ADD", new AddCommand());
+		commands.put("REMOVE", new RemoveCommand());
 		/**
 		 * Utilizando o ViewHelper para tratar especificações de qualquer tela e
 		 * indexando cada viewhelper pela url em que esta servlet é chamada no form
@@ -74,7 +78,7 @@ public class Servlet extends HttpServlet {
 		vhs.put("/SysLibrary/autenticado/SalvarEndereco", new EnderecoViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarCartao", new CartaoCreditoViewHelper());
 		vhs.put("/SysLibrary/autenticado/adm/SalvarEstoque", new EstoqueViewHelper());
-		
+		vhs.put("/SysLibrary/SalvarCarrinho", new PedidoViewHelper());
 		
 	}
 

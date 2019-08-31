@@ -73,7 +73,44 @@ public class EstoqueDAO extends AbstractJdbcDAO {
 		
 	@Override
 	public void alterar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		openConnection();
+		PreparedStatement pst = null;
+		Estoque estoque = (Estoque) entidade;
+			
+		
+		try {
+			
+			connection.setAutoCommit(false);
+			
+			StringBuilder sql = new StringBuilder();
+			sql.append("INSERT INTO estoque (es_idLivro, es_qtdeTotal,es_tpMov,dtCadastro) ");
+			sql.append("VALUES (?,?,?,sysdate())");
+			
+			pst = connection.prepareStatement(sql.toString());
+			pst.setInt(1,estoque.getIdLivro()); 
+			pst.setInt(2, estoque.getQtde());
+			pst.setInt(3, estoque.getTpMov().getCodigo());
+			
+			pst.executeUpdate();
+			
+			
+			
+			connection.commit();
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				pst.close();
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+		}
 
 	}
 
@@ -110,6 +147,26 @@ public class EstoqueDAO extends AbstractJdbcDAO {
 		rs.close();
 		stmt.close();
 		return est;
+	}
+	
+	public EntidadeDominio getQtdeEstoque(int idLivro) throws SQLException{
+		openConnection();
+		Estoque estoque = new Estoque();	
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("select es_idLivro,SUM(es_qtdeTotal) as 'qtdeTotal' from estoque where es_idLivro = " + idLivro + "");
+		PreparedStatement stmt = connection.prepareStatement(sql.toString());
+		ResultSet rs = stmt.executeQuery();
+		
+		while (rs.next()) {
+		
+		estoque.setIdLivro(rs.getInt("es_idLivro"));
+		estoque.setQtde(rs.getInt("qtdeTotal"));
+		
+		}
+		rs.close();
+		stmt.close();
+		return estoque;
 	}
 }
 

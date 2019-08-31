@@ -91,7 +91,7 @@
 			<%} %>
               </li>
                <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/carrinho.jsp">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
@@ -172,7 +172,11 @@
 									 <div style="text-align: center;">
 										<a href="describe.jsp?IdLivro=<%=livro.getId()%>">
 											<img class="pic-1" src="./resources/livros/<%=livro.getId()%>.jpg">	
-										</a>	
+											<h4><%=livro.getTitulo() %></h4>
+											
+										</a>
+										<H6>Apenas por!</H6>	
+										<h6><%= "R$" + String.format("%.2f", livro.getEstoque().getValorVenda()) %></h6>
 									</div><br>
 									 <div style="text-align: center;">
 									 <%if(usuario != null){ %>

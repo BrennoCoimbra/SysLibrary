@@ -40,6 +40,9 @@
   <body>
   		<%
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
+  		Pedido ped = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
+  		ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? null : (ArrayList) session.getAttribute("livros");
+  	    Resultado resultado = (Resultado) request.getAttribute("resultado");
     	%>	
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -121,6 +124,19 @@
             </ul>
           </div>
         </nav>
+        
+        <!-- Enviandos livros para o atributo da sessao livros -->
+        
+        <%
+        int i;
+        List<EntidadeDominio> livs = new LivroDAO().listarAtivos();
+	       for (EntidadeDominio ed : livs) {
+	    	   i = 0;
+              session.setAttribute("livros", livs);
+    
+	       }
+	      
+        %>
 
         <!-- Header -->
         <%
@@ -143,9 +159,10 @@
     <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4"> 
     		<div style="text-align: center;">
 				<h3>Descrição</h3>  <hr>  
-				<div class="text-right">						
-						<a href="Carrinho.html" class="btn btn-success">Adicionar ao Carrinho</a>
-						<a href="Reserva.html" class="btn btn-warning">Reservar</a>
+				<div class="text-right">
+										
+						<a href="SalvarCarrinho?operacao=ADD&idItemPedido=<%= livro.getId() %>&qtdeItem=1" class="btn btn-success">Adicionar ao Carrinho</a>
+						
 					</div>       
             </div>        
     <div class="header bg-gradient-primary pb-8 pt-5 pt-md-8">
@@ -159,20 +176,25 @@
 					<div class="row">
 				<div class="col-sm-4">
 					<img style="width: 70%" class="img-responsive" src="resources/livros/<%=livro.getId()%>.jpg">
+					<h4><b>Valor:</b> <%if (livro != null)%> <%= "R$" + String.format("%.2f",livro.getEstoque().getValorVenda()) %></h4>
 				</div>
 				<div class="col-sm-8">
+				
 					<div class="row">
+					
 						<ul class="nav nav-tabs" role="tab-list">
 							<li class="nav active">
 								
 							</li>
 							<li class="nav">
+							
 								<a href="#informacoes" data-toggle="tab">Informações técnicas:</a>
 							</li>
 						</ul>
 
 						<div class="table">
 							<br>
+							
 							<p><b>Titulo:</b> <%if (livro != null) out.print(livro.getTitulo()); %></p>	
 							<p><b>Editora:</b> <%if (livro != null) out.print(livro.getEditora().getNome()); %></p>
 							<p><b>Autores:</b> <%if (livro != null) out.print(autores.toString()); %></p>

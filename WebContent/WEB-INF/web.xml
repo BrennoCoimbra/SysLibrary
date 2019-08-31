@@ -67,6 +67,10 @@
 	</servlet-mapping>
 	<servlet-mapping>
 		<servlet-name>Servlet</servlet-name>
+		<url-pattern>/SalvarCarrinho</url-pattern>
+	</servlet-mapping>
+	<servlet-mapping>
+		<servlet-name>Servlet</servlet-name>
 		<url-pattern>/autenticado/SalvarCliente</url-pattern>
 	</servlet-mapping>
 	<servlet-mapping>

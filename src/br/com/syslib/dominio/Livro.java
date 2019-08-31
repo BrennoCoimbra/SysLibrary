@@ -27,7 +27,7 @@ public class Livro extends EntidadeDominio {
 	private Editora editora;
 	private Precificacoes preficacao;
 	private Estoque estoque = new Estoque();
-	
+	private double valorVenda;
 	
 	
 	public String getTitulo() {
@@ -163,6 +163,12 @@ public class Livro extends EntidadeDominio {
 	}
 	public void setEstoque(Estoque estoque) {
 		this.estoque = estoque;
+	}
+	public double getValorVenda() {
+		return valorVenda;
+	}
+	public void setValorVenda(double valorVenda) {
+		this.valorVenda = valorVenda;
 	}
 	
 	
