@@ -47,6 +47,16 @@
 		<url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
 	</filter-mapping>
 	
+	<filter>
+		<filter-name>FilterCarrinho</filter-name>
+		<filter-class>br.com.syslib.filter.FilterCarrinho</filter-class>
+	</filter>
+	
+	<filter-mapping>
+		<filter-name>FilterCarrinho</filter-name>
+		<url-pattern>/carrinho.jsp</url-pattern>
+	</filter-mapping>
+	
 	<servlet>
 		<description></description>
 		<display-name>Servlet</display-name>
@@ -109,4 +119,11 @@
 	<error-page>
         <location>/errors.jsp</location>
     </error-page>
+<!--     <error-page> -->
+<!--     <exception-type>javax.faces.application.ViewExpiredException</exception-type> -->
+<!--     <location>/home.xhtml</location> -->
+<!-- 	</error-page> -->
+    <session-config>
+        <session-timeout>5</session-timeout>
+    </session-config>
 </web-app>

@@ -15,15 +15,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
     <meta name="description" content="PÃ¡gina para buscar livros e acessar informaÃ§Ãµes.">
     <meta name="author" content="Brenno Coimbra">
-    <link rel="icon" href="./resources/bootstrap/imgs/library_icon.ico">
+    <link rel="icon" href="http://localhost:8080/SysLibrary/resources/bootstrap/imgs/library_icon.ico">
 
     <title>SysLibrary</title>
 
-    <!-- Bootstrap core CSS -->
-   <link href="./resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+   <!-- Bootstrap core CSS -->
+   <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="./resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+  	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.min.js"></script>
 	
 	<style>
 	footer {
@@ -40,8 +42,7 @@
   
 		<%
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		
-		
+		Endereco endereco = (Endereco) request.getAttribute("enderecos");
 	    Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
   	    ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? null : (ArrayList) session.getAttribute("livros");
@@ -77,7 +78,6 @@
       <div class="row">
         <nav class="col-md-2 d-none d-md-block bg-light sidebar">
           <div class="sidebar-sticky">
-          
             <ul class="nav flex-column">
             <li class="nav-item">
             <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp">
@@ -85,16 +85,13 @@
                   Home <span class="sr-only"></span>
                 </a>
                 </li>
-                <%
-					if(usuario != null){
-          		%>
               <li class="nav-item">
-                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/profile.jsp">
+                <a class="nav-link" href="./profile.jsp">
                   <span data-feather="users"></span>
                   Seu Perfil <span class="sr-only"></span>
                 </a>
-                </li>
-                <li class="nav-item">
+              </li>
+              <li class="nav-item">
                 <a class="nav-link" href="./form-endereco.jsp">
                   <span data-feather="file"></span>
                   Cadastrar Endereço
@@ -142,75 +139,46 @@
                   Trocas
                 </a>
               </li>
-                 <%} else {%>
-		
-           
-               <li class="nav-item">
-                <a class="nav-link active" href="http://localhost:8080/SysLibrary/carrinho.jsp">
-                  <span data-feather="shopping-cart"></span>
-                  Carrinho
-                </a>
-              </li>
-              
             </ul>
-           
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Categorias</span>
-              <a class="d-flex align-items-center text-muted" href="#">
-               
-              </a>
-            </h6>
-			        			      
-            <ul class="nav flex-column mb-2">
-             
-			<%
-        	List<EntidadeDominio> categorias = new CategoriaDAO().listar();
-            for (EntidadeDominio ed : categorias) {
-            	Categoria categoria = (Categoria) ed;	
-			%>
-              
-              <li class="nav-item">
-              <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp?idCategoria=<%=categoria.getId()%>"> 
-              <span data-feather="book"></span> <%=categoria.getNome()%>
-              </a>
-              </li>
-              <%
-			      }
-			
-			
-			
-			   %>
 
-      	<%} %>
-            </ul>
+           
           </div>
         </nav>
+        
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Carrinho de Compras</h3>   
+					<h3>Pedido</h3>   
 				       <div style="text-align: right;"> 
 				       <% if(pedido != null) {%>
 				          <label>Você tem: <input type="text" class="col-lg-3"  readonly id="btn" name="btn" value=""> minutos para comprar.</label>
 				          <% } %>
 				       </div>
             	</div>  
-		<form action="SalvarCarrinho" method="post">
+		<form action="CarregarCarrinho" method="get">
            <div class="row">
 
 		</div>   
             	<div id="list" class="row">	
 			<div class="table-responsive col-12">
-				<table class="table table-striped" >
+				<table class="table" >
 					<thead>
+					
+						<tr class="table-active">
+			              <td></td> 
+			              <td></td> 
+			              <th colspan="2"class="text-center">PRODUTOS</th>           
+			              <td></td> 			            			              
+			              <td></td> 			           
+			            </tr>
+			            
 						<tr>
 							<th></th>
 							<th class="text-center">Livro</th>
 							<th class="text-center">Qtde</th>
 							<th class="text-center">Preço Unit. R$</th>
 							<th class="text-center">Total R$</th>
-							<th class="text-center">Ações</th>
-							<th></th>
 						</tr>
+						
 					</thead>
 					<tbody>
 					<%
@@ -227,41 +195,225 @@
 						<tr>
 							<td></td>
 							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
-							<td>
-							 <a href="SalvarCarrinho?operacao=ADD&idItemPedido=<%= livro.getId() %>&qtdeItem=1">
-							<span data-feather="plus-circle"></span>
-							</a>
-							<input style="text-align: center;" readonly type= text value=<%= i.getItemQtde() %> > 
-							<a href="SalvarCarrinho?operacao=REMOVE&idItemPedido=<%= livro.getId() %>&qtdeItem=<%= i.getItemQtde()%>">
-							<span data-feather="minus-circle"></span>
-							</a>
-							</td>
+							<td><input style="text-align: center;" readonly type= text value=<%= i.getItemQtde() %> ></td>
 							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f",livro.getEstoque().getValorVenda()) %> ></td>
 							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", i.getItemSubTotal()) %>> </td>
-							<!-- Buttons actions -->
-							<td style="text-align: center; "><a href="SalvarCarrinho?operacao=EXCLUIR&idItemPedido=<%= livro.getId() %>&qtdeItem=<%=i.getItemQtde()%>"><span data-feather="trash-2"></span></a></td>														
 							<td></td>
-
+							
 						<% } %>
                         	
-						<tr>
-			              <td></td>             
+						<tr>            
 			              <td></td>     
+			              <td></td>
 			              <td></td>     
 			              <th class="text-center">SubTotal</th>
 			              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", pedido.getSubtotalPedido()) %>> </td>
 			              <td></td>
-			              <td></td>
 			            </tr>
 			            
-			          <% } %>
+			          <%  
+                        } %>
+                      <tr class="table-active">
+			              <td></td>             
+			              <td></td> 
+			              <th colspan="2"class="text-center">ENDEREÇO</th>
+			              <td></td> 
+			              <td></td> 
+            		</tr>
+					
+					 <%
+				        Cliente cliente = new Cliente();
+				        if(cliente != null){
+				        	cliente = (Cliente) usuario;
+				        }
+				        
+				        %>
+            		<tr>
+            		
+		              <td></td>             
+		              <td style="text-align: center; vertical-align: middle;"><b>Endereço de Entrega: </b></td>
+		              <td style="text-align: center; vertical-align: middle;">
+		               	<select id="end" name="end" class="form-control">
+		                  <option><%if(cliente != null) out.print(usuario.getNome()); %></option>
+		                  <option>Entrega</option>
+		                  <option>Trabalho</option>
+		                </select>
+		              </td>         
+              		<td style="text-align: center; vertical-align: middle;"><b>OU </b></td>
+              		<td style="text-align: center; vertical-align: middle;">
+				  	<a class="btn btn-primary btn-sm" data-target="#modal-mensagem" data-toggle="modal" > NOVO</a>
+					</td>
+            		</tr>
+            		
 						
 					</tbody>
 					
 				</table>
 				
+				 <!--  INICIO DO MODAL DE ENDEREÇO -->
+        <div class="modal fade" id="modal-mensagem">
+		    <div class="modal-dialog modal-lg">
+		         <div class="modal-content">
+		             <div class="modal-header">
+		             <h4 class="modal-title">Novo Endereço</h4>
+		                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+		     		</div>	
+		     <div class="container-fluid">					
+				<div class="row">								
+					<div class="form-group col-md-5">
+					<label for="numpgs">Descrição</label>
+						<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
+							value="<%if(endereco != null) out.print(endereco.getDescricao()); %>">
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label for="numpgs">Tipo Endereço</label> 
+						<select id="tpEnd" name="tpEnd" class="form-control">
+							<%
+								for (TipoEndereco tpEnd : TipoEndereco.values()) {
+							%>
+							  <option id=<%=tpEnd.getCodigo() %> value=<%=tpEnd.getCodigo() %> <%if (endereco != null && endereco.getTpEnd().getCodigo() == tpEnd.getCodigo()) out.print("selected"); %>><%=tpEnd.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
+					</div>
+					
+					<div class="form-group col-sm-4">
+					<label class="form-control-label" for="pref">Preferencial</label>
+						<select id="pref" name="pref" class="form-control">
+							<%
+								if (endereco == null) {
+							%>  
+								<option id=0 value=0 >Não</option>
+								<option id=1 value=1 >Sim</option>
+							<%
+								} else if (endereco != null && endereco.getPreferencial() == true) {
+							%>
+								<option id=0 value=0 >Não</option>
+								<option id=1 value=1 selected>Sim</option>
+							<%	
+								} else if (endereco != null && endereco.getPreferencial() == false) {
+									%>
+									
+									<option id=0 value=0 selected>Não</option>
+									<option id=1 value=1 >Sim</option>
+								<%	
+									}
+								%>
+						
+							</select> 				
+					</div>
+					
+				</div>
+						
+			</div>
+				
+			<div class="container-fluid">
+				<h6 class="page-header"> Caracteristicas </h6>
+				
+				<div class="row">
+				
+					<div class="form-group col-md-4">
+					<label for="numpgs">Tipo Residência</label> 
+						<select id="tpRes" name="tpRes" class="form-control">
+							<%
+								for (TipoResidencia residencias : TipoResidencia.values()) {
+							%>
+							  <option id=<%=residencias.getCodigo() %> value=<%=residencias.getCodigo() %> <%if (endereco != null && endereco.getTpResid().getCodigo() == residencias.getCodigo()) out.print("selected"); %>><%=residencias.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
+					</div>
+					<div class="form-group col-md-4">
+					<label for="numpgs">Tipo Logradouro</label> 
+						<select id="tpLog" name="tpLog" class="form-control">
+							<%
+								for (TipoLogradouro logradouros : TipoLogradouro.values()) {
+							%>
+							  <option id=<%=logradouros.getCodigo() %> value=<%=logradouros.getCodigo() %> <%if (endereco != null && endereco.getTpLogrdo().getCodigo() == logradouros.getCodigo()) out.print("selected"); %>><%=logradouros.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
+					</div>
+					<div class="form-group col-md-6">
+						<label for="campo1">Logradouro</label> <input type="text" maxlength="100"
+							class="form-control" id="logradouro" name="logradouro"
+							value="<%if(endereco != null) out.print(endereco.getLogradouro()); %>">
+					</div>
+					<div class="form-group col-md-4">
+						<label for="titulo">Numero</label> <input type="number"
+							class="form-control" id="numero" name="numero"
+							value="<%if(endereco != null) out.print(endereco.getNumero()); %>">
+					</div>
+				</div>	
+
+				<div class="row">
+				
+					
+					<div class="form-group col-md-5">
+						<label for="ano">Bairro</label> <input type="text"
+							class="form-control" id="bairro" name="bairro"
+							value="<%if(endereco != null) out.print(endereco.getBairro()); %>">
+					</div>
+					<div class="form-group col-md-4">
+						<label for="numpgs">CEP</label> <input type="text"
+							class="form-control" id="cep" name="cep"
+							value="<%if(endereco != null) out.print(endereco.getCep()); %>">
+					</div>
+				</div>
+					
+					<div class="row">
+					
+					
+					<div class="form-group col-md-5">
+						<label for="numpgs">Estado</label> 
+						<select id="estado" name="estado" class="form-control">
+							<%
+								for (Estados estados : Estados.values()) {
+							%>
+							  <option id=<%=estados.getCodigo() %> value=<%=estados.getCodigo() %> <%if (endereco != null && endereco.getEstado().equals(estados.getDescricao())) out.print("selected"); %>><%=estados.getDescricao() %> </option>
+							<%
+								}
+							%>
+							</select>
+													
+					</div>
+					
+					
+					<div class="form-group col-md-5">
+						<label for="numpgs">Cidade</label> 
+						<input type="text"
+							class="form-control" id="cidade" name="cidade"
+						 value="<%if(endereco != null) out.print(endereco.getCidade()); %>">
+													
+					</div>
+					
+					<div class="form-group col-md-4">
+						<label for="numpgs">Pais</label> <input type="text"
+							class="form-control" id="pais" name="pais"
+							value="<%if(endereco != null) out.print(endereco.getPais()); %>">
+					</div>
+								
+		
+				</div>
+
+
+							<hr>
+				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>				
+			
+		</div>  
+		             
+		          </div>
+			</div>
+		</div>	             
+				
 			</div>
 			</div>
+			
+			<hr>
 			
 			<div class="row">
           		<div class="form-group col-md-10">
@@ -271,11 +423,11 @@
 				if(usuario == null){
 				%>
 				<div class="form-group col-md-2">
-					<a href="http://localhost:8080/SysLibrary/login.jsp" class="btn btn-success">Seguir Compra</a>
+					<a href="http://localhost:8080/SysLibrary/login.jsp" class="btn btn-warning">Seguir p/Pagamento</a>
 				</div>
 				<%} else { %>
            		<div class="form-group col-md-2">
-					<a href="http://localhost:8080/SysLibrary/autenticado/form-pedido-endereco.jsp" class="btn btn-success">Seguir Compra</a>
+					<a href="./form-pedido-cartao.html" class="btn btn-warning">Seguir p/ Pagamento</a>
 				</div>
 				<%}
 				
@@ -301,13 +453,13 @@
       </div>	  
     </div>	
     <!-- Icons -->    
-	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
-	<script src="./resources/bootstrap/js/feather.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
     <script type="text/javascript">
     $(document).ready(function () {
         setTimeout(function () {
             window.location.reload(1);
-        }, 300000); //tempo em milisegundos. Neste caso, o refresh vai acontecer de 5 em 5 segundos.
+        }, 60000); //tempo em milisegundos. Neste caso, o refresh vai acontecer de 5 em 5 segundos.
     });
     </script>	
     <script type="text/javascript">

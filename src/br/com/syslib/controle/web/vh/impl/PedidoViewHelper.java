@@ -67,7 +67,6 @@ public class PedidoViewHelper implements IViewHelper {
         if(operacao.equals("EXCLUIR")) {
         	if(resultado.getMsg().equals("DRIVEOK")){
         		Pedido pedidoBD = (Pedido) entidade.get(0);
-        		Livro livro = new Livro();
         		if(pedido.getPedItem().size() > 0 ) {
         			for(ItemPedido item : pedido.getPedItem()) {
         				

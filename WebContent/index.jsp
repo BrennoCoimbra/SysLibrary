@@ -15,6 +15,8 @@
     <meta name="description" content="Página para buscar livros e acessar informações.">
     <meta name="author" content="Brenno Coimbra">
     <link rel="icon" href="./resources/bootstrap/imgs/library_icon.ico">
+    <link rel="shortcut icon" href="./resources/bootstrap/imgs/library_icon.ico">    
+	
 
     <title>SysLibrary</title>
 
@@ -95,6 +97,10 @@
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
+              </li>
+               <li class="nav-item">
+              
+                
               </li>
               
             </ul>
@@ -193,10 +199,7 @@
 							%>
 						</div>
 					</div>
-<!-- 					<div> -->
-<!-- 					<h1>Exemplos JQuery</h1> -->
-<!-- 					<a href="paginaPai.jsp">Load jQuery</a> -->
-<!-- 					</div> -->
+
 				</div>
 			</div>
         </div>
@@ -210,7 +213,7 @@
 	<script src="./resources/bootstrap/js/feather.min.js"></script>
     <script>
     feather.replace()
-    </script>  	
+    </script>  
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>
