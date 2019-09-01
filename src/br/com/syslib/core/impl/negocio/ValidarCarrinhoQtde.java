@@ -58,10 +58,11 @@ public class ValidarCarrinhoQtde implements IStrategy {
 						if (!est1.equals(null)) {
 							estoqueBD = (Estoque) est1;
 							Estoque estoques = (Estoque) estoqueDAO.getQtdeEstoque(idLivro);
+							@SuppressWarnings({ "unchecked", "rawtypes" })
 							List<Livro> livros = (ArrayList) livroDAO.consultar(livro);
 							pedido.getPedLivro().addAll(livros);
 							pedido.setPedEstoque(estoques);
-							return "ADDOK";
+							return "DRIVEOK";
 						} else {
 							return "Erro ao add livro no carrinho!";
 						}
@@ -70,6 +71,8 @@ public class ValidarCarrinhoQtde implements IStrategy {
 				} else {
 					return "Erro ao zerar item!";
 				}
+			} else {
+				return "Qtde do item no carrinho é igual 1, para zerar clique em excluir!";
 			}
 		} catch (Exception e) {
 			return "Erro ao buscar livro!";

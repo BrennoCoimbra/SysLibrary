@@ -172,39 +172,29 @@
 							<span data-feather="plus-circle"></span>
 							</a>
 							<input style="text-align: center;" readonly type= text value=<%= i.getItemQtde() %> > 
-							<a href="SalvarCarrinho?operacao=REMOVE&idItemPedido=<%= livro.getId() %>&qtdeItem=1">
+							<a href="SalvarCarrinho?operacao=REMOVE&idItemPedido=<%= livro.getId() %>&qtdeItem=<%= i.getItemQtde()%>">
 							<span data-feather="minus-circle"></span>
 							</a>
 							</td>
 							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f",livro.getEstoque().getValorVenda()) %> ></td>
 							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", i.getItemSubTotal()) %>> </td>
 							<!-- Buttons actions -->
-							<td style="text-align: center; ">
-							  <a href="SalvarCarrinho?operacao=DELETE&idItemPedido=<%= livro.getId() %>&qtdeItem=<%=i.getItemQtde()%>"><i class="fa fa-trash-o"></i></a>
-							</td>														
+							<td style="text-align: center; "><a href="SalvarCarrinho?operacao=EXCLUIR&idItemPedido=<%= livro.getId() %>&qtdeItem=<%=i.getItemQtde()%>"><span data-feather="trash-2"></span></a></td>														
 							<td></td>
 
-
-							 <tr>
+						<% } %>
+                        	
+						<tr>
 			              <td></td>             
 			              <td></td>     
-			               <td></td>     
+			              <td></td>     
 			              <th class="text-center">SubTotal</th>
 			              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", pedido.getSubtotalPedido()) %>> </td>
-			               <td></td>
+			              <td></td>
 			              <td></td>
 			            </tr>
-			          
-
-						
-						
-						
-						<%
-                        		
-                        	}
-                        }
-						
-						%>
+			            
+			          <% } %>
 						
 					</tbody>
 					

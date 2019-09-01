@@ -25,6 +25,7 @@ import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
 import br.com.syslib.core.impl.negocio.ValidadorSenha;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
+import br.com.syslib.core.impl.negocio.ValidarCarrinhoExclusao;
 import br.com.syslib.core.impl.negocio.ValidarCarrinhoQtde;
 import br.com.syslib.core.impl.negocio.ValidarEstoque;
 import br.com.syslib.core.impl.negocio.ValidarLogin;
@@ -145,15 +146,21 @@ public class Fachada implements IFachada {
 		
 		//carrinho de compras
 		ValidarCarrinhoQtde vrQtdeCarrinho = new ValidarCarrinhoQtde();
+		ValidarCarrinhoExclusao vrCarrinhoExclusao = new ValidarCarrinhoExclusao();
 		List<IStrategy> rnsAddCarrinho = new ArrayList<IStrategy>();
+		List<IStrategy> rnsExcluirCarrinho = new ArrayList<IStrategy>();
 		rnsAddCarrinho.add(vrQtdeCarrinho);
+		rnsExcluirCarrinho.add(vrCarrinhoExclusao);
 		
 		//pedido
 		List<IStrategy> rnsAltrarPedido = new ArrayList<IStrategy>();
+		List<IStrategy> rnsExcluirPedido = new ArrayList<IStrategy>();
         rnsAltrarPedido.add(vrQtdeCarrinho);
+        rnsExcluirPedido.add(vrCarrinhoExclusao);
         Map<String, List<IStrategy>> rnsPedido = new HashMap<String, List<IStrategy>>();
         rnsPedido.put("ALTERAR", rnsAltrarPedido);
-
+        rnsPedido.put("EXCLUIR", rnsExcluirPedido);
+        
 		/*
 		 * Adiciona o mapa com as regras indexadas pelas operações
 		 * no mapa geral indexado pelo nome da entidade
@@ -237,9 +244,12 @@ public class Fachada implements IFachada {
 				resultado.setMsg("Não foi possível realizar o registro!");
 			}
 		} else {
-			resultado.setMsg(msg);
-		}
-		return resultado;
+			List<EntidadeDominio> entidades = new ArrayList<>();
+            entidades.add(entidade);
+            resultado.setEntidades(entidades);
+            resultado.setMsg(msg);
+        }
+        return resultado;
 	}
 
 	@Override

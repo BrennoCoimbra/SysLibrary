@@ -1,7 +1,6 @@
 package br.com.syslib.controle.web.vh.impl;
 
 import java.io.IOException;
-import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -12,12 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.syslib.core.aplicacao.Resultado;
-import br.com.syslib.core.impl.dao.LivroDAO;
-import br.com.syslib.dominio.Cliente;
-import br.com.syslib.dominio.Cupom;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Estoque;
-import br.com.syslib.dominio.Frete;
 import br.com.syslib.dominio.ItemPedido;
 import br.com.syslib.dominio.Livro;
 import br.com.syslib.dominio.Pedido;
@@ -31,10 +26,6 @@ public class PedidoViewHelper implements IViewHelper {
 		
 		Pedido pedido = new Pedido();
 		ItemPedido itemPedido = new ItemPedido();
-		Frete frete = new Frete();
-		Cupom cupom = new Cupom();
-		Livro livro = new Livro();
-		Cliente cliente = new Cliente();
 		
 		if(operacao.equals("ADD")) {
 			// Pegando o item e quantidade unica pelo parametro passado ao clicar em add ao carrinho
@@ -49,7 +40,7 @@ public class PedidoViewHelper implements IViewHelper {
 			
 		} else if(operacao.equals("REMOVE") || operacao.equals("EXCLUIR")) {
 			// Pegando o item e quantidade unica pelo parametro passado ao clicar em remover do carrinho
-			String idItem = request.getParameter("pedItemId");
+			String idItem = request.getParameter("idItemPedido");
 			String qtdeiTem = request.getParameter("qtdeItem");
 			
 			itemPedido.setItemIdLivro(Integer.parseInt(idItem));
@@ -66,33 +57,64 @@ public class PedidoViewHelper implements IViewHelper {
 		
 		RequestDispatcher d = null;
         List<EntidadeDominio> entidade = (List<EntidadeDominio>) resultado.getEntidades();
+        HttpSession session = request.getSession(true);
+        int cont = 0;
         String operacao = request.getParameter("operacao");
+        Pedido pedido = session.getAttribute("pedido") == null ? new Pedido() : (Pedido) session.getAttribute("pedido");
+        @SuppressWarnings({ "unchecked", "rawtypes" })
+		ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? new ArrayList<>() : (ArrayList) session.getAttribute("livros");
         
-        
-        if(operacao.equals("ADD")) {
-        	if(resultado.getMsg().equals("ADDOK")){
-        		
-        		
+        if(operacao.equals("EXCLUIR")) {
+        	if(resultado.getMsg().equals("DRIVEOK")){
+        		Pedido pedidoBD = (Pedido) entidade.get(0);
+        		Livro livro = new Livro();
+        		if(pedido.getPedItem().size() > 0 ) {
+        			for(ItemPedido item : pedido.getPedItem()) {
+        				
+        				if (pedidoBD.getPedItem().get(0).getItemIdLivro() == item.getItemIdLivro()) {
+        					pedido.setValorTotalPedido(pedido.getValorTotalPedido() - item.getItemSubTotal());
+        					pedido.setSubtotalPedido(pedido.getSubtotalPedido() - item.getItemSubTotal());
+        					pedido.setQtdeItemPedido(pedido.getQtdeItemPedido() - pedido.getPedItem().get(cont).getItemQtde());
+        					pedido.getPedItem().remove(item);
+
+                            break;
+                        }
+                        cont++;
+                    }
+
+                }
+                session.setAttribute("entidadePedido", pedido);
+                session.setAttribute("entidadeLivro", livros);
+                response.sendRedirect("carrinho.jsp");
+            } else {
+                request.setAttribute("resultado", resultado);
+                d = request.getRequestDispatcher("/carrinho.jsp");
+                d.forward(request, response);
+            }           
+        	
+        // verifica se a operacao é do botao de + ou - do carrinho de compras
+        } else if(operacao.equals("ADD") || operacao.equals("REMOVE")) {
+        	// verifica se obteve sucesso na validacao qtde do carrinho
+        	if(resultado.getMsg().equals("DRIVEOK")){
         		Pedido pedidoBD = (Pedido) entidade.get(0);
         		Livro livro = pedidoBD.getPedLivro().get(0);
         		Estoque estoque = pedidoBD.getPedEstoque();
-        		ItemPedido itemPedido = new ItemPedido();
-        		// Attributes of session
-                HttpSession session = request.getSession();                
+        		ItemPedido itemPedido = new ItemPedido();          
                 String idItem = request.getParameter("idItemPedido");
     			String qtdeiTem = request.getParameter("qtdeItem");		
-    			Pedido pedido = session.getAttribute("pedido") == null ? new Pedido() : (Pedido) session.getAttribute("pedido");
-                ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? new ArrayList<>() : (ArrayList) session.getAttribute("livros");
     			
-                
     			itemPedido.setItemIdLivro(Integer.parseInt(idItem));
     			itemPedido.setItemQtde(Integer.parseInt(qtdeiTem));
     			
     			boolean pedTem = false;
-        		
+    			
+        		// verifica se no carrinho de compras ja tem itens
     			if(pedido.getPedItem().size() > 0 ) {
     				for(ItemPedido item : pedido.getPedItem()) {
     					if(estoque.getIdLivro() == item.getItemIdLivro()) {
+    						
+    					// soma o item existente do carrinho de compras
+    						if(operacao.equals("ADD")) {
     						 item.setItemQtde(item.getItemQtde() + 1);
                              item.setItemSubTotal(item.getItemQtde() * livro.getValorVenda());
                              pedido.setValorTotalPedido(pedido.getValorTotalPedido() + livro.getValorVenda());
@@ -101,14 +123,35 @@ public class PedidoViewHelper implements IViewHelper {
                              session.setAttribute("pedido", pedido);
                              session.setAttribute("livros", livros);
                              response.sendRedirect("carrinho.jsp");
-                             pedTem = true;
                              return;
                              
-    					}
+                          // subtrai o item existente do carrinho de compras     
+    					} else if (operacao.equals("REMOVE")) {
+    						item.setItemQtde(item.getItemQtde() - 1);
+                            item.setItemSubTotal(item.getItemQtde() * livro.getValorVenda());
+                            pedido.setValorTotalPedido(pedido.getValorTotalPedido() - livro.getValorVenda());
+                            pedido.setSubtotalPedido(pedido.getSubtotalPedido() - livro.getValorVenda());
+                            pedido.setQtdeItemPedido(pedido.getQtdeItemPedido() - 1);
+                            session.setAttribute("pedido", pedido);
+                            session.setAttribute("livros", livros);
+                            response.sendRedirect("carrinho.jsp");
+                            return;
     					
+    					} else {
+    						item.setItemQtde(item.getItemQtde() + pedido.getQtdeItemPedido());                           
+                            item.setItemSubTotal(item.getItemQtde() * livro.getValorVenda());
+                            pedido.setSubtotalPedido(pedido.getSubtotalPedido() + livro.getValorVenda());
+                            pedido.setValorTotalPedido(pedido.getValorTotalPedido() + livro.getValorVenda());
+                            pedido.setQtdeItemPedido(pedido.getQtdeItemPedido() + 1);
+    					}
+    						
+    					 pedTem = true;	
+    					 
+    					}
     				}
     			} 
     			
+    			// adiciona outro item ao carrinho de compras
     			if(!pedTem){    				
     				itemPedido.setItemSubTotal(itemPedido.getItemQtde() * livro.getValorVenda());
     				pedido.setValorTotalPedido(pedido.getValorTotalPedido() + livro.getValorVenda());
@@ -125,15 +168,21 @@ public class PedidoViewHelper implements IViewHelper {
                 return;
     			
         	}
-        	 request.setAttribute("resultado", resultado);
-             d = request.getRequestDispatcher("/carrinho.jsp");
-             d.forward(request, response);
-             
+        	else {
+    			request.setAttribute("msg", resultado.getMsg());
+    			d = request.getRequestDispatcher("errors.jsp");
+    			d.forward(request, response);
+    		}
+        	
         } else {
-            d = request.getRequestDispatcher("/index.jsp");
-            d.forward(request, response);
+                d = request.getRequestDispatcher("index.jsp");
+                d.forward(request, response);
         }
-
+		
+       
+			
+		}
 	}
+	
 
-}
+
