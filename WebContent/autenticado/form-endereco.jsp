@@ -73,7 +73,7 @@
           <div class="sidebar-sticky">
             <ul class="nav flex-column">
             <li class="nav-item">
-            <a class="nav-link" href="./index.jsp">
+            <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp">
                   <span data-feather="home"></span>
                   Home <span class="sr-only"></span>
                 </a>

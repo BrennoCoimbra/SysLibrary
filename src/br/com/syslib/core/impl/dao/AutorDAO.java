@@ -13,18 +13,18 @@ public class AutorDAO extends AbstractJdbcDAO {
 
 	public AutorDAO() {
 	super("autores", "aut_id");
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
 	public void salvar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void alterar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -93,7 +93,7 @@ public class AutorDAO extends AbstractJdbcDAO {
 
 	@Override
 	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 }

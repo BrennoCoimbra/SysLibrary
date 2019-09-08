@@ -178,9 +178,10 @@
 									 <div style="text-align: center;">
 										<a href="describe.jsp?IdLivro=<%=livro.getId()%>">
 											<img class="pic-1" src="./resources/livros/<%=livro.getId()%>.jpg">	
-											<h4><%=livro.getTitulo() %></h4>
+											
 											
 										</a>
+										<h4><%=livro.getTitulo() %></h4> <br>
 										<H6>Apenas por!</H6>	
 										<h6><%= "R$" + String.format("%.2f", livro.getEstoque().getValorVenda()) %></h6>
 									</div><br>

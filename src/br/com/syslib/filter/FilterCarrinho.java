@@ -35,7 +35,7 @@ public class FilterCarrinho implements Filter{
 
 		String url = req.getServletPath();
 		Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");		
-		String tempo = req.getParameter("btn");
+		//String tempo = req.getParameter("btn");
 		
 		// retorna null caso nao tenha itens no carrinho
 		if(pedido == null && !url.equalsIgnoreCase("/Login")) {			

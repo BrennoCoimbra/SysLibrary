@@ -65,9 +65,7 @@ public class UsuarioViewHelper implements IViewHelper {
 			if(operacao.equals("SAIR")){
 	            request.getSession().invalidate();
 	            d = request.getRequestDispatcher("index.jsp");
-	            // TODO pesquisar sobre o foward
-	            // FIXME testar
-	            //d.forward(request, response);
+	            
 		
 		} else if(operacao.equals("ALTERAR")){
 

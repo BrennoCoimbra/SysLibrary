@@ -18,7 +18,7 @@ public class ValidarValorVenda implements IStrategy {
 			  Estoque estoqueBD;
 			  Livro livBD;
 			  Estoque estoque = (Estoque) entidade;
-			  Double vlCompra = estoque.getValorCompra();
+			  //Double vlCompra = estoque.getValorCompra();
 			  LivroDAO daoLiv = new LivroDAO();
 			  EstoqueDAO dao = new EstoqueDAO();
 			  EntidadeDominio est = new Estoque();

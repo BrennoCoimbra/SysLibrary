@@ -27,7 +27,7 @@ public class ValidarCarrinhoExclusao implements IStrategy {
 
 		int idLivro = pedido.getPedItem().get(0).getItemIdLivro();
 		int qtdeLivro = pedido.getPedItem().get(0).getItemQtde();
-		int qtdeCarrinho = pedido.getQtdeCar();
+		//int qtdeCarrinho = pedido.getQtdeCar();
 		
 		try {
 			livro.setId(idLivro);

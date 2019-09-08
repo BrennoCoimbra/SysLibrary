@@ -41,6 +41,7 @@
   		<%
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
   		Pedido ped = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
+  		@SuppressWarnings({ "unchecked", "rawtypes" })
   		ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? null : (ArrayList) session.getAttribute("livros");
   	    Resultado resultado = (Resultado) request.getAttribute("resultado");
     	%>	

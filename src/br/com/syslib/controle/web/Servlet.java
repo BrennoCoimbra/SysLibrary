@@ -21,8 +21,10 @@ import br.com.syslib.controle.web.command.impl.SalvarCommand;
 import br.com.syslib.controle.web.command.impl.VisualizarCommand;
 import br.com.syslib.controle.web.vh.impl.CartaoCreditoViewHelper;
 import br.com.syslib.controle.web.vh.impl.ClienteViewHelper;
+import br.com.syslib.controle.web.vh.impl.CupomViewHelper;
 import br.com.syslib.controle.web.vh.impl.EnderecoViewHelper;
 import br.com.syslib.controle.web.vh.impl.EstoqueViewHelper;
+import br.com.syslib.controle.web.vh.impl.FreteViewHelper;
 import br.com.syslib.controle.web.vh.impl.IViewHelper;
 import br.com.syslib.controle.web.vh.impl.LivroViewHelper;
 import br.com.syslib.controle.web.vh.impl.PedidoViewHelper;
@@ -55,6 +57,8 @@ public class Servlet extends HttpServlet {
 		commands.put("BUSCAR", new BuscarCommand());
 		commands.put("ADD", new AddCommand());
 		commands.put("REMOVE", new RemoveCommand());
+		commands.put("CUPOMDESCONTO", new ConsultarCommand());
+		commands.put("FRMPGTO", new ConsultarCommand());
 		/**
 		 * Utilizando o ViewHelper para tratar especificações de qualquer tela e
 		 * indexando cada viewhelper pela url em que esta servlet é chamada no form
@@ -79,7 +83,10 @@ public class Servlet extends HttpServlet {
 		vhs.put("/SysLibrary/autenticado/SalvarCartao", new CartaoCreditoViewHelper());
 		vhs.put("/SysLibrary/autenticado/adm/SalvarEstoque", new EstoqueViewHelper());
 		vhs.put("/SysLibrary/SalvarCarrinho", new PedidoViewHelper());
-		
+		vhs.put("/SysLibrary/autenticado/CalcularFrete", new FreteViewHelper());
+		vhs.put("/SysLibrary/autenticado/CalcularFrmPgto", new PedidoViewHelper());
+		vhs.put("/SysLibrary/ValidarCupomPromocional", new PedidoViewHelper());
+		vhs.put("/SysLibrary/autenticado/ValidarCupomTroca", new CupomViewHelper());
 	}
 
 	@Override

@@ -107,7 +107,11 @@ public class CartaoCreditoViewHelper implements IViewHelper {
 			request.getSession().setAttribute("resultado", resultado);
 			
 			if (operacao.equals("SALVAR") || operacao.equals("ALTERAR")) {
-				d = request.getRequestDispatcher("form-cartao.jsp");
+				if(session.getAttribute("pedido") != null) {
+					d = request.getRequestDispatcher("form-pedido-cartao.jsp");	
+					} else {
+					d = request.getRequestDispatcher("form-cartao.jsp");
+					}
 			} else if (operacao.equals("VISUALIZAR")) {
 				try {
 					String filter = request.getParameter("search");

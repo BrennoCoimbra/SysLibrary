@@ -41,11 +41,16 @@
   </head>
   
 		<%
+		CartaoCredito cartao = (CartaoCredito) session.getAttribute("cartao") == null ? null : (CartaoCredito) session.getAttribute("cartao");		
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		Endereco endereco = (Endereco) request.getAttribute("enderecos");
+		Cupom cupom = (Cupom) request.getAttribute("cupom");
 	    Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
+	    Frete frete = session.getAttribute("frete") == null ? null : (Frete) session.getAttribute("frete");
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
   	    ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? null : (ArrayList) session.getAttribute("livros");
+	    @SuppressWarnings({ "unchecked", "rawtypes" })
+		ArrayList<EntidadeDominio> cards = session.getAttribute("cartoes") == null ? new ArrayList<>() : (ArrayList) session.getAttribute("cartoes");
   	    Resultado resultado = (Resultado) request.getAttribute("resultado");
     	%>	
     	
@@ -154,7 +159,7 @@
 				          <% } %>
 				       </div>
             	</div>  
-		<form action="CalcularFrete" method="get">
+		<form action="SalvarPedido" method="post">
            <div class="row">
 
 		</div>   
@@ -207,7 +212,7 @@
 			              <td></td>     
 			              <td></td>     
 			              <th class="text-center">Desconto</th>
-			              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", pedido.getDescontoPedido()) %>> </td>
+			              <td style="text-align: center; vertical-align: middle;"><input name="valorDesconto" id="valorDesconto" readonly style="text-align: center;" type= text value="<%if(pedido.getDescontoPedido() != 0) { out.print("R$" + String.format("%.2f", pedido.getDescontoPedido()));} out.print("R$00.00"); %>"> </td>
 			              <td></td>
 			              <td></td>
 			            </tr>
@@ -245,29 +250,44 @@
 		              <td style="text-align: center; vertical-align: middle;">
 		               	<select id="end" name="end" class="form-control">
 		                  <%
-									List<EntidadeDominio> enderecos = new EnderecoDAO().getEntidadeDominio(usuario.getId());
-									Endereco endTemp = null;
+									EntidadeDominio ends = new EnderecoDAO().getEntidadeDominioEndreco(pedido.getIdEndCliPedido());
+									Endereco end = (Endereco) ends;
 									boolean first = true;
 
-									for (EntidadeDominio ed : enderecos) {
-										Endereco ends = (Endereco) ed;
-										if (first) {
-											endTemp = endereco;
-											first = false;
-										}
+									
 								%>
-								<option id=<%=ends.getId() %> value=<%=ends.getId() %>><%=ends.getDescricao() %> </option>
-								<%
-									}
-								%>
+								<option id=<%=end.getId() %> value=<%=ends.getId() %>><%=end.getDescricao() %> </option>
+								
 		                </select>
 		              </td>         
-              		<td style="text-align: center; vertical-align: middle;"><b>OU </b></td>
-              		<td style="text-align: center; vertical-align: middle;">
-				  	<a class="btn btn-primary btn-sm" data-target="#modal-mensagem" data-toggle="modal" > NOVO</a>
-					</td>
+              		<td style="text-align: center; vertical-align: middle;"><b>Frete </b></td>              		
+              		<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", pedido.getValorFrete()) %>> </td>
             		</tr>
             		
+           <tr class="table-active">
+              <td></td>             
+              <td></td> 
+              <th colspan="2"class="text-center">CUPOM</th>
+              <td></td> 
+              <td></td> 
+            </tr>
+            
+             <tr>
+              <td></td>                           
+              <td style="text-align: center; vertical-align: middle;"></td> 
+              <td></td>                                  	
+              <th class="text-center">Cupom</th>
+              <td style="text-align: center; vertical-align: middle;"><input name="valorCupom" id="valorCupom" style="text-align: center;" readonly type= text value="<%if(cupom != null) { out.print(String.format("%.2f",cupom.getValorCupom()));}  out.print("R$00.00"); %>"> </td>              
+            </tr>
+			
+			<tr>
+              <td></td>             
+              <td></td>     
+               <td></td>     
+              <th class="text-center"><h4>TOTAL</h4></th>
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorTotalPedido()) %>> </td>
+            </tr>
+          
 						
 					</tbody>
 					
@@ -278,22 +298,109 @@
 			</div>
 			</div>
 			
-			<hr>
+			<%
+			if(pedido.getValorCartao1() > 0 || pedido.getValorCartao2() > 0){
+			
+			%>
+			
+			<div class="container-fluid">
+			<div class="row">	
+			<table class="table"> 	
+        	<tbody>
+		        <tr class="table-active">
+		              <td></td>             
+		               <td></td> 
+		              <th colspan="2"class="text-center">FORMAS DE PAGAMENTO
+		              
+		              </th>
+		               <td></td> 
+		               <td></td> 
+		            </tr>
+		    </tbody>        
+            </table>
+            						
+			<table class="table table-striped" >
+			
+			
+	          <thead>
+	          
+				
+           		 
+	            <tr>
+	              <th></th>            
+	              <th class="text-center">Descrição</th>
+	              <th class="text-center">Número</th>
+	              <th class="text-center">Valor</th>
+	             <th></th>
+	            </tr>
+	
+	          </thead>
+	           <tbody>
+			                
+			                <%
+			                if(cards.size() > 1){
+							List<EntidadeDominio> cartoes = new CartaoCreditoDAO().getEntidadeDominio(usuario.getId());
+							CartaoCredito cartaoTemp = null;
+							boolean second = true;
+							int i = 0;
+							String descricaoPgto = null;
+
+							for (EntidadeDominio ed : cards) {
+								CartaoCredito cart = (CartaoCredito) ed;
+								
+					
+							%>
+			            	  <tr>
+					              <td></td>		              					              
+					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= cart.getDescricao() %>> </td>
+					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value=  <%= "XXXX." + cart.getNumeroCartao().toString().substring(12, 16) %>> </td>					              
+								  <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", cart.getValorCartao()) %>> </td>								  
+					              <td></td>     
+					            </tr>
+			            	<%
+			            				i += 1;
+				            			}
+							
+			            		
+				            %>
+							
+					
+			<%} else { %>
+				
+					<tr>
+		              <td></td>		              					              
+		              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= cartao.getDescricao() %>> </td>
+		              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value=  <%= "XXXX." + cartao.getNumeroCartao().toString().substring(12, 16) %>> </td>
+					  <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorCartao1()) %>> </td>			                            
+		              <td></td>       
+		            </tr>
+		             
+			
+			<% } %>
+			<% } %>
+			
+			</tbody>
+        		</table>	
+			</div>
+			</div>	
+		
+		<hr>
+			
+			
 			
 			<div class="row">
           		<div class="form-group col-md-10">
-					<a href="http://localhost:8080/SysLibrary/carrinho.jsp" class="btn btn-success">Voltar</a>
+					<a href="http://localhost:8080/SysLibrary/autenticado/form-pedido-cartao.jsp" class="btn btn-success">Voltar</a>
 				</div>
 				<%
 				if(cliente == null){
 				%>
 				<div class="form-group col-md-2">
-					<a href="http://localhost:8080/SysLibrary/login.jsp" class="btn btn-warning">Seguir p/Pagamento</a>
+					<a href="http://localhost:8080/SysLibrary/login.jsp" class="btn btn-warning">Concluir Compra</a>
 				</div>
 				<%} else { %>
-           		<div class="form-group col-md-2">
-					
-					 <button type="submit" name="operacao" value="SALVAR" class="btn btn-warning">Seguir p/Pagamento </button>
+           		<div class="form-group col-md-2">	
+					 <button type="submit" name="operacao" value="SALVAR" class="btn btn-danger">Concluir Compra </button>
 				</div>
 				<%}
 				
@@ -307,176 +414,7 @@
 			
 			</form>
 			
-			 <!--  INICIO DO MODAL DE ENDEREÇO -->
-			
-			<form action="SalvarEndereco" method="post">
-					
-        <div class="modal fade" id="modal-mensagem">
-		    <div class="modal-dialog modal-lg">
-		         <div class="modal-content">
-		             <div class="modal-header">
-		             <h4 class="modal-title">Novo Endereço</h4>
-		                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
-		     		</div>	
-		     		
-		<input type="hidden" name="idUsuario" value="<%if(usuario != null) out.print(usuario.getId()); %>" />      		   				
-		<input type="hidden" name="operacao" value="<% if (endereco == null) out.print("SALVAR");%>" />
-		     <div class="container-fluid">					
-				<div class="row">								
-					<div class="form-group col-md-5">
-					<label for="numpgs">Descrição</label>
-						<input type="text" maxlength="13" class="form-control" id="descricao" name="descricao"
-							value="<%if(endereco != null) out.print(endereco.getDescricao()); %>">
-					</div>
-					
-					<div class="form-group col-md-4">
-						<label for="numpgs">Tipo Endereço</label> 
-						<select id="tpEnd" name="tpEnd" class="form-control">
-							<%
-								for (TipoEndereco tpEnd : TipoEndereco.values()) {
-							%>
-							  <option id=<%=tpEnd.getCodigo() %> value=<%=tpEnd.getCodigo() %> <%if (endereco != null && endereco.getTpEnd().getCodigo() == tpEnd.getCodigo()) out.print("selected"); %>><%=tpEnd.getDescricao() %> </option>
-							<%
-								}
-							%>
-							</select>
-					</div>
-					
-					<div class="form-group col-sm-4">
-					<label class="form-control-label" for="pref">Preferencial</label>
-						<select id="pref" name="pref" class="form-control">
-							<%
-								if (endereco == null) {
-							%>  
-								<option id=0 value=0 >Não</option>
-								<option id=1 value=1 >Sim</option>
-							<%
-								} else if (endereco != null && endereco.getPreferencial() == true) {
-							%>
-								<option id=0 value=0 >Não</option>
-								<option id=1 value=1 selected>Sim</option>
-							<%	
-								} else if (endereco != null && endereco.getPreferencial() == false) {
-									%>
-									
-									<option id=0 value=0 selected>Não</option>
-									<option id=1 value=1 >Sim</option>
-								<%	
-									}
-								%>
-						
-							</select> 				
-					</div>
-					
-				</div>
-						
-			</div>
-				
-			<div class="container-fluid">
-				<h6 class="page-header"> Caracteristicas </h6>
-				
-				<div class="row">
-				
-					<div class="form-group col-md-4">
-					<label for="numpgs">Tipo Residência</label> 
-						<select id="tpRes" name="tpRes" class="form-control">
-							<%
-								for (TipoResidencia residencias : TipoResidencia.values()) {
-							%>
-							  <option id=<%=residencias.getCodigo() %> value=<%=residencias.getCodigo() %> <%if (endereco != null && endereco.getTpResid().getCodigo() == residencias.getCodigo()) out.print("selected"); %>><%=residencias.getDescricao() %> </option>
-							<%
-								}
-							%>
-							</select>
-					</div>
-					<div class="form-group col-md-4">
-					<label for="numpgs">Tipo Logradouro</label> 
-						<select id="tpLog" name="tpLog" class="form-control">
-							<%
-								for (TipoLogradouro logradouros : TipoLogradouro.values()) {
-							%>
-							  <option id=<%=logradouros.getCodigo() %> value=<%=logradouros.getCodigo() %> <%if (endereco != null && endereco.getTpLogrdo().getCodigo() == logradouros.getCodigo()) out.print("selected"); %>><%=logradouros.getDescricao() %> </option>
-							<%
-								}
-							%>
-							</select>
-					</div>
-					<div class="form-group col-md-6">
-						<label for="campo1">Logradouro</label> <input type="text" maxlength="100"
-							class="form-control" id="logradouro" name="logradouro"
-							value="<%if(endereco != null) out.print(endereco.getLogradouro()); %>">
-					</div>
-					<div class="form-group col-md-4">
-						<label for="titulo">Numero</label> <input type="number"
-							class="form-control" id="numero" name="numero"
-							value="<%if(endereco != null) out.print(endereco.getNumero()); %>">
-					</div>
-				</div>	
-
-				<div class="row">
-				
-					
-					<div class="form-group col-md-5">
-						<label for="ano">Bairro</label> <input type="text"
-							class="form-control" id="bairro" name="bairro"
-							value="<%if(endereco != null) out.print(endereco.getBairro()); %>">
-					</div>
-					<div class="form-group col-md-4">
-						<label for="numpgs">CEP</label> <input type="text"
-							class="form-control" id="cep" name="cep"
-							value="<%if(endereco != null) out.print(endereco.getCep()); %>">
-					</div>
-				</div>
-					
-					<div class="row">
-					
-					
-					<div class="form-group col-md-5">
-						<label for="numpgs">Estado</label> 
-						<select id="estado" name="estado" class="form-control">
-							<%
-								for (Estados estados : Estados.values()) {
-							%>
-							  <option id=<%=estados.getCodigo() %> value=<%=estados.getCodigo() %> <%if (endereco != null && endereco.getEstado().equals(estados.getDescricao())) out.print("selected"); %>><%=estados.getDescricao() %> </option>
-							<%
-								}
-							%>
-							</select>
-													
-					</div>
-					
-					
-					<div class="form-group col-md-5">
-						<label for="numpgs">Cidade</label> 
-						<input type="text"
-							class="form-control" id="cidade" name="cidade"
-						 value="<%if(endereco != null) out.print(endereco.getCidade()); %>">
-													
-					</div>
-					
-					<div class="form-group col-md-4">
-						<label for="numpgs">Pais</label> <input type="text"
-							class="form-control" id="pais" name="pais"
-							value="<%if(endereco != null) out.print(endereco.getPais()); %>">
-					</div>
-								
 		
-				</div>
-
-
-							<hr>
-				<h4 class="page-header"> <input type='submit' class='btn btn-success'  id='operacao' name='operacao' value='SALVAR'/></h4>				
-			
-		</div>  
-		          </div>
-			</div>
-		</div>	             
-			
-			
-			
-			</form>
-			
-			
 			
 			<% } %>
 			

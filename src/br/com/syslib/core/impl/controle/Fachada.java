@@ -17,12 +17,16 @@ import br.com.syslib.core.impl.dao.EstoqueDAO;
 import br.com.syslib.core.impl.dao.LivroDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
+import br.com.syslib.core.impl.negocio.ValidadorCalculoFrete;
 import br.com.syslib.core.impl.negocio.ValidadorClienteExistente;
+import br.com.syslib.core.impl.negocio.ValidadorCupomDesconto;
+import br.com.syslib.core.impl.negocio.ValidadorCupomTroca;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosCartaoCredito;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosCliente;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosEndereco;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
+import br.com.syslib.core.impl.negocio.ValidadorFrmPgto;
 import br.com.syslib.core.impl.negocio.ValidadorSenha;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
 import br.com.syslib.core.impl.negocio.ValidarCarrinhoExclusao;
@@ -32,9 +36,11 @@ import br.com.syslib.core.impl.negocio.ValidarLogin;
 import br.com.syslib.core.impl.negocio.ValidarValorVenda;
 import br.com.syslib.dominio.CartaoCredito;
 import br.com.syslib.dominio.Cliente;
+import br.com.syslib.dominio.Cupom;
 import br.com.syslib.dominio.Endereco;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Estoque;
+import br.com.syslib.dominio.Frete;
 import br.com.syslib.dominio.Livro;
 import br.com.syslib.dominio.Pedido;
 import br.com.syslib.dominio.Usuario;
@@ -147,10 +153,17 @@ public class Fachada implements IFachada {
 		//carrinho de compras
 		ValidarCarrinhoQtde vrQtdeCarrinho = new ValidarCarrinhoQtde();
 		ValidarCarrinhoExclusao vrCarrinhoExclusao = new ValidarCarrinhoExclusao();
+		ValidadorCupomDesconto vrCupomDes = new ValidadorCupomDesconto();
+		ValidadorFrmPgto vrPgto = new ValidadorFrmPgto();
 		List<IStrategy> rnsAddCarrinho = new ArrayList<IStrategy>();
 		List<IStrategy> rnsExcluirCarrinho = new ArrayList<IStrategy>();
+		List<IStrategy> rnsPesquisarCarrinho = new ArrayList<IStrategy>();
+		List<IStrategy> rnsPesquisarPgto = new ArrayList<IStrategy>();
 		rnsAddCarrinho.add(vrQtdeCarrinho);
 		rnsExcluirCarrinho.add(vrCarrinhoExclusao);
+		rnsPesquisarCarrinho.add(vrCupomDes);
+		rnsPesquisarPgto.add(vrPgto);
+		
 		
 		//pedido
 		List<IStrategy> rnsAltrarPedido = new ArrayList<IStrategy>();
@@ -160,6 +173,21 @@ public class Fachada implements IFachada {
         Map<String, List<IStrategy>> rnsPedido = new HashMap<String, List<IStrategy>>();
         rnsPedido.put("ALTERAR", rnsAltrarPedido);
         rnsPedido.put("EXCLUIR", rnsExcluirPedido);
+        rnsPedido.put("CONSULTAR", rnsPesquisarCarrinho);
+        rnsPedido.put("CONSULTAR", rnsPesquisarPgto);
+        
+        //cupom troca
+        ValidadorCupomTroca vrCupomTroca = new ValidadorCupomTroca();
+        List<IStrategy> rnsConsultarCupomTroca = new ArrayList<IStrategy>();
+        rnsConsultarCupomTroca.add(vrCupomTroca);
+        Map<String, List<IStrategy>> rnsCupomTroca = new HashMap<String, List<IStrategy>>();
+        rnsCupomTroca.put("CONSULTAR", rnsConsultarCupomTroca);
+        //frete
+        ValidadorCalculoFrete vrCalculoFrete = new ValidadorCalculoFrete();
+        List<IStrategy> rnsSalvarFrete = new ArrayList<IStrategy>();
+        rnsSalvarFrete.add(vrCalculoFrete);
+        Map<String, List<IStrategy>> rnsFrete = new HashMap<String, List<IStrategy>>();
+        rnsFrete.put("SALVAR",rnsSalvarFrete);
         
 		/*
 		 * Adiciona o mapa com as regras indexadas pelas operações
@@ -172,6 +200,8 @@ public class Fachada implements IFachada {
 		rns.put(CartaoCredito.class.getName(), rnsCartaoCredito);
 		rns.put(Estoque.class.getName(), rnsEstoque);
 		rns.put(Pedido.class.getName(), rnsPedido);
+		rns.put(Frete.class.getName(), rnsFrete);
+		rns.put(Cupom.class.getName(), rnsCupomTroca);
 	}
 
 	@Override
@@ -193,9 +223,12 @@ public class Fachada implements IFachada {
 				resultado.setMsg("Não foi possível realizar o registro!");
 			}
 		} else {
-			resultado.setMsg(msg);
-		}
-		return resultado;
+			List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+            entidades.add(entidade);
+            resultado.setEntidades(entidades);
+            resultado.setMsg(msg);
+        }
+        return resultado;
 	}
 
 	@Override
@@ -268,9 +301,12 @@ public class Fachada implements IFachada {
 				resultado.setMsg("Não foi possível realizar a consulta!");
 			}
 		} else {
-			resultado.setMsg(msg);
-		}
-		return resultado;
+			 List<EntidadeDominio> entidades = new ArrayList<EntidadeDominio>();
+	            entidades.add(entidade);
+	            resultado.setEntidades(entidades);
+	            resultado.setMsg(msg);
+	        }
+	        return resultado;
 	}
 
 	@Override

@@ -126,13 +126,15 @@ public class EnderecoViewHelper implements IViewHelper {
 		HttpSession session = request.getSession();
 		EntidadeDominio usu = (EntidadeDominio) session.getAttribute("usuario");
 		
-		
 		if(resultado.getMsg() == null) {
 			request.getSession().setAttribute("resultado", resultado);
 			
 			if (operacao.equals("SALVAR") || operacao.equals("ALTERAR")) {
+				if(session.getAttribute("pedido") != null) {
+				d = request.getRequestDispatcher("form-pedido-endereco.jsp");	
+				} else {
 				d = request.getRequestDispatcher("form-endereco.jsp");
-				
+				}
 			} else if (operacao.equals("VISUALIZAR")) {
 				try {
 					String filter = request.getParameter("search");
@@ -159,8 +161,14 @@ public class EnderecoViewHelper implements IViewHelper {
 			} else if (operacao.equals("EXCLUIR")) {
 				d = request.getRequestDispatcher("consultar-endereco.jsp");
 				
+			} else if (operacao.equals("SAIR")){
+	            request.getSession().invalidate();
+	            d = request.getRequestDispatcher("index.jsp");
+	            d.forward(request, response);
+		
 			}
 		} else {
+			
 			request.setAttribute("msg", resultado.getMsg());
 			
 			d = request.getRequestDispatcher("errors.jsp");

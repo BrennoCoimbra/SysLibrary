@@ -14,24 +14,24 @@ public class AcessoDAO extends AbstractJdbcDAO {
 
 	protected AcessoDAO() {
 		super("acesso", "ac_id");
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	@Override
 	public void salvar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public void alterar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 
 	}
 
 	@Override
 	public List<EntidadeDominio> consultar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return null;
 	}
 	
@@ -91,7 +91,7 @@ public class AcessoDAO extends AbstractJdbcDAO {
 
 	@Override
 	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

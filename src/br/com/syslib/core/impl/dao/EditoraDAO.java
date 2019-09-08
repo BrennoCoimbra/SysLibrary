@@ -14,7 +14,7 @@ public class EditoraDAO extends AbstractJdbcDAO {
 
 	public EditoraDAO() {
 		super("editoras", "edt_id");
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public List<EntidadeDominio> getLista() throws SQLException {
@@ -48,13 +48,13 @@ public class EditoraDAO extends AbstractJdbcDAO {
 	
 	@Override
 	public void salvar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+
 
 	}
 
 	@Override
 	public void alterar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 
 	}
 
@@ -126,7 +126,7 @@ public class EditoraDAO extends AbstractJdbcDAO {
 
 	@Override
 	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		return false;
 	}
 

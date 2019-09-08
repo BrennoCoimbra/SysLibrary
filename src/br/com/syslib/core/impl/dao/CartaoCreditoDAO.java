@@ -199,7 +199,7 @@ public class CartaoCreditoDAO extends AbstractJdbcDAO {
 			int cvv = rs.getInt("cartao_codigoSeg");
 			String bandeira = rs.getString("cartao_bandeira");
 			Date dtCadastro = rs.getDate("dtCadastro");
-			Boolean pref = rs.getBoolean("end_pref");
+			Boolean pref = rs.getBoolean("cartao_pref");
 			cartao = new CartaoCredito();
 			cartao.setId(id);
 			cartao.setIdUsuario(idUsu);

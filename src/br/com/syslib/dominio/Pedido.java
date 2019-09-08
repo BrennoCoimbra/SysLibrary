@@ -3,6 +3,8 @@ package br.com.syslib.dominio;
 import java.util.ArrayList;
 import java.util.List;
 
+import br.com.syslib.enuns.CupomPromocional;
+
 public class Pedido extends EntidadeDominio {	
 	
      
@@ -15,8 +17,12 @@ public class Pedido extends EntidadeDominio {
     private int idClienteCartao1;
     private int idClienteCartao2;
     private double descontoPedido;
+    private double cuponsValor;
     private double valorTroca;
-    private double valorFrete;   
+    private double valorFrete; 
+    private double valorCartao1;
+    private double valorCartao2;
+    private double valorCartao;
     private int idItemPedido;
     private int qtdeItemPedido;
     private int descontoItem;
@@ -25,9 +31,12 @@ public class Pedido extends EntidadeDominio {
     private String codigoTrocaPedido;    
     private int qtdeCar;
     private List<Cupom> cupom = new ArrayList<>();
+    private List<CartaoCredito> cartoes;
+    private CartaoCredito cartao;
     private List<ItemPedido> pedItem = new ArrayList<ItemPedido>() ;
     private List<Livro> pedLivro = new ArrayList<Livro>() ;
     private Estoque pedEstoque = new  Estoque() ;
+    private CupomPromocional cupomP;
     
 	public int getIdPedido() {
 		return idPedido;
@@ -161,8 +170,49 @@ public class Pedido extends EntidadeDominio {
 	public void setPedEstoque(Estoque pedEstoque) {
 		this.pedEstoque = pedEstoque;
 	}
+	public CupomPromocional getCupomP() {
+		return cupomP;
+	}
+	public void setCupomP(CupomPromocional cupomP) {
+		this.cupomP = cupomP;
+	}
+	public List<CartaoCredito> getCartoes() {
+		return cartoes;
+	}
+	public void setCartoes(List<CartaoCredito> cartoes) {
+		this.cartoes = cartoes;
+	}
+	public double getCuponsValor() {
+		return cuponsValor;
+	}
+	public void setCuponsValor(double cuponsValor) {
+		this.cuponsValor = cuponsValor;
+	}
+	public double getValorCartao1() {
+		return valorCartao1;
+	}
+	public void setValorCartao1(double valorCartao1) {
+		this.valorCartao1 = valorCartao1;
+	}
+	public double getValorCartao2() {
+		return valorCartao2;
+	}
+	public void setValorCartao2(double valorCartao2) {
+		this.valorCartao2 = valorCartao2;
+	}
+	public CartaoCredito getCartao() {
+		return cartao;
+	}
+	public void setCartao(CartaoCredito cartao) {
+		this.cartao = cartao;
+	}
+	public double getValorCartao() {
+		return valorCartao;
+	}
+	public void setValorCartao(double valorCartao) {
+		this.valorCartao = valorCartao;
+	}
 	
-    
     
     
 }

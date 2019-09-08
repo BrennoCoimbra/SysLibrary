@@ -17,7 +17,7 @@ public class CartaoCredito extends FormaPagamento {
     private String preferencialCartao;
     private String statusCartao;
     private Boolean preferencial;
-	
+	private double valorCartao;
 	
 	
 	public String getDescricao() {
@@ -97,6 +97,12 @@ public class CartaoCredito extends FormaPagamento {
 	}
 	public void setPreferencial(Boolean preferencial) {
 		this.preferencial = preferencial;
+	}
+	public double getValorCartao() {
+		return valorCartao;
+	}
+	public void setValorCartao(double valorCartao) {
+		this.valorCartao = valorCartao;
 	}
 	
 	

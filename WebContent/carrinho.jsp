@@ -187,7 +187,14 @@
         </nav>
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Carrinho de Compras</h3>   
+					<h3>Carrinho de Compras</h3> 
+					 <div style="text-align: left;">
+					 <form action="ValidarCupomPromocional"> 
+				      <label>CUPOM PROMOCIONAL: <input type="text" class="col-lg-3" id="cupomDesc" name="cupomDesc" value="">
+				      <button id="btnCupomdesconto"  <%= pedido== null|| pedido.getPedItem()==null || pedido.getPedItem().isEmpty()? "disabled": "" %> type="submit" name="operacao" value="CUPOMDESCONTO">Aplicar</button>
+				       </label>	
+				       </form>			      				      
+				       </div>  
 				       <div style="text-align: right;"> 
 				       <% if(pedido != null) {%>
 				          <label>Você tem: <input type="text" class="col-lg-3"  readonly id="btn" name="btn" value=""> minutos para comprar.</label>
@@ -244,7 +251,17 @@
 
 						<% } %>
                         	
-						<tr>
+						
+			            <tr>
+			              <td></td>             
+			              <td></td>     
+			              <td></td>     
+			              <th class="text-center">Desconto</th>
+			              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", pedido.getDescontoPedido()) %>> </td>
+			              <td></td>
+			              <td></td>
+			            </tr>
+			            <tr>
 			              <td></td>             
 			              <td></td>     
 			              <td></td>     
@@ -253,6 +270,8 @@
 			              <td></td>
 			              <td></td>
 			            </tr>
+			            
+			          
 			            
 			          <% } %>
 						
@@ -300,51 +319,16 @@
         </section>		
       </div>	  
     </div>	
-    <!-- Icons -->    
+        
 	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="./resources/bootstrap/js/feather.min.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function () {
-        setTimeout(function () {
-            window.location.reload(1);
-        }, 300000); //tempo em milisegundos. Neste caso, o refresh vai acontecer de 5 em 5 segundos.
-    });
-    </script>	
-    <script type="text/javascript">
-    
-    var seg = 59;
-    function countDown(tempo) {
-        var btn = document.getElementById('btn');
-        // Se o tempo não for zerado
-        if ((tempo - 1) >= -1) {
-            // Pega a parte inteira dos minutos
-            var min = parseInt(tempo / 60);
-            // Calcula os segundos restantes
-            var seg = tempo % 60;
-            // Formata o número menor que dez, ex: 08, 07, ...
-            if (min < 10) {
-                min = "0" + min;
-                min = min.substr(0, 2);
-            }
-            if (seg <= 9) {
-                seg = "0" + seg;
-            }
-            // Cria a variável para formatar no estilo hora/cronômetro
-            horaImprimivel = min + ':' + seg;
-            //JQuery pra setar o valor
-            btn.value = horaImprimivel;
-    // diminui o tempo
-            tempo--;
-            // Define que a função será executada novamente em 1000ms = 1 segundo
-            setTimeout('countDown(' + tempo + ')', 1000);
-            // Quando o contador chegar a zero faz esta ação
-
-        } 
-    }
-    </script>
+    <script src="./resources/js/contador.js"></script>	
+    <script src="./resources/js/refresh.js"></script>
+    <!-- Icons -->
     <script>
     feather.replace()
     </script>  	
+    
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

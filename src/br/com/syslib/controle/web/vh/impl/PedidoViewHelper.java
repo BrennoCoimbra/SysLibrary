@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 
 import br.com.syslib.core.aplicacao.Resultado;
+import br.com.syslib.dominio.CartaoCredito;
+import br.com.syslib.dominio.Cupom;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Estoque;
 import br.com.syslib.dominio.ItemPedido;
@@ -25,6 +27,7 @@ public class PedidoViewHelper implements IViewHelper {
 		String operacao = request.getParameter("operacao");
 		
 		Pedido pedido = new Pedido();
+		
 		ItemPedido itemPedido = new ItemPedido();
 		
 		if(operacao.equals("ADD")) {
@@ -48,7 +51,59 @@ public class PedidoViewHelper implements IViewHelper {
 			
 			pedido.getPedItem().add(itemPedido);
 			pedido.setQtdeCar(1);
+		} else if(operacao.equals("CUPOMDESCONTO")) { 
+			HttpSession session = request.getSession(true);
+            Pedido pedi = (Pedido) session.getAttribute("pedido");
+            String codigoDesconto = request.getParameter("cupomDesc");
+           
+          
+                      
+            if (pedi.getDescontoPedido() > 0) {
+                pedido.setDescontoPedido(pedi.getDescontoPedido());
+            } else {
+            	pedido.setDescontoPedido(0);            	
+            }
+            pedido.setValorTotalPedido(pedi.getValorTotalPedido() - pedi.getDescontoPedido());
+            pedido.setSubtotalPedido(pedi.getSubtotalPedido());
+            pedido.setCodigoPromocionalPedido(codigoDesconto);
+            return pedido;
+            
+		}  else if(operacao.equals("FRMPGTO")){
+			HttpSession session = request.getSession(true);
+            Pedido pedi = (Pedido) session.getAttribute("pedido");
+            Cupom cp =  session.getAttribute("cupom") == null ? new Cupom() : (Cupom) session.getAttribute("cupom");
+            String[] idsCartoes = request.getParameterValues("chkSelect");
+            
+           List<CartaoCredito> cartoes = new ArrayList<CartaoCredito>();
+           CartaoCredito card;
+           if(idsCartoes != null && !idsCartoes.equals("") ) {
+        	   for(String id : idsCartoes) {
+        		   card = new CartaoCredito();
+        		   card.setId(Integer.parseInt(id));
+        		   cartoes.add(card);
+        	   }
+        	   pedido.setCartoes(cartoes);
+           }
+           pedido.setValorTotalPedido(pedi.getValorTotalPedido() - pedi.getDescontoPedido());
+           pedido.setSubtotalPedido(pedi.getSubtotalPedido());                     
+           pedido.setValorFrete(pedi.getValorFrete());
+           if(cp.equals(null)) {
+        	   cp.setValorCupom(0);
+        	   
+           }
+           pedido.setCuponsValor(pedi.getDescontoPedido() + cp.getValorCupom());
+           
+            return pedido;
+            
+		} else if(operacao.equals("SALVAR")){
+			HttpSession session = request.getSession(true);
+            pedido = (Pedido) session.getAttribute("pedido");
+            pedido.setStatusPedido("EM PROCESSAMENTO");
+ 
+            return pedido;
+            
 		}
+		
 		return pedido;
 	}
 
@@ -61,8 +116,12 @@ public class PedidoViewHelper implements IViewHelper {
         int cont = 0;
         String operacao = request.getParameter("operacao");
         Pedido pedido = session.getAttribute("pedido") == null ? new Pedido() : (Pedido) session.getAttribute("pedido");
+		CartaoCredito cartao = session.getAttribute("cartao") == null ? new CartaoCredito() : (CartaoCredito) session.getAttribute("cartao");
+
         @SuppressWarnings({ "unchecked", "rawtypes" })
 		ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? new ArrayList<>() : (ArrayList) session.getAttribute("livros");
+		@SuppressWarnings({ "unchecked", "rawtypes" })
+		ArrayList<EntidadeDominio> cartoes = session.getAttribute("cartoes") == null ? new ArrayList<>() : (ArrayList) session.getAttribute("cartoes");
         
         if(operacao.equals("EXCLUIR")) {
         	if(resultado.getMsg().equals("DRIVEOK")){
@@ -91,7 +150,67 @@ public class PedidoViewHelper implements IViewHelper {
                 d.forward(request, response);
             }           
         	
-        // verifica se a operacao é do botao de + ou - do carrinho de compras
+        } else if ("CUPOMDESCONTO".equals(operacao)) {
+
+
+            if (!"DRIVEOK".equals(resultado.getMsg())) {
+                request.setAttribute("msg", resultado.getMsg());
+                d = request.getRequestDispatcher("errors.jsp");
+                d.forward(request, response);
+            } else {
+                Pedido ped = (Pedido) entidade.get(0);
+                pedido.setDescontoPedido(ped.getDescontoPedido());
+                pedido.setSubtotalPedido(ped.getSubtotalPedido());
+                pedido.setValorTotalPedido(ped.getValorTotalPedido());
+                pedido.setCodigoPromocionalPedido(ped.getCodigoPromocionalPedido());          
+                session.setAttribute("pedido", pedido);
+                response.sendRedirect("carrinho.jsp");
+            }
+        }  else if ("FRMPGTO".equals(operacao)) {
+
+
+            if (!"DRIVEOK".equals(resultado.getMsg())) {
+                request.setAttribute("msg", resultado.getMsg());
+                d = request.getRequestDispatcher("errors.jsp");
+                d.forward(request, response);
+            } else {
+                Pedido ped = (Pedido) entidade.get(0);
+             // somente se escolheu a forma de pgto com um cartao
+                if(ped.getIdClienteCartao1() > 0 && ped.getIdClienteCartao2() == 0) {
+                pedido.setDescontoPedido(ped.getDescontoPedido());
+                pedido.setSubtotalPedido(ped.getSubtotalPedido());
+                pedido.setValorTotalPedido(ped.getValorTotalPedido());
+                pedido.setCodigoPromocionalPedido(ped.getCodigoPromocionalPedido());
+                pedido.setValorCartao1(ped.getValorCartao1());
+                pedido.setIdClienteCartao1(ped.getIdClienteCartao1());
+                cartao.setDescricao(ped.getCartao().getDescricao());
+                cartao.setNumeroCartao(ped.getCartao().getNumeroCartao());
+                cartao.setId(ped.getCartao().getId());
+                session.setAttribute("pedido", pedido);
+                session.setAttribute("cartao", cartao);
+                response.sendRedirect("form-pedido-fim.jsp");
+                
+                // somente se escolheu a forma de pgto com dois cartoes
+                } else if(ped.getIdClienteCartao1() > 0 && ped.getIdClienteCartao2() > 0) {
+                	
+                         pedido.setDescontoPedido(ped.getDescontoPedido());
+                         pedido.setSubtotalPedido(ped.getSubtotalPedido());
+                         pedido.setValorTotalPedido(ped.getValorTotalPedido());
+                         pedido.setCodigoPromocionalPedido(ped.getCodigoPromocionalPedido());
+                         pedido.setValorCartao1(ped.getValorCartao1());
+                         pedido.setValorCartao2(ped.getValorCartao2());
+                         pedido.setIdClienteCartao1(ped.getIdClienteCartao1());
+                         pedido.setIdClienteCartao2(ped.getIdClienteCartao2());                         
+                         pedido.setCartoes(ped.getCartoes());
+                         cartoes.addAll(ped.getCartoes());                         
+                         session.setAttribute("pedido", pedido);
+                         session.setAttribute("cartoes", cartoes);
+                         response.sendRedirect("form-pedido-pagamento.jsp");
+                }
+            }
+        
+        	
+        	// verifica se a operacao é do botao de + ou - do carrinho de compras
         } else if(operacao.equals("ADD") || operacao.equals("REMOVE")) {
         	// verifica se obteve sucesso na validacao qtde do carrinho
         	if(resultado.getMsg().equals("DRIVEOK")){

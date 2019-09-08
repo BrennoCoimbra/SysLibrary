@@ -12,7 +12,7 @@ import br.com.syslib.dominio.EntidadeDominio;
 public class CategoriaDAO extends AbstractJdbcDAO{
 	public CategoriaDAO() {
 		super("categorias", "cat_id");
-		// TODO Auto-generated constructor stub
+		
 	}
 
 	public List<EntidadeDominio> getLista() throws SQLException {
@@ -70,13 +70,13 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 
 	@Override
 	public void salvar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+		
 		
 	}
 
 	@Override
 	public void alterar(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
+
 		
 	}
 
@@ -143,7 +143,6 @@ public class CategoriaDAO extends AbstractJdbcDAO{
 
 	@Override
 	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
-		// TODO Auto-generated method stub
 		return false;
 	}
 
