@@ -26,7 +26,8 @@ public class ValidarCarrinhoQtde implements IStrategy {
 		Estoque estoqueBD;
 		EntidadeDominio est = new Estoque();
 		EntidadeDominio est1 = new Estoque();
-
+		
+		if(pedido.getId() == null) {
 		int idLivro = pedido.getPedItem().get(0).getItemIdLivro();
 		int qtdeLivro = pedido.getPedItem().get(0).getItemQtde();
 		int qtdeCarrinho = pedido.getQtdeCar();
@@ -77,7 +78,10 @@ public class ValidarCarrinhoQtde implements IStrategy {
 		} catch (Exception e) {
 			return "Erro ao buscar livro!";
 		}
-
+		
+		} else {
+		return null;
+		}
 		return null;
 	}
 

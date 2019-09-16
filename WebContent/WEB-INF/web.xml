@@ -17,17 +17,24 @@
     <filter-name>FilterAutenticacao</filter-name>
     <url-pattern>/autenticado/consultar-cartao.jsp</url-pattern>
     <url-pattern>/autenticado/consultar-endereco.jsp</url-pattern>
+    <url-pattern>/autenticado/consultar-pedidos.jsp</url-pattern>
+    <url-pattern>/autenticado/consultar-trocas.jsp</url-pattern>
+    <url-pattern>/autenticado/consultar-cupons.jsp</url-pattern>
     <url-pattern>/autenticado/form-cartao.jsp</url-pattern>
     <url-pattern>/autenticado/form-endereco.jsp</url-pattern>
     <url-pattern>/autenticado/form-pedido-endereco.jsp</url-pattern>
     <url-pattern>/autenticado/form-pedido-cartao.jsp</url-pattern>
     <url-pattern>/autenticado/form-pedido-pagamento.jsp</url-pattern>
+    <url-pattern>/autenticado/form-pedido-fim.jsp</url-pattern>
     <url-pattern>/autenticado/profile.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/alterar-senha.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
     <url-pattern>/autenticado/adm/form-livro.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/trocas.jsp</url-pattern>
     <url-pattern>/autenticado/adm/consultar-livro.jsp</url-pattern>
-    <url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
     <url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
     <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>FilterAutorizacao</filter-name>
@@ -35,7 +42,10 @@
   </filter>
   <filter-mapping>
     <filter-name>FilterAutorizacao</filter-name>
+    <url-pattern>/autenticado/adm/alterar-senha.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
     <url-pattern>/autenticado/adm/form-livro.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/trocas.jsp</url-pattern>
     <url-pattern>/autenticado/adm/consultar-livro.jsp</url-pattern>
     <url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
     <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
@@ -123,10 +133,44 @@
     <servlet-name>Servlet</servlet-name>
     <url-pattern>/autenticado/ValidarCupomTroca</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/SalvarPedido</url-pattern>
+  </servlet-mapping>
+   <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/adm/SalvarPedido</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/GerarCupomTroca</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/adm/GerarCupomTroca</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/adm/ADD</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/ConsultarCupomTroca</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/BuscarCupomTroca</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/adm/ConsultarCupomTroca</url-pattern>
+  </servlet-mapping>
+  
+  
   <error-page>
     <location>/errors.jsp</location>
   </error-page>
-  <session-config>
+  <!-- <session-config>
     <session-timeout>5</session-timeout>
-  </session-config>
+  </session-config> -->
 </web-app>

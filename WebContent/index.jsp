@@ -44,7 +44,7 @@
   		<%		
     	//Usuario usuario = Logged.getUsuario();  
 		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		
+		Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
 		if(usuario != null){
 			usuario.getId();
 		}
@@ -92,12 +92,14 @@
                  <%} else {%>
 			<%} %>
               </li>
-               <li class="nav-item">
+               <%if (pedido != null) {%>
+              <li class="nav-item">
                 <a class="nav-link" href="http://localhost:8080/SysLibrary/carrinho.jsp">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
               </li>
+              <%} %>
                <li class="nav-item">
               
                 

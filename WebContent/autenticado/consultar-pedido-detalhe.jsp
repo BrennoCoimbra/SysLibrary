@@ -41,25 +41,15 @@
   </head>
   
 		<%
-		CartaoCredito cartao = (CartaoCredito) session.getAttribute("cartao") == null ? null : (CartaoCredito) session.getAttribute("cartao");		
+				
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
-		Endereco endereco = (Endereco) request.getAttribute("enderecos");
-		Cupom cupom = (Cupom) request.getAttribute("cupom");
-	    Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
-	    Frete frete = session.getAttribute("frete") == null ? null : (Frete) session.getAttribute("frete");
-	    @SuppressWarnings({ "unchecked", "rawtypes" })
-  	    ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? null : (ArrayList) session.getAttribute("livros");
-	    @SuppressWarnings({ "unchecked", "rawtypes" })
-		ArrayList<EntidadeDominio> cards = session.getAttribute("cartoes") == null ? new ArrayList<>() : (ArrayList) session.getAttribute("cartoes");
+		Pedido pedido = (Pedido) request.getAttribute("pedido");
   	    Resultado resultado = (Resultado) request.getAttribute("resultado");
+  	  	//Pedido pedCupom = session.getAttribute("cupom") == null ? null : (Pedido) session.getAttribute("cupom");
     	%>	
     	
-  	  <% 
-  		if (pedido != null&& pedido.getPedItem()!=null && !pedido.getPedItem().isEmpty()) {%>    
-        <body onload="countDown(300)"> 
-      <%} else{%>
-            <body> 
-      <%}%>
+
+     <body> 
    
   
 		
@@ -121,7 +111,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link active" href="http://localhost:8080/SysLibrary/carrinho.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/carrinho.jsp">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
@@ -152,12 +142,8 @@
         
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Pedido</h3>   
-				       <div style="text-align: right;"> 
-				       <% if(pedido != null) {%>
-				          <label>Você tem: <input type="text" class="col-lg-3"  readonly id="btn" name="btn" value=""> minutos para comprar.</label>
-				          <% } %>
-				       </div>
+					<h3>Detalhe Pedido</h3>   
+				       
             	</div>  
 		<form action="SalvarPedido" method="post">
            <div class="row">
@@ -182,45 +168,58 @@
 							<th class="text-center">Qtde</th>
 							<th class="text-center">Preço Unit. R$</th>
 							<th class="text-center">Total R$</th>
+							<th class="text-center">Ação</th>
+							
 						</tr>
 						
 					</thead>
 					<tbody>
 					<%
 					if(pedido !=null){
-                        if (livros != null) {                                               
+                                                                       
                         	for (ItemPedido i : pedido.getPedItem()) {
                         		int j = i.getItemIdLivro();
                         		if(j == 0){
                         			i.setItemIdLivro(1);
                         		}
-                                Livro livro = (Livro) livros.get((i.getItemIdLivro()-1));                            
+                                                           
                                                              
 					%>		            				            	
 						<tr>
 							<td></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=i.getItemTitLivro() %> </td>
 							<td><input style="text-align: center;" readonly type= text value=<%= i.getItemQtde() %> ></td>
-							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f",livro.getEstoque().getValorVenda()) %> ></td>
+							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f",i.getItemValorUnit()) %> ></td>
 							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", i.getItemSubTotal()) %>> </td>
-							<td></td>
 							
+							<%
+							EntidadeDominio cupom = new CupomDAO().getEntidadeDominioCupom(pedido.getIdPedido(),i.getItemIdLivro());
+							Cupom cp = (Cupom) cupom;
+							int itemId;
+							if(cupom == null && cp == null){
+								 itemId = 0;
+							} else {
+								itemId = cp.getIdItem();
+							}
+							if(itemId != i.getItemIdLivro() && pedido.getStatusPedido().equals("ENTREGUE")){ %>
+							<!-- Buttons actions -->
+							<td style="text-align: center; ">
+							<a class="btn btn-danger btn-sm" data-target="#modal-troca<%=pedido.getIdPedido() %>" data-toggle="modal" > TROCAR</a> 
+							</td>
+							<%} %>
 						<% } %>
 						
 						
-			            </tr>
                         	
 						<tr>            
 			              <td></td>     
 			              <td></td>
 			              <td></td>     
 			              <th class="text-center">SubTotal</th>
-			              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", pedido.getSubtotalPedido()) %>> </td>
+			              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f", pedido.getValorTotalPedido() - pedido.getValorFrete() + pedido.getDescontoPedido()) %>> </td>
 			              <td></td>
 			            </tr>
-			            
-			          <%  
-                        } %>
+
                       <tr class="table-active">
 			              <td></td>             
 			              <td></td> 
@@ -271,22 +270,14 @@
               <td style="text-align: center; vertical-align: middle;"></td> 
               <td></td>                                  	
               <th class="text-center">Cupom</th>
-              <td style="text-align: center; vertical-align: middle;"><input name="valorCupom" id="valorCupom" style="text-align: center;" readonly type= text value="R$<%if(pedido != null) { out.print(String.format("%.2f",pedido.getDescontoPedido()));}   %>"> </td>              
+                 <td style="text-align: center; vertical-align: middle;"><input name="valorDesconto" id="valorDesconto" readonly style="text-align: center;" type= text value="<%if(pedido.getDescontoPedido() != 0) { out.print("R$" + String.format("%.2f", pedido.getDescontoPedido()));} ; %>"> </td>
+			              <td></td>           
             </tr>
-			
-			<tr>
-              <td></td>             
+            <tr>
+             <td></td>             
               <td></td>     
                <td></td>     
-              <th class="text-center"><h6>TOTAL S/ Desconto</h6></th>
-              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorFrete() + pedido.getSubtotalPedido()) %>> </td>
-            </tr>
-            
-			<tr>
-              <td></td>             
-              <td></td>     
-               <td></td>     
-              <th class="text-center"><h6>TOTAL C/ Desconto</h6></th>
+              <th class="text-center"><h4>TOTAL</h4></th>
               <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorTotalPedido()) %>> </td>
             </tr>
           
@@ -344,7 +335,7 @@
 			                CartaoCredito cart;
 			                cart = (CartaoCredito) cart1;
 			                EntidadeDominio cart2 = new CartaoCreditoDAO().getEntidadeDominioCartaoCredito(pedido.getIdClienteCartao2());
-			                if(cards.size() > 1){
+			                if(cart1 != null && cart2 != null){
 							%>
 			                	<tr>
 					             <td><input type="hidden" name="cartId1" id="cartId1" value=<%= pedido.getCartoes().get(0).getId() %>></td>		              					              
@@ -364,15 +355,15 @@
 							
 							
 					
-			<%} else { %>
+							<%} else { %>
 				
-					<tr>
-		              <td><input type="hidden" name="cartId1" id="cartId1" value=<%= pedido.getIdClienteCartao1() %>></td>	              					              
-		              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= cartao.getDescricao() %>> </td>
-		              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value=  <%= "XXXX." + cartao.getNumeroCartao().toString().substring(12, 16) %>> </td>
-					  <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" name="cartVl1" id="cartVl1" type= number value= <%= pedido.getValorCartao1() %>> </td>			                            
-		              <td></td>       
-		            </tr>
+								<tr>
+					             <td><input type="hidden" name="cartId1" id="cartId1" value=<%= pedido.getCartoes().get(0).getId() %>></td>		              					              
+					              <td style="text-align: center; vertical-align: middle;"><input readonly name="cartId1" id="cartId1" style="text-align: center;" type= text value= <%= pedido.getCartoes().get(0).getDescricao()%>> </td>
+					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value=  <%= "XXXX." + pedido.getCartoes().get(0).getNumeroCartao().toString().substring(12, 16)  %>> </td>					              
+								  <td style="text-align: center; vertical-align: middle;"><input style="text-align: center;" name="cartVl1" id="cartVl1" type= number value= <%=pedido.getValorCartao1() %>> </td>								  
+					              <td></td>     
+					            </tr>
 		             
 			
 			<% } %>
@@ -387,33 +378,72 @@
 			
 			
 			
-			<div class="row">
-          		<div class="form-group col-md-10">
-					<a href="http://localhost:8080/SysLibrary/autenticado/form-pedido-cartao.jsp" class="btn btn-success">Voltar</a>
-				</div>
-				<%
-				if(cliente == null){
-				%>
-				<div class="form-group col-md-2">
-					<a href="http://localhost:8080/SysLibrary/login.jsp" class="btn btn-warning">Concluir Compra</a>
-				</div>
-				<%} else { %>
-           		<div class="form-group col-md-2">	
-					 <button type="submit" name="operacao" value="SALVAR" class="btn btn-danger">Concluir Compra </button>
-				</div>
-				<%}
-				
-				%>
-          	</div>
-          	
+			
           	 <div class="row">
 				<div class="form-group col-md-8">
 				</div>
 			</div>
 			
 			</form>
+
 			
-		
+			<!-- INICIO MODAL CUPOM -->
+		<form action="GerarCupomTroca" method="post">
+		<div class="modal fade" role="dialog" id="modal-troca<%=pedido.getIdPedido() %>">
+	    <div class="modal-dialog modal-xl">
+	         <div class="modal-content">
+	             <div class="modal-header">
+	             <h4 class="modal-title">Solicitação de Troca</h4>
+	                 <button type="button" class="close" data-dismiss="modal"><span>×</span></button>
+	                 
+	             </div>
+
+	              <%
+                            
+                            for (ItemPedido item : pedido.getPedItem()) {                            	
+    							EntidadeDominio cupom = new CupomDAO().getEntidadeDominioCupom(pedido.getIdPedido());
+    							Cupom cp = (Cupom) cupom;
+    							int itemId;
+    							if(cupom == null && cp == null){
+    								 itemId = 0;
+    							} else {
+    								itemId = cp.getIdItem();
+    							}
+    							if(itemId != item.getItemIdLivro() &&  pedido.getStatusPedido().equals("ENTREGUE")){
+                        %>
+        <input type="hidden" name="idUsuario" value="<%if(usuario != null) out.print(usuario.getId()); %>" />      		   				
+		<input type="hidden" name="idPedido" value="<%=pedido.getIdPedido() %>" />
+		     <div class="container-fluid">					
+				<div class="row">
+												
+					<div class="form-group col-md-7">
+						<label for="numpgs">Titulo</label>
+						<input type="text" readonly class="form-control" value="<%=item.getItemTitLivro() %>">
+						<input type="hidden" name="idTem" value="<%if(item != null) out.print(item.getItemIdLivro()); %>" />
+						<input type="hidden" name="itemVl" id="itemVl" value="<%if(item != null) out.print(item.getItemValorUnit()); %>" />
+					</div>
+					
+					<div class="form-group col-md-2">					
+						<label for="numpgs">QtdeTroca</label>												
+						<input type="number" class="form-control" id="qtdeTroca" name="qtdeTroca">
+					</div>
+					
+					<div class="form-group col-md-3">
+					<label for="numpgs">Ação</label>
+						<input type='submit' class='btn btn-warning btn-sm'  id='operacao' name='operacao' value='SALVAR'/>
+					</div>
+                        
+                      </div>
+                   </div>     
+                        
+                        
+                        <%} }%>
+
+            </div>
+        </div>
+        </div>
+        </form>    	        
+		<!-- FIM MODAL CUPOM --
 			
 			<% } %>
 			
@@ -430,48 +460,7 @@
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
-    <script type="text/javascript">
-    $(document).ready(function () {
-        setTimeout(function () {
-            window.location.reload(1);
-        }, 60000); //tempo em milisegundos. Neste caso, o refresh vai acontecer de 5 em 5 segundos.
-    });
-    </script>	
-    <script type="text/javascript">
-    
-    var seg = 59;
-    function countDown(tempo) {
-        var btn = document.getElementById('btn');
-        // Se o tempo não for zerado
-        if ((tempo - 1) >= -1) {
-            // Pega a parte inteira dos minutos
-            var min = parseInt(tempo / 60);
-            // Calcula os segundos restantes
-            var seg = tempo % 60;
-            // Formata o número menor que dez, ex: 08, 07, ...
-            if (min < 10) {
-                min = "0" + min;
-                min = min.substr(0, 2);
-            }
-            if (seg <= 9) {
-                seg = "0" + seg;
-            }
-            // Cria a variável para formatar no estilo hora/cronômetro
-            horaImprimivel = min + ':' + seg;
-            //JQuery pra setar o valor
-            btn.value = horaImprimivel;
-    // diminui o tempo
-            tempo--;
-            // Define que a função será executada novamente em 1000ms = 1 segundo
-            setTimeout('countDown(' + tempo + ')', 1000);
-            // Quando o contador chegar a zero faz esta ação
-
-        } 
-    }
-    </script>
-    <script>
-    feather.replace()
-    </script>  	
+    <script>feather.replace()</script>  	
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

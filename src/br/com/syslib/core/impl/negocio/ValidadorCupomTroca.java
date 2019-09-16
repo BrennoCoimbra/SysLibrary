@@ -29,9 +29,10 @@ public class ValidadorCupomTroca implements IStrategy {
                 if (cp.getNomeCupom() != null && cupomBD.getNomeCupom() != null) {
 
                     if (cp.getNomeCupom().equals(cupomBD.getNomeCupom())) {
-                        if ("ON".equals(cupomBD.getStatusCupom())) {
+                        if ("TROCA AUTORIZADA".equals(cupomBD.getStatusCupom())) {
                             if (cp.getValorPedido() > 0) {
                                 valorDesconto = cupomBD.getValorCupom();
+                                //qnd valor do desconto é maior que o valor do pedido
                                 valorTotal = cp.getValorPedido() - valorDesconto;
                                 if (valorTotal < 0) {
                                     sobraDoCupom = (-1) * valorTotal;
@@ -42,11 +43,13 @@ public class ValidadorCupomTroca implements IStrategy {
                                     cp.setIdPedido(cupomBD.getIdPedido());
                                     cp.setNomeCupom(cupomBD.getNomeCupom());
                                     cp.setValorCupom(sobraDoCupom);
+                                    cp.setSubtotal(cupomBD.getValorCupom() - sobraDoCupom);
                                     //ped.getCupom().add(cupom);
                                     dao.alterar(entidade);
                                     cp.setValorPedido(0.00);
                                     return "DRIVEOK";
                                 } else {
+                                	//qnd valor do desconto é menor que o valor do pedido
                                     valorDesconto = cp.getDescontoPedido() + valorDesconto;
                                     cp.setDataCupom(cupomBD.getDataCupom());
                                     cp.setIdCupomCliente(cupomBD.getIdCupomCliente());

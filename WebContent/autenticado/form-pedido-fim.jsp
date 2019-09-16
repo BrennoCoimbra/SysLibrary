@@ -44,6 +44,7 @@
 		CartaoCredito cartao = (CartaoCredito) session.getAttribute("cartao") == null ? null : (CartaoCredito) session.getAttribute("cartao");		
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		Endereco endereco = (Endereco) request.getAttribute("enderecos");
+		Pedido ped = (Pedido) request.getAttribute("pedido");
 		Cupom cupom = (Cupom) request.getAttribute("cupom");
 	    Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
 	    Frete frete = session.getAttribute("frete") == null ? null : (Frete) session.getAttribute("frete");
@@ -339,30 +340,23 @@
 			                
 			                <%
 			                if(cards.size() > 1){
-							List<EntidadeDominio> cartoes = new CartaoCreditoDAO().getEntidadeDominio(usuario.getId());
-							CartaoCredito cartaoTemp = null;
-							boolean second = true;
-							int i = 0;
-							String descricaoPgto = null;
-
-							for (EntidadeDominio ed : cards) {
-								CartaoCredito cart = (CartaoCredito) ed;
-								
-					
 							%>
-			            	  <tr>
+			                	<tr>
 					              <td></td>		              					              
-					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= cart.getDescricao() %>> </td>
-					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value=  <%= "XXXX." + cart.getNumeroCartao().toString().substring(12, 16) %>> </td>					              
-								  <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", cart.getValorCartao()) %>> </td>								  
+					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= pedido.getIdClienteCartao1() %>> </td>
+					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value=  <%= "XXXX."  %>> </td>					              
+								  <td style="text-align: center; vertical-align: middle;"><input style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorCartao1()) %>> </td>								  
 					              <td></td>     
 					            </tr>
-			            	<%
-			            				i += 1;
-				            			}
+					            
+					            <tr>
+					              <td></td>		              					              
+					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= pedido.getIdClienteCartao2() %>> </td>
+					              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value=  <%= "XXXX." %>> </td>					              
+								  <td style="text-align: center; vertical-align: middle;"><input style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorCartao2())%>> </td>								  
+					              <td></td>     
+					            </tr>
 							
-			            		
-				            %>
 							
 					
 			<%} else { %>

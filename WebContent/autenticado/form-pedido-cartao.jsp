@@ -205,15 +205,15 @@
 							
 						<% } %>
 						
-						<tr>
-			              <td></td>             
-			              <td></td>     
-			              <td></td>     
-			              <th class="text-center">Desconto</th>
-			              <td style="text-align: center; vertical-align: middle;"><input name="valorDesconto" id="valorDesconto" readonly style="text-align: center;" type= text value="<%if(pedido.getDescontoPedido() != 0) { out.print("R$" + String.format("%.2f", pedido.getDescontoPedido()));} out.print("R$00.00"); %>"> </td>
-			              <td></td>
-			              <td></td>
-			            </tr>
+<!-- 						<tr> -->
+<!-- 			              <td></td>              -->
+<!-- 			              <td></td>      -->
+<!-- 			              <td></td>      -->
+<!-- 			              <th class="text-center">Desconto</th> -->
+<%-- 			              <td style="text-align: center; vertical-align: middle;"><input name="valorDesconto" id="valorDesconto" readonly style="text-align: center;" type= text value="<%if(pedido.getDescontoPedido() != 0) { out.print("R$" + String.format("%.2f", pedido.getDescontoPedido()));} out.print("R$00.00"); %>"> </td> --%>
+<!-- 			              <td></td> -->
+<!-- 			              <td></td> -->
+<!-- 			            </tr> -->
                         	
 						<tr>            
 			              <td></td>     
@@ -273,13 +273,9 @@
              <tr>
               <td></td>             
               <td style="text-align: center; vertical-align: middle;"><b>Cupom: </b></td>
-               <td style="text-align: center; vertical-align: middle;">
-                <input readonly placeholder="codigo">
-              </td>         
-              
-            	
               <td style="text-align: center; vertical-align: middle;"><a data-target="#modalCupomTroca" data-toggle="modal" class="btn btn-success btn-sm">Inserir</a> </td>
-              <td style="text-align: center; vertical-align: middle;"><input name="valorCupom" id="valorCupom" style="text-align: center;" readonly type= text value="<%if(cupom != null) { out.print(String.format("%.2f",cupom.getValorCupom()));}  out.print("R$00.00"); %>"> </td>
+              <th class="text-center"><h6>Descontos</h6></th>
+              <td style="text-align: center; vertical-align: middle;"><input name="valorCupom" id="valorCupom" style="text-align: center;" readonly type= text value="R$<%if(cupom != null) { out.print(String.format("%.2f",pedido.getDescontoPedido()));}   %>"> </td>
               
             </tr>
 			
@@ -287,7 +283,15 @@
               <td></td>             
               <td></td>     
                <td></td>     
-              <th class="text-center"><h4>TOTAL</h4></th>
+              <th class="text-center"><h6>TOTAL S/ Desconto</h6></th>
+              <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorFrete() + pedido.getSubtotalPedido()) %>> </td>
+            </tr>
+            
+			<tr>
+              <td></td>             
+              <td></td>     
+               <td></td>     
+              <th class="text-center"><h6>TOTAL C/ Desconto</h6></th>
               <td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%="R$" + String.format("%.2f", pedido.getValorTotalPedido()) %>> </td>
             </tr>
           
@@ -411,6 +415,7 @@
 	             <div style="text-align: center;">
 					<h5>Digite o codigo do seu cupom: </h5>   
 					<label><input type="text" class="col" id="idCupom" name="idCupom" value=""> 
+					<input type="hidden" name="idUsu" id="idUsu" value="<%=usuario.getId()%>">
 					<button id="btnCupomTroca"  <%= pedido== null|| pedido.getPedItem()==null || pedido.getPedItem().isEmpty()? "disabled": "" %> type="submit" name="operacao" value="CONSULTAR">Aplicar</button>
 					</label>       
             	</div>

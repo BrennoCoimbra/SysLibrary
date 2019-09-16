@@ -20,8 +20,10 @@
     <!-- Bootstrap core CSS -->
    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
-    <!-- Custom styles for this template -->
+       <!-- Custom styles for this template -->
     <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+  	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.min.js"></script>
 	
 	<style>
 	footer {
@@ -38,7 +40,11 @@
 
   <body>
   		<%		
-		Usuario usuario = (Usuario) session.getAttribute("usuario");
+  		Usuario usuario = (Usuario) session.getAttribute("usuario");
+		usuario.getId();		
+		List<EntidadeDominio> pedidos = (List<EntidadeDominio>) request.getAttribute("pedidos");
+		StringBuilder sb;
+		Resultado resultado = (Resultado) request.getAttribute("resultado");
       %>
     	
     <nav class="navbar navbar-dark fixed-top bg-dark flex-md-nowrap p-0 shadow">
@@ -134,66 +140,111 @@
 
 
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
-		
 			<div style="text-align: center;">
-					<h3>Status dos Pedidos </h3>
-					   
-            	</div>  
-
+			<h3>Status Pedidos </h3>  
+				   <br>
+            	</div>           
+       <form action="SalvarPedido" method="post" class="form-horizontal">
+		<div class="row">
+			<div class="col-lg-5">
 			
+			</div>
+			<div class="col-4">
+			<input id="search" name="search" class="form-control" placeholder="Pesquisar" type="text">
+			</div>
+			<div class="col-0">
+			<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='VISUALIZAR'/>
+			 
+				
+		</div>
+			
+		</div>
+		<!-- /#top -->
+
+		<div id="list" class="row">	
 			<div class="table-responsive col-md-12">
 				<table class="table table-striped" >
 					<thead>
 						<tr>
+
 							<th class="text-center">Nº Pedido</th>
+							<th class="text-center">Data</th>
 							<th class="text-center">Cliente</th>
-							<th class="text-center">Endereço</th>
+							<th class="text-center">Endereço da Entrega</th>
 							<th class="text-center">Valor</th>							
 							<th class="text-center">Status</th>
 							<th style="text-align: center">Ação</th>
 							<th></th>
+							
 						</tr>
 					</thead>
 					<tbody>
 
+		            		<%
 		            		
+		            		
+		            		if (pedidos != null) {
+			            		for (EntidadeDominio ed : pedidos) {
+			            			Pedido ped = (Pedido) ed;			            			
+		            		
+		            		%>
 						<tr>
-							<td style="text-align: center; vertical-align: middle;">00001</td>																				
-							<td style="text-align: center; vertical-align: middle;">Joao Paulo </td>
-							<td style="text-align: center; vertical-align: middle;">Rua X, 203 - São Paulo-SP </td>
-							<td style="text-align: center; vertical-align: middle;">R$99.90</td>																				
-							<td style="text-align: center; vertical-align: middle;">EM PROCESSAMENTO</td>
+							
+							<td style="text-align: center; vertical-align: middle;"><%=ped.getIdPedido() %> </td>
+							<td style="text-align: center; vertical-align: middle;"><%=ConverteDate.converteDateString(ped.getDtCadastro())%> </td>
+							<%List<EntidadeDominio> clientes = new UsuarioDAO().getEntidadeDominio(ped.getIdClientePedido());
+								for(EntidadeDominio usu : clientes){
+									Usuario user = (Usuario) usu;
+								
+							
+							%>
+							<td style="text-align: center; vertical-align: middle;"><%=user.getNome() %> </td>
+							<%} %>
+							<%
+							EntidadeDominio endereco = new EnderecoDAO().getEntidadeDominioEndreco(ped.getIdEndCliPedido());
+							Endereco endere = (Endereco) endereco;
+							%>
+							<td style="text-align: center; vertical-align: middle;"><%=endere.getTpLogrdo().getDescricao() + "." + endere.getLogradouro() + "," + endere.getNumero() + " - " + endere.getCidade() + " - " + endere.getEstados() %> </td>	
+											
+							<td style="text-align: center; vertical-align: middle;"><%= "R$" + String.format("%.2f",ped.getValorTotalPedido()) %> </td>																				
+							<td style="text-align: center; vertical-align: middle;"><%=ped.getStatusPedido() %></td>
 							
 							<!-- Buttons actions -->
-							<td style="text-align: center; ">
-							<a href="#" class="btn btn-warning btn-sm">EM TRÂNSITO</a> 							
-							</td>
+							 <td class="text-center">
+			                  <div class="dropdown">
+			                    <a class="btn btn-sm btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                     <span data-feather="more-vertical"></span> 
+			                    </a>
+			                    
+			                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+			                    <%if(ped.getStatusPedido().equals("EM PROCESSAMENTO")) { %>
+			                      <a class="dropdown-item" href="SalvarPedido?operacao=ALTERAR&idPedido=<%=ped.getIdPedido()%>&status=<%=ped.getStatusPedido() %>"> EM TRANSITO</a>
+			                      <%} else if (ped.getStatusPedido().equals("EM TRANSITO")) {%>
+			                       <a class="dropdown-item" href="SalvarPedido?operacao=ALTERAR&idPedido=<%=ped.getIdPedido()%>&status=<%=ped.getStatusPedido() %>"> ENTREGUE</a>
+			                       <%} else {%>
+			                       <a class="dropdown-item" href="#"> </a>
+			                       <%} %>
+			                    </div>
+			                  </div>
+			                </td>
 							
-										
+							
+							
 						</tr>
+						<%
+						}
+		            		}
+		            	%>
 						
-						<tr>
-							<td style="text-align: center; vertical-align: middle;">00002</td>																				
-							<td style="text-align: center; vertical-align: middle;">Jose Silva </td>
-							<td style="text-align: center; vertical-align: middle;">Rua Y, 302 - Campinas-SP </td>
-							<td style="text-align: center; vertical-align: middle;">R$99.90</td>																				
-							<td style="text-align: center; vertical-align: middle;">EM TRÂNSITO</td>
-							
-							<!-- Buttons actions -->
-							<td style="text-align: center; ">
-							
-							<a href="#"class="btn btn-success btn-sm">ENTREGUE</a>
-							</td>
-							
-										
-						</tr>
-										
 
 					</tbody>
 				</table>
+
 			</div>
-			 </section>	
-		  </div>	  
+			</div>
+			</form>
+        </section>		
+        		  </div>	  
        
 
       </div>	  
@@ -201,9 +252,8 @@
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
-    <script>
-    feather.replace()
-    </script>  	
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>feather.replace()</script>  	
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

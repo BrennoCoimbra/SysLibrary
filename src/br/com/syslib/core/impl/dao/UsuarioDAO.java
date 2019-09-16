@@ -231,4 +231,40 @@ public class UsuarioDAO extends AbstractJdbcDAO {
 		return ctrlTransaction;
 		
 	}
+	
+	public List<EntidadeDominio> getEntidadeDominio(int idUsuario) throws SQLException {
+		openConnection();
+		PreparedStatement pst;
+		List<EntidadeDominio> usuarios = new	ArrayList<EntidadeDominio>();
+		
+		Usuario usuario = null;
+		
+		StringBuilder sql = new StringBuilder();
+		sql.append("SELECT * FROM usuario");
+		sql.append(" WHERE us_id = ?");
+		
+		pst = connection.prepareStatement(sql.toString());
+		pst.setInt(1, idUsuario);
+		
+		ResultSet rs = pst.executeQuery();
+		
+		while (rs.next()) {			
+			int id = rs.getInt("us_id");
+			String nome = rs.getString("us_nome");
+						
+			usuario = new Usuario();
+			usuario.setId(id);
+			usuario.setNome(nome);
+			
+						
+			usuarios.add(usuario);
+		}
+
+
+		rs.close();
+		pst.close();
+		connection.close();
+		
+		return usuarios;
+	}
 }

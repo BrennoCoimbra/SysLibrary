@@ -14,6 +14,8 @@ public class ValidadorCupomDesconto implements IStrategy {
 		String cpm = null;
 		int cpm2 = 0;
 		
+		if(pedido.getId() == null) {
+		
 		if(!cupom.equals("")) {
 		
 		if(pedido.getIdPedido() == 0 &&  cupom != null) {
@@ -46,6 +48,9 @@ public class ValidadorCupomDesconto implements IStrategy {
 		} else {
 			return "Digite um codigo de cupom!";
 		}
+	} else {
+		return null;
+	}
 	}
 
 }

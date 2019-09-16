@@ -10,6 +10,7 @@
 
 
 <html lang="pt-br">
+
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
@@ -30,6 +31,7 @@
 	  position: fixed;
 	  
 	  bottom: 0;
+	  
 	  width: 100%;
 	  background: #fff;
 	  color: #333;
@@ -42,16 +44,21 @@
   		Usuario usuario = (Usuario) session.getAttribute("usuario");
 		
 		
-	    Pedido pedido = session.getAttribute("pedido") == null ? null : (Pedido) session.getAttribute("pedido");
+	    Pedido pedido = session.getAttribute("pedido") == null ? new Pedido() : (Pedido) session.getAttribute("pedido");
 	    @SuppressWarnings({ "unchecked", "rawtypes" })
   	    ArrayList<EntidadeDominio> livros = session.getAttribute("livros") == null ? null : (ArrayList) session.getAttribute("livros");
   	    Resultado resultado = (Resultado) request.getAttribute("resultado");
     	%>	
     	
   	  <% 
-  		if (pedido != null&& pedido.getPedItem()!=null && !pedido.getPedItem().isEmpty()) {%>    
+  		if (pedido != null&& pedido.getPedItem()!=null && !pedido.getPedItem().isEmpty()) {
+  			
+  		
+  		%>    
         <body onload="countDown(300)"> 
-      <%} else{%>
+      <%} else{
+    	  session.removeAttribute("pedido");
+      %>
             <body> 
       <%}%>
    
@@ -118,12 +125,14 @@
                   Consultar Cartão
                 </a>
               </li>
+              <%if (pedido != null) {%>
               <li class="nav-item">
                 <a class="nav-link active" href="http://localhost:8080/SysLibrary/carrinho.jsp">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>
               </li>
+              <%} %>
               <li class="nav-item">
                 <a class="nav-link" href="./consultar-pedidos.jsp">
                   <span data-feather="shopping-bag"></span>
@@ -221,7 +230,7 @@
 					</thead>
 					<tbody>
 					<%
-					if(pedido !=null){
+					if(!pedido.getPedItem().isEmpty() || pedido != null){
                         if (livros != null) {                                               
                         	for (ItemPedido i : pedido.getPedItem()) {
                         		int j = i.getItemIdLivro();
@@ -308,7 +317,6 @@
 			
 			</form>
 			<% } %>
-			
 				<% if(request.getAttribute("msg") != null) { %>
 	 			<div style="text-align: center" class="alert alert-danger">
 				<br>

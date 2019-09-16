@@ -87,6 +87,15 @@ public class Servlet extends HttpServlet {
 		vhs.put("/SysLibrary/autenticado/CalcularFrmPgto", new PedidoViewHelper());
 		vhs.put("/SysLibrary/ValidarCupomPromocional", new PedidoViewHelper());
 		vhs.put("/SysLibrary/autenticado/ValidarCupomTroca", new CupomViewHelper());
+		vhs.put("/SysLibrary/autenticado/GerarCupomTroca", new CupomViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/GerarCupomTroca", new CupomViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/ADD", new CupomViewHelper());
+		vhs.put("/SysLibrary/autenticado/ConsultarCupomTroca", new CupomViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/ConsultarCupomTroca", new CupomViewHelper());
+		vhs.put("/SysLibrary/autenticado/BuscarCupomTroca", new CupomViewHelper());
+		vhs.put("/SysLibrary/autenticado/SalvarPedido", new PedidoViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/SalvarPedido", new PedidoViewHelper());
+		
 	}
 
 	@Override

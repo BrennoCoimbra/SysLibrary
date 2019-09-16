@@ -26,6 +26,7 @@ public class Pedido extends EntidadeDominio {
     private int idItemPedido;
     private int qtdeItemPedido;
     private int descontoItem;
+    private String dataPedido;
     private String statusPedido;
     private String codigoPromocionalPedido;
     private String codigoTrocaPedido;    
@@ -211,6 +212,12 @@ public class Pedido extends EntidadeDominio {
 	}
 	public void setValorCartao(double valorCartao) {
 		this.valorCartao = valorCartao;
+	}
+	public String getDataPedido() {
+		return dataPedido;
+	}
+	public void setDataPedido(String dataPedido) {
+		this.dataPedido = dataPedido;
 	}
 	
     

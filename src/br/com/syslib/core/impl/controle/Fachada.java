@@ -12,11 +12,14 @@ import br.com.syslib.core.IStrategy;
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.core.impl.dao.CartaoCreditoDAO;
 import br.com.syslib.core.impl.dao.ClienteDAO;
+import br.com.syslib.core.impl.dao.CupomDAO;
 import br.com.syslib.core.impl.dao.EnderecoDAO;
 import br.com.syslib.core.impl.dao.EstoqueDAO;
 import br.com.syslib.core.impl.dao.LivroDAO;
+import br.com.syslib.core.impl.dao.PedidoDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
+import br.com.syslib.core.impl.negocio.GerarCupomTroca;
 import br.com.syslib.core.impl.negocio.ValidadorCalculoFrete;
 import br.com.syslib.core.impl.negocio.ValidadorClienteExistente;
 import br.com.syslib.core.impl.negocio.ValidadorCupomDesconto;
@@ -27,7 +30,9 @@ import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosEndereco;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
 import br.com.syslib.core.impl.negocio.ValidadorFrmPgto;
+import br.com.syslib.core.impl.negocio.ValidadorPedido;
 import br.com.syslib.core.impl.negocio.ValidadorSenha;
+import br.com.syslib.core.impl.negocio.ValidadorTrocaEstoque;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
 import br.com.syslib.core.impl.negocio.ValidarCarrinhoExclusao;
 import br.com.syslib.core.impl.negocio.ValidarCarrinhoQtde;
@@ -65,7 +70,8 @@ public class Fachada implements IFachada {
 		EnderecoDAO enderecoDAO = new EnderecoDAO();
 		CartaoCreditoDAO cartaoCreditoDAO = new CartaoCreditoDAO();
 		EstoqueDAO estoqueDAO = new EstoqueDAO();
-	
+		PedidoDAO pedidoDAO = new PedidoDAO();
+		CupomDAO cupomDAO = new CupomDAO();
 		
 		/* Adicionando cada dao no MAP indexando pelo nome da classe */
 		daos.put(Livro.class.getName(), livroDAO);
@@ -74,7 +80,8 @@ public class Fachada implements IFachada {
 		daos.put(Endereco.class.getName(), enderecoDAO);
 		daos.put(CartaoCredito.class.getName(), cartaoCreditoDAO);
 		daos.put(Estoque.class.getName(), estoqueDAO);
-		
+		daos.put(Pedido.class.getName(), pedidoDAO);		
+		daos.put(Cupom.class.getName(), cupomDAO);
 	
 		
 		//usuario
@@ -166,8 +173,11 @@ public class Fachada implements IFachada {
 		
 		
 		//pedido
+		ValidadorPedido vrSalvarPedido = new ValidadorPedido();
 		List<IStrategy> rnsAltrarPedido = new ArrayList<IStrategy>();
 		List<IStrategy> rnsExcluirPedido = new ArrayList<IStrategy>();
+		List<IStrategy> rnsSalvarPedido = new ArrayList<IStrategy>();
+		rnsSalvarPedido.add(vrSalvarPedido);
         rnsAltrarPedido.add(vrQtdeCarrinho);
         rnsExcluirPedido.add(vrCarrinhoExclusao);
         Map<String, List<IStrategy>> rnsPedido = new HashMap<String, List<IStrategy>>();
@@ -175,13 +185,24 @@ public class Fachada implements IFachada {
         rnsPedido.put("EXCLUIR", rnsExcluirPedido);
         rnsPedido.put("CONSULTAR", rnsPesquisarCarrinho);
         rnsPedido.put("CONSULTAR", rnsPesquisarPgto);
+        rnsPedido.put("SALVAR", rnsSalvarPedido);
         
         //cupom troca
+        ValidadorTrocaEstoque vrTrocaEstoque = new ValidadorTrocaEstoque();
         ValidadorCupomTroca vrCupomTroca = new ValidadorCupomTroca();
+        GerarCupomTroca grCupomTroca = new GerarCupomTroca();
         List<IStrategy> rnsConsultarCupomTroca = new ArrayList<IStrategy>();
+		List<IStrategy> rnsAddEstoqueTroca = new ArrayList<IStrategy>();
+        List<IStrategy> rnsSalvarCupomTroca = new ArrayList<IStrategy>();
+        List<IStrategy> rnsAlterarCupomTroca = new ArrayList<IStrategy>();
+        rnsAddEstoqueTroca.add(vrTrocaEstoque);        
         rnsConsultarCupomTroca.add(vrCupomTroca);
+        rnsSalvarCupomTroca.add(grCupomTroca);
+        rnsAlterarCupomTroca.add(vrTrocaEstoque);
         Map<String, List<IStrategy>> rnsCupomTroca = new HashMap<String, List<IStrategy>>();
         rnsCupomTroca.put("CONSULTAR", rnsConsultarCupomTroca);
+        rnsCupomTroca.put("SALVAR", rnsSalvarCupomTroca);
+        rnsCupomTroca.put("ALTERAR", rnsAlterarCupomTroca);
         //frete
         ValidadorCalculoFrete vrCalculoFrete = new ValidadorCalculoFrete();
         List<IStrategy> rnsSalvarFrete = new ArrayList<IStrategy>();

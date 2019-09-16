@@ -24,7 +24,9 @@
    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/bootstrap.min.css" rel="stylesheet">
 
     <!-- Custom styles for this template -->
-    <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
+   <link href="http://localhost:8080/SysLibrary/resources/bootstrap/css/dashboard.css" rel="stylesheet">
+    <script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.4.1.min.js"></script>
+  	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.min.js"></script>
 	
 	<style>
 	footer {
@@ -45,7 +47,7 @@
 		 StringBuilder sb;
 		 Usuario usuario = (Usuario) session.getAttribute("usuario");
 
-		 List<EntidadeDominio> livros = (List<EntidadeDominio>) request.getAttribute("livro");
+		 List<EntidadeDominio> cupons = (List<EntidadeDominio>) request.getAttribute("cupons");
 		 
 		  %>
     	
@@ -141,9 +143,9 @@
         </nav>
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
-					<h3>Trocas </h3>           
+					<h3>Solicitação de  Troca </h3>           
             	</div>          
-          	  	<form action="SalvarLivro" method="post" class="form-horizontal">
+          	  	<form action="ConsultarCupomTroca" method="post" class="form-horizontal">
 		<div class="row">
 			<div class="col-lg-5">
 			
@@ -153,7 +155,6 @@
 			</div>
 			<div class="col-0">
 			<input type='submit' class='btn btn-primary'  id='operacao' name='operacao' value='VISUALIZAR'/>
-			 <a href="./form-livro.jsp" class="btn btn-primary">NOVO</a>
 				
 		</div>
 			
@@ -165,61 +166,58 @@
 				<table class="table table-striped" >
 					<thead>
 						<tr>
-
+							<th class="text-center">NºCompra</th>
 							<th class="text-center">Titulo</th>
-							<th class="text-center">Editora</th>
-							<th class="text-center">Autor</th>
-							<th class="text-center">Ativo</th>
-							<th class="text-center">ISBN</th>
-							<th style="text-align: right">Ações</th>
-							<th></th>
+							<th class="text-center">Qtde</th>
+							<th class="text-center">Valor</th>
+							<th class="text-center">Status</th>
+							<th style="text-align: center">Ação</th>
 						</tr>
 					</thead>
 					<tbody>
 
-		            		<%
-		            		
-		            		
-		            		if (livros != null) {
-			            		for (EntidadeDominio ed : livros) {
-			            			Livro livro = (Livro) ed;
-			            			StringBuilder autores = new StringBuilder();
-			        				boolean isSecondOrMore = false;
-			        				
-			        				for (Autor autor : livro.getAutores()) {
-			        					if (isSecondOrMore)
-			        						autores.append("/");
-			        					autores.append(autor.getNome());
-			        					
-			        					isSecondOrMore = true;
-			        				}
-		            			
-		            		
-		            		%>
 						<tr>
-							
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getEditora().getNome() %> </td>
-							<td style="text-align: center; vertical-align: middle;"><%=autores.toString() %> </td>																				
-							<td style="text-align: center; vertical-align: middle;"><% if(livro != null && livro.getAtivo()) out.print("sim"); else out.print("não") ; %></td>
-							<td style="text-align: center; vertical-align: middle;"><%=livro.getISBN() %></td>
-							
-							<!-- Buttons actions -->
-							<td style="text-align: right; ">
-							<a href="SalvarLivro?operacao=CONSULTAR&IdLivro=<%=livro.getId() %>" class="btn btn-warning">Alterar</a> 
-							</td>
-							
-							<td style="text-align: left; ">
-							<a href="SalvarLivro?operacao=EXCLUIR&IdLivro=<%=livro.getId() %>"class="btn btn-danger">Remover</a>
-							</td>				
-										
-						</tr>
 						<%
-						}
-		            }
-		            	%>
-						
-
+		            		
+		            		
+		            		if (cupons != null) {
+			            		for (EntidadeDominio ed : cupons) {
+			            			Cupom cp = (Cupom) ed;			            			
+		            		
+							%>
+							
+							<td style="text-align: center; vertical-align: middle;"><%=cp.getIdPedido() %> </td>
+							<%
+							
+							EntidadeDominio livro = new LivroDAO().getEntidadeDominio(cp.getIdItem());
+							Livro liv = (Livro) livro;
+							%>
+							<td style="text-align: center; vertical-align: middle;"><%=liv.getTitulo() %> </td>		
+							<td style="text-align: center; vertical-align: middle;"><%=cp.getQtdeTroca() %> </td>							
+							<td style="text-align: center; vertical-align: middle;">R$ <%=String.format("%.2f",cp.getValorCupom()) %> </td>																				
+							<td style="text-align: center; vertical-align: middle;"><%=cp.getStatusCupom() %></td>
+							<!-- Buttons actions -->
+							 <td class="text-center">
+			                  <div class="dropdown">
+			                    <a class="btn btn-sm btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                     <span data-feather="more-vertical"></span> 
+			                    </a>
+			                    
+			                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+			                    <%if(cp.getStatusCupom().equals("EM TROCA")){ %>			                    
+			                      <a class="dropdown-item" href="GerarCupomTroca?operacao=ALTERAR&IdCupom=<%=cp.getId()%>&IdPed=<%=cp.getIdPedido()%>&IdLivro=<%=cp.getIdItem()%>&Option=S"><span data-feather="check"></span> Aceitar Troca</a> 																					
+								  <a class="dropdown-item" href="GerarCupomTroca?operacao=ALTERAR&IdCupom=<%=cp.getId()%>&IdPed=<%=cp.getIdPedido()%>&IdLivro=<%=cp.getIdItem()%>&Option=N"><span data-feather="x"></span> Recusar Troca</a>							
+			                      <%} else if(cp.getStatusCupom().equals("TROCA AUTORIZADA") && cp.getEnviarEstoque() != true){ %>
+			                      <a class="dropdown-item" href="ADD?operacao=ADD&IdCupom=<%=cp.getId()%>&IdPed=<%=cp.getIdPedido()%>&qtdeItem=<%=cp.getQtdeTroca()%>&IdLivro=<%=cp.getIdItem()%>&Option=S"><span data-feather="check"></span> Enviar p/ Estoque</a>
+								  <a class="dropdown-item" href="ADD?operacao=ADD&IdCupom=<%=cp.getId()%>&IdPed=<%=cp.getIdPedido()%>&qtdeItem=<%=cp.getQtdeTroca()%>&IdLivro=<%=cp.getIdItem()%>&Option=N"><span data-feather="x"></span> Descartar</a>
+			                       <%} else {%>
+			                       <a class="dropdown-item" href="#"> </a>
+			                       <%} %>
+			                    </div>
+			                  </div>
+			                </td>	
+						</tr>
+							<%}} %>
 					</tbody>
 				</table>
 			</div>
@@ -231,9 +229,8 @@
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
-    <script>
-    feather.replace()
-    </script>  	
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>feather.replace()</script>  		
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

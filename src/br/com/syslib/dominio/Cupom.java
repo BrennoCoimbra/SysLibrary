@@ -17,10 +17,11 @@ public class Cupom extends EntidadeDominio {
 	    private String dataCupom;
 	    private int idCupomCliente;
 	    private int idPedido;
+	    private int qtdeTroca;
 	    private String statusPedido;
 	    private List<ItemPedido> itemPedido = new ArrayList<>() ;
 	    private List<Cupom> cupom =  new ArrayList<>();
-	    
+	    private boolean enviarEstoque;
 	    
 		public double getSubtotal() {
 			return subtotal;
@@ -105,6 +106,18 @@ public class Cupom extends EntidadeDominio {
 		}
 		public void setCupom(List<Cupom> cupom) {
 			this.cupom = cupom;
+		}
+		public int getQtdeTroca() {
+			return qtdeTroca;
+		}
+		public void setQtdeTroca(int qtdeTroca) {
+			this.qtdeTroca = qtdeTroca;
+		}
+		public Boolean getEnviarEstoque() {
+			return enviarEstoque;
+		}
+		public void setEnviarEstoque(Boolean enviarEstoque) {
+			this.enviarEstoque = enviarEstoque;
 		}
 	    
 	    
