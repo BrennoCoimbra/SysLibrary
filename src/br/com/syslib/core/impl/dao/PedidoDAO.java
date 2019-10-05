@@ -122,7 +122,41 @@ public class PedidoDAO extends AbstractJdbcDAO {
 			}
 		}
 	}
-
+	 
+	@Override
+	public void excluir(EntidadeDominio entidade) {
+		Pedido pedido = (Pedido) entidade;
+		PreparedStatement pst = null;
+		String sqlPedido = null;
+		
+		sqlPedido = "UPDATE pedido SET ped_status = ? where ped_id = ?";
+		
+		try {
+			openConnection();			
+			pst = connection.prepareStatement(sqlPedido);
+			pst.setString(1, pedido.getStatusPedido());
+			pst.setInt(2, pedido.getId());
+			pst.execute();
+			
+			
+		} catch (SQLException e) {
+			try {
+				connection.rollback();
+			} catch (SQLException e1) {
+				e1.printStackTrace();
+			}
+			e.printStackTrace();
+		} finally {
+			try {
+				pst.close();				
+				connection.close();
+			} catch (SQLException e) {
+				e.printStackTrace();
+			}
+			}
+		
+	}
+	
 	@Override
 	public boolean verificarCadastro(EntidadeDominio entidade) throws SQLException {
 		

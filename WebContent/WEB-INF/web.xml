@@ -170,7 +170,7 @@
   <error-page>
     <location>/errors.jsp</location>
   </error-page>
-  <!-- <session-config>
-    <session-timeout>5</session-timeout>
-  </session-config> -->
+  <session-config>
+    <session-timeout>2</session-timeout>
+  </session-config>
 </web-app>

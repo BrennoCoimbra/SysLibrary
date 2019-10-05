@@ -49,6 +49,7 @@ public class PedidoViewHelper implements IViewHelper {
 			pedido.setQtdeCar(-1);
 			
 		} else if(operacao.equals("REMOVE") || operacao.equals("EXCLUIR")) {
+				
 			// Pegando o item e quantidade unica pelo parametro passado ao clicar em remover do carrinho
 			String idItem = request.getParameter("idItemPedido");
 			String qtdeiTem = request.getParameter("qtdeItem");
@@ -58,6 +59,19 @@ public class PedidoViewHelper implements IViewHelper {
 			
 			pedido.getPedItem().add(itemPedido);
 			pedido.setQtdeCar(1);
+		
+		} else if (operacao.equals("CANCEL")) {
+			idPedido = request.getParameter("idPedido");
+			int id = 0;
+			
+			if(idPedido != null && !idPedido.trim().equals("")) {
+				id = Integer.parseInt(idPedido);
+				
+				pedido = new Pedido();
+				pedido.setId(id);
+				pedido.setIdPedido(id);
+				}
+			
 		} else if(operacao.equals("CUPOMDESCONTO")) { 
 			HttpSession session = request.getSession(true);
             Pedido pedi = (Pedido) session.getAttribute("pedido");
@@ -74,7 +88,7 @@ public class PedidoViewHelper implements IViewHelper {
             pedido.setSubtotalPedido(pedi.getSubtotalPedido());
             pedido.setCodigoPromocionalPedido(codigoDesconto);
             return pedido;
-            
+		
 		}  else if(operacao.equals("FRMPGTO")){
 			HttpSession session = request.getSession(true);
             Pedido pedi = (Pedido) session.getAttribute("pedido");
@@ -98,7 +112,8 @@ public class PedidoViewHelper implements IViewHelper {
         	   }
         	   pedido.setCartoes(cartoes);
            }
-           pedido.setValorTotalPedido(pedi.getSubtotalPedido() + pedi.getValorFrete());
+          // pedido.setValorTotalPedido(pedi.getSubtotalPedido() + pedi.getValorFrete());
+           pedido.setValorTotalPedido(pedi.getValorTotalPedido());
            pedido.setSubtotalPedido(pedi.getSubtotalPedido());                     
            pedido.setDescontoPedido(pedi.getDescontoPedido());
            pedido.setValorFrete(pedi.getValorFrete());
@@ -170,6 +185,7 @@ public class PedidoViewHelper implements IViewHelper {
 				pedido.setId(id);
 				pedido.setIdPedido(id);
 			}
+		
 		} else if(operacao.equals("ALTERAR")) {
 			idPedido = request.getParameter("idPedido");
 			String status = request.getParameter("status");
@@ -226,13 +242,54 @@ public class PedidoViewHelper implements IViewHelper {
                 session.setAttribute("entidadePedido", pedido);
                 session.setAttribute("entidadeLivro", livros);
                 response.sendRedirect("carrinho.jsp");
+            } else if(resultado.getMsg().equals("CANCELOK")) {
+            	try {				
+    				String filter = request.getParameter("search");
+    				if(filter == null) {
+    					filter = "";
+    				}
+    				Integer idCliente = usuario.getId();
+    				List<EntidadeDominio> pedidos = new PedidoDAO().visualizar(filter,idCliente);
+    				request.setAttribute("pedidos", pedidos);
+    				
+    			} catch (SQLException e) {
+    				resultado.setMsg("Não foi possível listar pedidos.");
+    				d = request.getRequestDispatcher("errors.jsp");
+        			d.forward(request, response);
+    			}
+
+    			d = request.getRequestDispatcher("consultar-pedidos.jsp");
+            	
             } else {
-                request.setAttribute("resultado", resultado);
-                d = request.getRequestDispatcher("/carrinho.jsp");
-                d.forward(request, response);
+            	request.setAttribute("msg", resultado.getMsg());
+                d = request.getRequestDispatcher("errors.jsp");
+                
             }           
         	
-        } else if ("CUPOMDESCONTO".equals(operacao)) {
+        }else if("CANCEL".equals(operacao)) {
+        	if(resultado.getMsg().equals("CANCELOK")) {
+        	try {				
+				String filter = request.getParameter("search");
+				if(filter == null) {
+					filter = "";
+				}
+				Integer idCliente = usuario.getId();
+				List<EntidadeDominio> pedidos = new PedidoDAO().visualizar(filter,idCliente);
+				request.setAttribute("pedidos", pedidos);
+				
+			} catch (SQLException e) {
+				resultado.setMsg("Não foi possível listar pedidos.");
+				d = request.getRequestDispatcher("errors.jsp");
+    			d.forward(request, response);
+			}
+
+			d = request.getRequestDispatcher("consultar-pedidos.jsp");
+        	
+        } else {
+        	request.setAttribute("msg", resultado.getMsg());
+            d = request.getRequestDispatcher("errors.jsp");
+        	}
+        }  else if ("CUPOMDESCONTO".equals(operacao)) {
 
 
             if (!"DRIVEOK".equals(resultado.getMsg())) {
@@ -310,7 +367,16 @@ public class PedidoViewHelper implements IViewHelper {
                          session.setAttribute("pedido", pedido);
                          session.setAttribute("cartoes", cartoes);
                          response.sendRedirect("form-pedido-pagamento.jsp");
-                }
+                         //pag com cupom
+                 } else if(ped.getValorTotalPedido() == 0 && ped.getCuponsValor() >= (ped.getSubtotalPedido() + ped.getValorTroca())) {
+                	 pedido.setDescontoPedido(ped.getDescontoPedido());
+                     pedido.setSubtotalPedido(ped.getSubtotalPedido());
+                     pedido.setValorTotalPedido(ped.getValorTotalPedido());
+                     session.setAttribute("pedido", pedido);
+                     response.sendRedirect("form-pedido-pagamento.jsp");
+                 }
+                
+                
             }
         
         	
@@ -435,9 +501,9 @@ public class PedidoViewHelper implements IViewHelper {
 				request.setAttribute("pedido", ped);
 			d = request.getRequestDispatcher("consultar-pedido-detalhe.jsp");
 			
+		
 		} else {
                 d = request.getRequestDispatcher("index.jsp");
-                d.forward(request, response);
         }
         
         if (d != null) {

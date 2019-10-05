@@ -54,7 +54,7 @@
     	
   	  <% 
   		if (pedido != null&& pedido.getPedItem()!=null && !pedido.getPedItem().isEmpty()) {%>    
-        <body onload="countDown(300)"> 
+        <body onload="countDown(60)"> 
       <%} else{%>
             <body> 
       <%}%>

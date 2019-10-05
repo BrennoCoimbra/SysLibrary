@@ -34,6 +34,7 @@ import br.com.syslib.core.impl.negocio.ValidadorPedido;
 import br.com.syslib.core.impl.negocio.ValidadorSenha;
 import br.com.syslib.core.impl.negocio.ValidadorTrocaEstoque;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
+import br.com.syslib.core.impl.negocio.ValidarCancelamentoPedido;
 import br.com.syslib.core.impl.negocio.ValidarCarrinhoExclusao;
 import br.com.syslib.core.impl.negocio.ValidarCarrinhoQtde;
 import br.com.syslib.core.impl.negocio.ValidarEstoque;
@@ -173,6 +174,7 @@ public class Fachada implements IFachada {
 		
 		
 		//pedido
+		ValidarCancelamentoPedido vrPedCancel = new ValidarCancelamentoPedido();
 		ValidadorPedido vrSalvarPedido = new ValidadorPedido();
 		List<IStrategy> rnsAltrarPedido = new ArrayList<IStrategy>();
 		List<IStrategy> rnsExcluirPedido = new ArrayList<IStrategy>();
@@ -180,6 +182,7 @@ public class Fachada implements IFachada {
 		rnsSalvarPedido.add(vrSalvarPedido);
         rnsAltrarPedido.add(vrQtdeCarrinho);
         rnsExcluirPedido.add(vrCarrinhoExclusao);
+        rnsExcluirPedido.add(vrPedCancel);
         Map<String, List<IStrategy>> rnsPedido = new HashMap<String, List<IStrategy>>();
         rnsPedido.put("ALTERAR", rnsAltrarPedido);
         rnsPedido.put("EXCLUIR", rnsExcluirPedido);

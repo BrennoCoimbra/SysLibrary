@@ -25,6 +25,7 @@ public class ValidarCarrinhoExclusao implements IStrategy {
 		Estoque estoqueBD;
 		EntidadeDominio est = new Estoque();
 
+		if(pedido.getIdPedido() == 0) {
 		int idLivro = pedido.getPedItem().get(0).getItemIdLivro();
 		int qtdeLivro = pedido.getPedItem().get(0).getItemQtde();
 		//int qtdeCarrinho = pedido.getQtdeCar();
@@ -61,6 +62,9 @@ public class ValidarCarrinhoExclusao implements IStrategy {
 		}
 
 		return "Erro ao excluir item!";
+	} else {
+		return null;
+	}
 	}
 
 }

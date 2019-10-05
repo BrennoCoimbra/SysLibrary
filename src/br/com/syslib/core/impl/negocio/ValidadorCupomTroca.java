@@ -42,8 +42,8 @@ public class ValidadorCupomTroca implements IStrategy {
                                     cp.setIdCupomCliente(cupomBD.getIdCupomCliente());
                                     cp.setIdPedido(cupomBD.getIdPedido());
                                     cp.setNomeCupom(cupomBD.getNomeCupom());
-                                    cp.setValorCupom(sobraDoCupom);
-                                    cp.setSubtotal(cupomBD.getValorCupom() - sobraDoCupom);
+                                    cp.setValorCupom(sobraDoCupom);                                    
+                                    cp.setiSubtotal(cupomBD.getValorCupom() - sobraDoCupom);
                                     //ped.getCupom().add(cupom);
                                     dao.alterar(entidade);
                                     cp.setValorPedido(0.00);
@@ -55,7 +55,7 @@ public class ValidadorCupomTroca implements IStrategy {
                                     cp.setIdCupomCliente(cupomBD.getIdCupomCliente());
                                     cp.setIdCupom(cupomBD.getIdCupom());
                                     cp.setIdPedido(cupomBD.getIdPedido());
-                                    cp.setStatusCupom("Usado");                                    
+                                    cp.setStatusCupom("USADO");                                    
                                     cp.setNomeCupom(cupomBD.getNomeCupom());
                                     cp.setValorCupom(cupomBD.getValorCupom());
                                     cp.getCupom().add(cupom);

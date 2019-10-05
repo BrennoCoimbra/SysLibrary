@@ -161,9 +161,9 @@
 						<tr>
 							<th></th>
 							<th class="text-center">ID Cupom</th>
-							<th class="text-center">Valor Gerado</th>
-							<th class="text-center">Valor Consumido</th>
-							<th class="text-center">Valor Restante</th>
+							<th class="text-center">Valor </th>
+							<th class="text-center">Data</th>
+							<th class="text-center">Status</th>
 							<th> </th>
 							
 						</tr>
@@ -176,14 +176,17 @@
 		            		if (cupons != null) {
 			            		for (EntidadeDominio ed : cupons) {
 			            			Cupom cp = (Cupom) ed;			            			
-		            		if(cp.getEnviarEstoque() == true && cp.getStatusCupom().equals("TROCA AUTORIZADA")){
+		            		if( cp.getStatusCupom().equals("USADO") || cp.getStatusCupom().equals("TROCA AUTORIZADA")){
+		            			if(cp.getStatusCupom().equals("TROCA AUTORIZADA")){
+		            				cp.setStatusCupom("ATIVO");
+		            			}
 		            		%>
 						<tr>
 							<th></th>
 							<td style="text-align: center; vertical-align: middle;"><%=cp.getNomeCupom() %> </td>
-							<td style="text-align: center; vertical-align: middle;">R$<%=String.format("%.2f",cp.getValorCupom() + cp.getSubtotal()) %> </td>								
-							<td style="text-align: center; vertical-align: middle;">R$<%=String.format("%.2f",cp.getSubtotal()) %> </td>																				
-							<td style="text-align: center; vertical-align: middle;">R$<%=String.format("%.2f",(cp.getValorCupom()))%></td>
+							<td style="text-align: center; vertical-align: middle;">R$<%=String.format("%.2f",cp.getValorCupom()) %> </td>								
+							<td style="text-align: center; vertical-align: middle;"><%=cp.getDataCupom() %> </td>																				
+							<td style="text-align: center; vertical-align: middle;"><%=cp.getStatusCupom()%></td>
 							<th> </th>
 							
 							

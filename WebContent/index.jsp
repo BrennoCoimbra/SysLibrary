@@ -175,7 +175,7 @@
 						    	   
 						    	   if (exibir) {
 						    %>
-							<div class="col">
+							<div class="col-4">
 								<div class="product-grid3">
 									 <div style="text-align: center;">
 										<a href="describe.jsp?IdLivro=<%=livro.getId()%>">
@@ -183,7 +183,7 @@
 											
 											
 										</a>
-										<h4><%=livro.getTitulo() %></h4> <br>
+										<h5><%=livro.getTitulo() %></h5> <br>
 										<H6>Apenas por!</H6>	
 										<h6><%= "R$" + String.format("%.2f", livro.getEstoque().getValorVenda()) %></h6>
 									</div><br>

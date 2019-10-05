@@ -1,14 +1,18 @@
 package br.com.syslib.controle.web;
 
-import java.util.List;
+import java.io.IOException;
 
 import javax.servlet.annotation.WebListener;
+import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
 
+import br.com.syslib.core.impl.dao.EstoqueDAO;
+import br.com.syslib.dominio.Estoque;
 import br.com.syslib.dominio.ItemPedido;
 import br.com.syslib.dominio.Pedido;
+import br.com.syslib.enuns.TipoMovimentacaoEstoque;
 
 /**
  * Application Lifecycle Listener implementation class Carrinho
@@ -38,16 +42,33 @@ public class ListenerCarrinho implements HttpSessionListener {
      */
     public void sessionDestroyed(HttpSessionEvent se)  { 
     	HttpSession session = se.getSession();
-    	String operacao = "EXCLUIR";
+    	
     	
     	//Disponibilizar itens no estoque caso a sessao do usuario tenha expirado no carrinho de compras.
     	if(session.getAttribute("pedido") != null) {
     		Pedido pedido = (Pedido) session.getAttribute("pedido") ; 
-    		if(pedido.getPedItem().size() > 0 ) {
-    			for(ItemPedido item : pedido.getPedItem()) {
-    				
-    			}
-    		}
+    		Estoque estoque = new Estoque();
+			EstoqueDAO estoqueDAO = new EstoqueDAO();
+						
+			
+    		int i = 0;
+    		for(ItemPedido it : pedido.getPedItem()) {
+				it.setItemQtde(pedido.getPedItem().get(i).getItemQtde());
+				it.setItemIdLivro(pedido.getPedItem().get(i).getItemIdLivro());						
+				estoque.setQtde(it.getItemQtde());
+				estoque.setIdLivro(it.getItemIdLivro());							
+				estoque.setTpMov(TipoMovimentacaoEstoque.ENTRADA);
+				try {
+				estoqueDAO.alterar(estoque);
+				}catch(Exception e) {
+					return;
+				}
+				i++;
+			}
+    		
+    		session.removeAttribute("pedido");
+    		session.setAttribute("pedido", pedido);
+    		
     	}
     	
     }

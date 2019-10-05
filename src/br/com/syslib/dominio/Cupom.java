@@ -7,6 +7,7 @@ public class Cupom extends EntidadeDominio {
 	
 	
 	    private double subtotal;
+	    private double iSubtotal;
 	    private int idCupom;
 	    private double valorPedido;
 	    private double descontoPedido;    
@@ -117,6 +118,15 @@ public class Cupom extends EntidadeDominio {
 			return enviarEstoque;
 		}
 		public void setEnviarEstoque(Boolean enviarEstoque) {
+			this.enviarEstoque = enviarEstoque;
+		}
+		public double getiSubtotal() {
+			return iSubtotal;
+		}
+		public void setiSubtotal(double iSubtotal) {
+			this.iSubtotal = iSubtotal;
+		}
+		public void setEnviarEstoque(boolean enviarEstoque) {
 			this.enviarEstoque = enviarEstoque;
 		}
 	    

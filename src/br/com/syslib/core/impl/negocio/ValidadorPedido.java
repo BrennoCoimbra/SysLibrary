@@ -33,7 +33,7 @@ public class ValidadorPedido implements IStrategy {
 							return null;
 							
 						}else if (pedido.getValorCartao1() + pedido.getValorCartao2() == pedido.getValorTotalPedido()) {
-									if(pedido.getValorCartao1() >= 10 || pedido.getValorCartao2() >= 10) {
+									if(pedido.getValorCartao1() == 10 || pedido.getValorCartao2() == 10) {
 										return null;
 									} else {
 										return "Pagamento minimo para 1 cartao deve ser de R$10,00";
@@ -58,7 +58,7 @@ public class ValidadorPedido implements IStrategy {
 								return null;
 								
 							}else if (pedido.getValorCartao1() + pedido.getValorCartao2() == pedido.getValorTotalPedido()) {
-										if(pedido.getValorCartao1() >= 5 || pedido.getValorCartao2() >= 5) {
+										if(pedido.getValorCartao1() >= 5 && pedido.getValorCartao2() >= 5) {
 											return null;
 										} else {
 											return "Pagamento minimo para 1 cartao deve ser de R$5,00";

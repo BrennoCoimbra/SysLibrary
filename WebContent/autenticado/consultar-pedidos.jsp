@@ -189,13 +189,25 @@
 							<td style="text-align: center; vertical-align: middle;"><%= "R$" + String.format("%.2f",ped.getValorTotalPedido()) %> </td>																				
 							<td style="text-align: center; vertical-align: middle;"><%=ped.getStatusPedido() %></td>
 							
+						
 							<!-- Buttons actions -->
-							<td style="text-align: center; ">
-							<a href="SalvarPedido?operacao=CONSULTAR&idPedido=<%=ped.getIdPedido() %>" class="btn btn-warning btn-sm">Detalhes</a> 
+							 <td class="text-center">
+			                  <div class="dropdown">
+			                    <a class="btn btn-sm btn-icon-only" href="#" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+			                     <span data-feather="more-vertical"></span> 
+			                    </a>
+			                    
+			                    <div class="dropdown-menu dropdown-menu-right dropdown-menu-arrow">
+			                    <%if(!ped.getStatusPedido().equals("CANCELADO")) { %>
+			                      <a class="dropdown-item" href="SalvarPedido?operacao=CONSULTAR&idPedido=<%=ped.getIdPedido() %>" class="btn btn-warning btn-sm">Detalhes</a>
+			                      <a class="dropdown-item" href="SalvarPedido?operacao=CANCEL&idPedido=<%=ped.getIdPedido() %>" class="btn btn-danger btn-sm">Cancelar</a>			                     
+			                       <%} else {%>
+			                       <a class="dropdown-item" href="SalvarPedido?operacao=CONSULTAR&idPedido=<%=ped.getIdPedido() %>" class="btn btn-warning btn-sm">Detalhes</a>
+			                       <%} %>
+			                    </div>
+			                  </div>
+			                </td>
 							
-							
-							
-							</td>
 							
 						<%}} %>
 						</tr>
@@ -213,9 +225,8 @@
     <!-- Icons -->    
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
-    <script>
-    feather.replace()
-    </script>  	
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script>feather.replace()</script>  	
   </body>
   <footer> Todos os direitos reservados - Biblioteca Copyright©2019 </footer>
 </html>

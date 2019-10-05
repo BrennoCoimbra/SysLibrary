@@ -116,8 +116,8 @@ public class ValidadorFrmPgto implements IStrategy {
 							cartao = (CartaoCredito) est;
 							if(cartao.getAno() > 19 && cartao.getMes() > 9) {
 								pedido.setIdClienteCartao1(cartao.getId());
-								pedido.setValorCartao1(pedido.getValorTotalPedido() - pedido.getDescontoPedido());
-								pedido.setValorTotalPedido(pedido.getValorTotalPedido() - pedido.getDescontoPedido());
+								pedido.setValorCartao1(pedido.getValorTotalPedido());// - pedido.getDescontoPedido());
+								pedido.setValorTotalPedido(pedido.getValorTotalPedido());// - pedido.getDescontoPedido();
 								pedido.setCartao(cartao);									
 								return "DRIVEOK";
 							} else {
@@ -127,7 +127,7 @@ public class ValidadorFrmPgto implements IStrategy {
 						return "erro";
 					}
 		 			} else if (pedido.getCartoes().size() > 1 && pedido.getCartoes().size() < 3) {
-			 			if((pedido.getValorTotalPedido()-pedido.getDescontoPedido()) >= 10) {
+			 			if((pedido.getValorTotalPedido()) >= 10){//-pedido.getDescontoPedido()) >= 10) {
 			 			for(CartaoCredito cartoes : cards) {
 			 				try {
 			 					est =  daoCard.getEntidadeDominioCartaoCredito(cartoes.getId());
@@ -139,9 +139,9 @@ public class ValidadorFrmPgto implements IStrategy {
 								if(cartao.getAno() > 19 && cartao.getMes() > 9) {
 									if(pedido.getIdClienteCartao1() == 0) {
 									pedido.setIdClienteCartao1(cartao.getId());
-									pedido.setValorCartao1(pedido.getValorTotalPedido() - pedido.getDescontoPedido() - 5);
-									cartao.setValorCartao(pedido.getValorTotalPedido() - pedido.getDescontoPedido() - 5);
-									pedido.setValorTotalPedido(pedido.getValorTotalPedido() - pedido.getDescontoPedido());
+									pedido.setValorCartao1(pedido.getValorTotalPedido() - 5);// - pedido.getDescontoPedido() - 5);
+									cartao.setValorCartao(pedido.getValorTotalPedido() - 5);//- pedido.getDescontoPedido() - 5);
+									pedido.setValorTotalPedido(pedido.getValorTotalPedido());// - pedido.getDescontoPedido());
 									} else {
 										pedido.setIdClienteCartao2(cartao.getId());
 										pedido.setValorCartao2(5);
@@ -167,6 +167,8 @@ public class ValidadorFrmPgto implements IStrategy {
 			 		}else {
 		 				return "Mesmo a compra estando com valor zero é preciso selecionar pelo menos 1 cartao de credito";
 		 			}
+		 		}else if(cards == null & pedido.getValorTotalPedido() == 0 && pedido.getCuponsValor() >= (pedido.getSubtotalPedido() + pedido.getValorFrete())){
+		 			return "DRIVEOK";		 			
 		 		}else {
 		 			return "Você deve selecionar pelo menos 1 cartão para compra";
 		 		}

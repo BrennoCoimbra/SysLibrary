@@ -32,7 +32,7 @@ public class CupomDAO extends AbstractJdbcDAO {
         String sqlCupomItem = null;
         	        
         sqlCupomItem = "Insert into CUPOM_TROCA_ITEM(cpi_id, cpi_item_id) values(?,?)";
-        sqlCupomTroca = "Insert into CUPOM_TROCA(cupom_cli_id, cupom_cod, cupom_valor, cupom_status, cupom_pedido_id, cupom_item_subtotal, cupom_qtdetrocar) values(?,?,?,?,?,?,?)";
+        sqlCupomTroca = "Insert into CUPOM_TROCA(cupom_cli_id, cupom_cod, cupom_valor, cupom_status, cupom_pedido_id, cupom_item_subtotal, cupom_qtdetrocar, cupom_enviar_estoque) values(?,?,?,?,?,?,?,?)";
 
         try {
             pst = connection.prepareStatement(sqlCupomTroca, Statement.RETURN_GENERATED_KEYS);
@@ -43,6 +43,7 @@ public class CupomDAO extends AbstractJdbcDAO {
             pst.setInt(5, cupom.getIdPedido());
             pst.setDouble(6, cupom.getSubtotal());
             pst.setInt(7, cupom.getQtdeTroca());
+            pst.setString(8, "N");
             pst.execute();
             final ResultSet rs = pst.getGeneratedKeys();
             int id = 0;
@@ -118,7 +119,7 @@ public class CupomDAO extends AbstractJdbcDAO {
 				sqlCupomTroca = "UPDATE CUPOM_TROCA SET cupom_status = ?, cupom_item_subtotal = ? WHERE cupom_id = ?";
 				pst = connection.prepareStatement(sqlCupomTroca);
 				pst.setString(1, c.getStatusCupom());
-				pst.setDouble(2, c.getSubtotal());
+				pst.setDouble(2, c.getiSubtotal());
 				pst.setInt(3, c.getIdCupom());
 				pst.execute();
 				}
@@ -231,11 +232,13 @@ public class CupomDAO extends AbstractJdbcDAO {
 			Date dtPedido = rs.getDate("T1.cupom_data");
 			int qtdeTrocar = rs.getInt("T1.cupom_qtdetrocar");
 			String enviarEstoque = rs.getString("T1.cupom_enviar_estoque");
+			String dtCupom = rs.getString("T1.cupom_data");
 			
 			cupom.setId(id);
 			cupom.setIdCupomCliente(idUsu);
 			cupom.setNomeCupom(cod);
 			cupom.setValorCupom(valor);
+			cupom.setDataCupom(dtCupom);
 			cupom.setSubtotal(valorSub);
 			cupom.setStatusCupom(status);
 			if(enviarEstoque.equals("S") && enviarEstoque != null) {
@@ -302,6 +305,8 @@ public class CupomDAO extends AbstractJdbcDAO {
 			//Date dtPedido = rs.getDate("T1.ped_dtCadastro");
 			int qtdeTrocar = rs.getInt("T1.cupom_qtdetrocar");
 			String enviarEstoque = rs.getString("T1.cupom_enviar_estoque");
+			
+			
 			if(enviarEstoque == null) {
 				enviarEstoque = "NULL";
 			}

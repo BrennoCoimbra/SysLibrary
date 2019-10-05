@@ -55,7 +55,7 @@
   			
   		
   		%>    
-        <body onload="countDown(300)"> 
+        <body onload="countDown(60)"> 
       <%} else{
     	  session.removeAttribute("pedido");
       %>
@@ -197,13 +197,13 @@
         <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
 			<div style="text-align: center;">
 					<h3>Carrinho de Compras</h3> 
-					 <div style="text-align: left;">
-					 <form action="ValidarCupomPromocional"> 
-				      <label>CUPOM PROMOCIONAL: <input type="text" class="col-lg-3" id="cupomDesc" name="cupomDesc" value="">
-				      <button id="btnCupomdesconto"  <%= pedido== null|| pedido.getPedItem()==null || pedido.getPedItem().isEmpty()? "disabled": "" %> type="submit" name="operacao" value="CUPOMDESCONTO">Aplicar</button>
-				       </label>	
-				       </form>			      				      
-				       </div>  
+<!-- 					 <div style="text-align: left;"> -->
+<!-- 					 <form action="ValidarCupomPromocional">  -->
+<!-- 				      <label>CUPOM PROMOCIONAL: <input type="text" class="col-lg-3" id="cupomDesc" name="cupomDesc" value=""> -->
+<%-- 				      <button id="btnCupomdesconto"  <%= pedido== null|| pedido.getPedItem()==null || pedido.getPedItem().isEmpty()? "disabled": "" %> type="submit" name="operacao" value="CUPOMDESCONTO">Aplicar</button> --%>
+<!-- 				       </label>	 -->
+<!-- 				       </form>			      				       -->
+<!-- 				       </div>   -->
 				       <div style="text-align: right;"> 
 				       <% if(pedido != null) {%>
 				          <label>Você tem: <input type="text" class="col-lg-3"  readonly id="btn" name="btn" value=""> minutos para comprar.</label>
@@ -331,7 +331,13 @@
 	<script src="./resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="./resources/bootstrap/js/feather.min.js"></script>
     <script src="./resources/js/contador.js"></script>	
-    <script src="./resources/js/refresh.js"></script>
+    <script type="text/javascript">
+    $(document).ready(function () {
+        setTimeout(function () {
+            window.location.reload(1);
+        }, 60000); //tempo em milisegundos. Neste caso, o refresh vai acontecer de 5 em 5 segundos.
+    });
+    </script>	
     <!-- Icons -->
     <script>
     feather.replace()
