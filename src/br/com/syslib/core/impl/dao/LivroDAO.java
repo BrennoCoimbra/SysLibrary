@@ -329,33 +329,37 @@ public class LivroDAO extends AbstractJdbcDAO {
 		List<EntidadeDominio> livros = new	ArrayList<EntidadeDominio>();
 		
 		StringBuilder sql = new StringBuilder();
-		sql.append("SELECT * FROM livros");
+		//sql.append("SELECT * FROM livros");
+		sql.append("select T0.liv_id,T0.liv_num_pag,T0.liv_motivo,T0.liv_titulo,T0.liv_editora,T0.liv_isativo,T0.liv_ISBN,T0.liv_valorVenda,SUM(T1.es_qtdeTotal) from livros T0  inner join estoque T1 ON T1.es_idLivro = T0.liv_id group by T0.liv_id"); 
+				
 		if (!filtro.equals("")) {
-			sql.append(" WHERE liv_titulo LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_ISBN LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_ano LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_edicao LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_num_pag LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_sinopse LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_altura LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_largura LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_peso LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_profundidade LIKE '%" + filtro + "%'");
-			sql.append(" OR liv_valorVenda LIKE '%" + filtro + "%'");
+			sql.append(" WHERE T0.liv_titulo LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_ISBN LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_ano LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_edicao LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_num_pag LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_sinopse LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_altura LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_largura LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_peso LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_profundidade LIKE '%" + filtro + "%'");
+			sql.append(" OR T0.liv_valorVenda LIKE '%" + filtro + "%'");
 		}
 		
 		PreparedStatement stmt = connection.prepareStatement(sql.toString());
 		ResultSet rs = stmt.executeQuery();
 		
 		while (rs.next()) {
-			int id = rs.getInt("liv_id");
-			String titulo = rs.getString("liv_titulo");
-			int idEditora = rs.getInt("liv_editora");
-			int numPags = rs.getInt("liv_num_pag");
-			int ativo = rs.getInt("liv_isativo");
-			String ISBN = rs.getString("liv_ISBN");
-			String motivo = rs.getString("liv_motivo");
-			Double valorVenda = rs.getDouble("liv_valorVenda");
+			int id = rs.getInt("T0.liv_id");
+			String titulo = rs.getString("T0.liv_titulo");
+			int idEditora = rs.getInt("T0.liv_editora");
+			int numPags = rs.getInt("T0.liv_num_pag");
+			int ativo = rs.getInt("T0.liv_isativo");
+			String ISBN = rs.getString("T0.liv_ISBN");
+			String motivo = rs.getString("T0.liv_motivo");
+			Double valorVenda = rs.getDouble("T0.liv_valorVenda");
+			int qtde = rs.getInt("SUM(T1.es_qtdeTotal)");
+			
 			Editora editora = (Editora) new EditoraDAO().getEntidadeDominio(idEditora);
 			List<EntidadeDominio> livrosAutores = new LivroAutorDAO().getEntidadeDominioLivro(id);
 			List<EntidadeDominio> livrosCategorias = new LivroCategoriaDAO().getEntidadeDominioLivro(id);
@@ -383,7 +387,7 @@ public class LivroDAO extends AbstractJdbcDAO {
 			livro.setAutores(autores);
 			livro.setCategorias(categorias);
 			livro.getEstoque().setValorVenda(valorVenda);
-			
+			livro.setQuantidade(qtde);
 			
 			livros.add(livro);
 		}

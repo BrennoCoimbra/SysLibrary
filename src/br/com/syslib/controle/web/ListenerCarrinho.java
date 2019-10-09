@@ -1,9 +1,6 @@
 package br.com.syslib.controle.web;
 
-import java.io.IOException;
-
 import javax.servlet.annotation.WebListener;
-import javax.servlet.http.HttpServletResponse;
 import javax.servlet.http.HttpSession;
 import javax.servlet.http.HttpSessionEvent;
 import javax.servlet.http.HttpSessionListener;
@@ -33,7 +30,7 @@ public class ListenerCarrinho implements HttpSessionListener {
      */
     public void sessionCreated(HttpSessionEvent se)  { 
     	
-		HttpSession session = se.getSession();
+		
         
     }
 

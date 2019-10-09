@@ -146,7 +146,7 @@
       	
       		<div class="form-group col-md-3">
       	<label class="form-control-label" for="cpf">CPF</label>
-       	 	<input readonly type="text" value="<%=usuario.getCpf() %>" class="form-control input-lg" id="cpf" name="cpf" placeholder="CPF">
+       	 	<input readonly type="text" value="" class="form-control input-lg" id="cpf" name="cpf" placeholder="CPF">
       	</div>
       	
       		<div class="form-group col-md-3">

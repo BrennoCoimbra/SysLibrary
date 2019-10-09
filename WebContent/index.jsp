@@ -188,10 +188,10 @@
 										<h6><%= "R$" + String.format("%.2f", livro.getEstoque().getValorVenda()) %></h6>
 									</div><br>
 									 <div style="text-align: center;">
-									 <%if(usuario != null){ %>
-										<a href="SalvarCarrinho?operacao=SALVAR&idLivro=<%=livro.getId() %>&idUsuario=<%=usuario.getId() %>">Add-<span data-feather="shopping-cart">
-										<%} %> 
-										</span></a>
+<%-- 									 <%if(usuario != null){ %> --%>
+<%-- 										<a href="SalvarCarrinho?operacao=SALVAR&idLivro=<%=livro.getId() %>&idUsuario=<%=usuario.getId() %>">Add-<span data-feather="shopping-cart"> --%>
+<%-- 										<%} %>  --%>
+<!-- 										</span></a> -->
 									</div>
 								</div>
 							</div>
