@@ -32,7 +32,7 @@ public class PedidoDAO extends AbstractJdbcDAO {
 			sqlItem.append("VALUES(?,?,?,?,?,?,?)");
 			StringBuilder sqlPedido = new StringBuilder();
 			sqlPedido.append("INSERT INTO pedido(ped_cli_id,ped_cli_end_id,ped_valor_frete,ped_cli_card_id1,ped_cli_card_id2,ped_valor_desconto,ped_valor_total,ped_status,ped_dtCadastro)");
-			sqlPedido.append("VALUES(?,?,?,?,?,?,?,?,sysdate())");
+			sqlPedido.append("VALUES(?,?,?,?,?,?,?,?,current_date())");
 			
 			
 			if(!pedido.getCupom().isEmpty()) {

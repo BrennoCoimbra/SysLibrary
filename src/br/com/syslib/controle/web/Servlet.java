@@ -28,6 +28,7 @@ import br.com.syslib.controle.web.vh.impl.FreteViewHelper;
 import br.com.syslib.controle.web.vh.impl.IViewHelper;
 import br.com.syslib.controle.web.vh.impl.LivroViewHelper;
 import br.com.syslib.controle.web.vh.impl.PedidoViewHelper;
+import br.com.syslib.controle.web.vh.impl.RelatorioViewHelper;
 import br.com.syslib.controle.web.vh.impl.UsuarioViewHelper;
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.dominio.EntidadeDominio;
@@ -96,6 +97,7 @@ public class Servlet extends HttpServlet {
 		vhs.put("/SysLibrary/autenticado/BuscarCupomTroca", new CupomViewHelper());
 		vhs.put("/SysLibrary/autenticado/SalvarPedido", new PedidoViewHelper());
 		vhs.put("/SysLibrary/autenticado/adm/SalvarPedido", new PedidoViewHelper());
+		vhs.put("/SysLibrary/autenticado/adm/SalvarGrafico", new RelatorioViewHelper());
 		
 	}
 

@@ -31,6 +31,7 @@
     <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
     <url-pattern>/autenticado/adm/form-livro.jsp</url-pattern>
     <url-pattern>/autenticado/adm/trocas.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/reports.jsp</url-pattern>
     <url-pattern>/autenticado/adm/consultar-livro.jsp</url-pattern>
     <url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
     <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
@@ -50,6 +51,7 @@
     <url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
     <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
     <url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/reports.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>FilterCarrinho</filter-name>
@@ -165,12 +167,16 @@
     <servlet-name>Servlet</servlet-name>
     <url-pattern>/autenticado/adm/ConsultarCupomTroca</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/adm/SalvarGrafico</url-pattern>
+  </servlet-mapping>
   
   
   <error-page>
     <location>/errors.jsp</location>
   </error-page>
-  <session-config>
-    <session-timeout>2</session-timeout>
-  </session-config>
+<!--   <session-config> -->
+<!--     <session-timeout>2</session-timeout> -->
+<!--   </session-config> -->
 </web-app>

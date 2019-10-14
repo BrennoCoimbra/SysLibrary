@@ -17,6 +17,7 @@ import br.com.syslib.core.impl.dao.EnderecoDAO;
 import br.com.syslib.core.impl.dao.EstoqueDAO;
 import br.com.syslib.core.impl.dao.LivroDAO;
 import br.com.syslib.core.impl.dao.PedidoDAO;
+import br.com.syslib.core.impl.dao.RelatorioDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
 import br.com.syslib.core.impl.negocio.GerarCupomTroca;
@@ -31,6 +32,7 @@ import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLivro;
 import br.com.syslib.core.impl.negocio.ValidadorDadosObrigatoriosLogin;
 import br.com.syslib.core.impl.negocio.ValidadorFrmPgto;
 import br.com.syslib.core.impl.negocio.ValidadorPedido;
+import br.com.syslib.core.impl.negocio.ValidadorRelatorio;
 import br.com.syslib.core.impl.negocio.ValidadorSenha;
 import br.com.syslib.core.impl.negocio.ValidadorTrocaEstoque;
 import br.com.syslib.core.impl.negocio.ValidarCPF;
@@ -49,6 +51,7 @@ import br.com.syslib.dominio.Estoque;
 import br.com.syslib.dominio.Frete;
 import br.com.syslib.dominio.Livro;
 import br.com.syslib.dominio.Pedido;
+import br.com.syslib.dominio.Relatorio;
 import br.com.syslib.dominio.Usuario;
 
 public class Fachada implements IFachada {
@@ -73,6 +76,7 @@ public class Fachada implements IFachada {
 		EstoqueDAO estoqueDAO = new EstoqueDAO();
 		PedidoDAO pedidoDAO = new PedidoDAO();
 		CupomDAO cupomDAO = new CupomDAO();
+		RelatorioDAO relatorioDAO = new RelatorioDAO();
 		
 		/* Adicionando cada dao no MAP indexando pelo nome da classe */
 		daos.put(Livro.class.getName(), livroDAO);
@@ -83,7 +87,7 @@ public class Fachada implements IFachada {
 		daos.put(Estoque.class.getName(), estoqueDAO);
 		daos.put(Pedido.class.getName(), pedidoDAO);		
 		daos.put(Cupom.class.getName(), cupomDAO);
-	
+		daos.put(Relatorio.class.getName(), relatorioDAO);
 		
 		//usuario
 		ValidarLogin vrLogin = new ValidarLogin();
@@ -213,6 +217,13 @@ public class Fachada implements IFachada {
         Map<String, List<IStrategy>> rnsFrete = new HashMap<String, List<IStrategy>>();
         rnsFrete.put("SALVAR",rnsSalvarFrete);
         
+        //analise/relatorio
+        ValidadorRelatorio vrRelatorio = new ValidadorRelatorio();
+        List<IStrategy> rnsSalvarRelatorio = new ArrayList<IStrategy>();
+        rnsSalvarRelatorio.add(vrRelatorio);
+        Map<String, List<IStrategy>> rnsRelatorio = new HashMap<String, List<IStrategy>>();
+        rnsRelatorio.put("SALVAR",rnsSalvarRelatorio);
+        
 		/*
 		 * Adiciona o mapa com as regras indexadas pelas operações
 		 * no mapa geral indexado pelo nome da entidade
@@ -226,6 +237,7 @@ public class Fachada implements IFachada {
 		rns.put(Pedido.class.getName(), rnsPedido);
 		rns.put(Frete.class.getName(), rnsFrete);
 		rns.put(Cupom.class.getName(), rnsCupomTroca);
+		rns.put(Relatorio.class.getName(), rnsRelatorio);
 	}
 
 	@Override
