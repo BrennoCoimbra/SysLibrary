@@ -14,6 +14,8 @@ public class Relatorio extends EntidadeDominio {
 	private double qtde;
 	private double valor;
 	private TipoRelatorio tipoRelatorio;
+	private String analise;
+	
 	public String getTitulo() {
 		return titulo;
 	}
@@ -67,6 +69,12 @@ public class Relatorio extends EntidadeDominio {
 	}
 	public void setTipoRelatorio(TipoRelatorio tipoRelatorio) {
 		this.tipoRelatorio = tipoRelatorio;
+	}
+	public String getAnalise() {
+		return analise;
+	}
+	public void setAnalise(String analise) {
+		this.analise = analise;
 	} 
 	
 }

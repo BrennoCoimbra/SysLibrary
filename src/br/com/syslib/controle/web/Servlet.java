@@ -19,6 +19,7 @@ import br.com.syslib.controle.web.command.impl.RemoveCommand;
 import br.com.syslib.controle.web.command.impl.SairCommand;
 import br.com.syslib.controle.web.command.impl.SalvarCommand;
 import br.com.syslib.controle.web.command.impl.VisualizarCommand;
+import br.com.syslib.controle.web.vh.impl.AnaliseViewHelper;
 import br.com.syslib.controle.web.vh.impl.CartaoCreditoViewHelper;
 import br.com.syslib.controle.web.vh.impl.ClienteViewHelper;
 import br.com.syslib.controle.web.vh.impl.CupomViewHelper;
@@ -98,7 +99,7 @@ public class Servlet extends HttpServlet {
 		vhs.put("/SysLibrary/autenticado/SalvarPedido", new PedidoViewHelper());
 		vhs.put("/SysLibrary/autenticado/adm/SalvarPedido", new PedidoViewHelper());
 		vhs.put("/SysLibrary/autenticado/adm/SalvarGrafico", new RelatorioViewHelper());
-		
+		vhs.put("/SysLibrary/autenticado/adm/SalvarAnalise", new AnaliseViewHelper());
 	}
 
 	@Override

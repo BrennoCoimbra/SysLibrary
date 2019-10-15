@@ -20,6 +20,7 @@ import br.com.syslib.core.impl.dao.PedidoDAO;
 import br.com.syslib.core.impl.dao.RelatorioDAO;
 import br.com.syslib.core.impl.dao.UsuarioDAO;
 import br.com.syslib.core.impl.negocio.ComplementarDtCadastro;
+import br.com.syslib.core.impl.negocio.GerarAnalise;
 import br.com.syslib.core.impl.negocio.GerarCupomTroca;
 import br.com.syslib.core.impl.negocio.ValidadorCalculoFrete;
 import br.com.syslib.core.impl.negocio.ValidadorClienteExistente;
@@ -219,11 +220,14 @@ public class Fachada implements IFachada {
         
         //analise/relatorio
         ValidadorRelatorio vrRelatorio = new ValidadorRelatorio();
+        GerarAnalise grAnalise = new GerarAnalise();
         List<IStrategy> rnsSalvarRelatorio = new ArrayList<IStrategy>();
+        List<IStrategy> rnsConsultarAnalise = new ArrayList<IStrategy>();
         rnsSalvarRelatorio.add(vrRelatorio);
+        rnsConsultarAnalise.add(grAnalise);
         Map<String, List<IStrategy>> rnsRelatorio = new HashMap<String, List<IStrategy>>();
         rnsRelatorio.put("SALVAR",rnsSalvarRelatorio);
-        
+        rnsRelatorio.put("CONSULTAR",rnsConsultarAnalise);
 		/*
 		 * Adiciona o mapa com as regras indexadas pelas operações
 		 * no mapa geral indexado pelo nome da entidade

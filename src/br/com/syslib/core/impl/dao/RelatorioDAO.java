@@ -42,7 +42,7 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 
 	}
 	
-	private List<Relatorio> getRelatorioByDia(Relatorio rel) throws SQLException {
+	public List<Relatorio> getRelatorioByDia(Relatorio rel) throws SQLException {
 		openConnection();
 		PreparedStatement pst;
 		ResultSet rs;

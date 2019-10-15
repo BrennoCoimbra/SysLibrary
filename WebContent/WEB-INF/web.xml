@@ -171,6 +171,10 @@
     <servlet-name>Servlet</servlet-name>
     <url-pattern>/autenticado/adm/SalvarGrafico</url-pattern>
   </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>Servlet</servlet-name>
+    <url-pattern>/autenticado/adm/SalvarAnalise</url-pattern>
+  </servlet-mapping>
   
   
   <error-page>
