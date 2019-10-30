@@ -50,6 +50,7 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 		Relatorio relatorio;
 		
 		StringBuilder sql = new StringBuilder();
+		
 		sql.append("SELECT ");
 		sql.append("T0.item_titulo, ");
 		sql.append("T1.ped_dtCadastro, ");
@@ -60,6 +61,16 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 		sql.append("WHERE T1.ped_dtCadastro BETWEEN ? AND ? ");
 		sql.append("GROUP BY T0.item_titulo,T1.ped_dtCadastro");
 		
+		/*
+		sql.append("SELECT ");
+		sql.append("T0.item_titulo, ");
+		sql.append("SUM(T0.item_qtde) AS Qtde, ");
+		sql.append("SUM(T0.item_subtotal) AS Valor ");
+		sql.append("FROM item_pedido T0 ");
+		sql.append("INNER JOIN pedido T1 ON T1.ped_id = T0.ped_item_id ");
+		sql.append("WHERE T1.ped_dtCadastro BETWEEN ? AND ? ");
+		sql.append("GROUP BY T0.item_titulo");
+		*/
 		pst = connection.prepareStatement(sql.toString());
 		pst.setDate(1, new java.sql.Date(rel.getDataInicial().getTime()));
 		pst.setDate(2, new java.sql.Date(rel.getDataFinal().getTime()));
@@ -82,6 +93,7 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 			relatorios.add(relatorio);
 		}
 		
+	
 		rs.close();
 		pst.close();
 		connection.close();

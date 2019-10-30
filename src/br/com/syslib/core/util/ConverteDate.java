@@ -9,7 +9,7 @@ import java.util.Date;
 public class ConverteDate {
 
 	public static String converteDateString(Date dtData){  
-		   SimpleDateFormat formatBra = new SimpleDateFormat("dd-MM-yyyy");		  	     
+		   SimpleDateFormat formatBra = new SimpleDateFormat("MM-dd-yyyy");		  	     
 		  return (formatBra.format(dtData)); 
 		} 
 		

@@ -9,7 +9,7 @@ public class Conexao {
 			throws ClassNotFoundException, 
 			SQLException{
 			String driver = "com.mysql.cj.jdbc.Driver";
-			String url = "jdbc:mysql://localhost/library?useSSL=false&useTimezone=true&serverTimezone=America/Sao_Paulo";
+			String url = "jdbc:mysql://localhost/library_test?useSSL=false&useTimezone=true&serverTimezone=America/Sao_Paulo";
 			String user = "glivros";
 			String paswd = "glivros";
 			Class.forName( driver );

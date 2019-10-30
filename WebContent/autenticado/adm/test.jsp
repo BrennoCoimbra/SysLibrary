@@ -29,18 +29,10 @@
 	<script src="http://localhost:8080/SysLibrary/resources/js/export-data.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/js/series-label.js"></script>
 	
-	<script type="text/javascript">
-	
-	
-	$(document).ready(function(){
-	
-	  
-	  var str = $('#performances');
-	  var graph_data = JSON.parse(str);
-      console.log(jsonObj);
-	  //teste
-	  
-	  
+	<script>
+	//aqui seria seus dados que vem da requisição...
+	  var graph_data = [{"date":"10-15-2019","name":"As Crônicas De Gelo e Fogo","valor":2.0},{"date":"10-20-2019","name":"O Nevoeiro","valor":2.0},{"date":"10-21-2019","name":"O Conde de Monte Cristo","valor":1.0}]
+
 	  var graph_keys = [], graph_values = [];
 	  for (var i in graph_data) {
 	  var date = new Date(graph_data[i].date);
@@ -51,7 +43,6 @@
 	  graph_values.push(graph_data[i].valor);
 
 	}
-	
 	  
 	 
 	$(function () {
@@ -120,10 +111,8 @@
 	        }]
 	    });
 	});
-	});
-	
+
 	</script>
-	
 	
 	
 	<style>
@@ -230,81 +219,28 @@
         </nav>
 
 
-		        <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+		       
 					<div style="text-align: center;">
 						<h3> Relatórios </h3>  
 						   <hr>
 		            </div>           
-			       <form action="SalvarAnalise" method="post" class="ui form">
-						 <div class="row">
-					        <div class="col-12">
-					         
-					              <div class="row">
-					                
-									  <div class="col-3">
-										<div align="center" class="form-group">
-										  <label class="form-control-label" for="txtDtInicial">Data Inicial</label>
-										  <input type="date" id="dtInicial" name="dtInicial" class="form-control form-control-alternative">
-										 </div>
-									  </div>
-									  <div class="col-3">
-										<div align="center" class="form-group">
-										  <label class="form-control-label" for="txtDtFinial">Data Final</label>
-										  <input type="date" id="dtFinal" name="dtFinal" class="form-control form-control-alternative">
-										</div>
-									  </div>
-									  <div class="col-2">
-										<div align="center" class="form-group">
-										  <label class="form-control-label" for="txtTipoRelatorio">Tipo Periodo</label>
-										  <select id="tipoRelatorio" name="tipoRelatorio" class="form-control">
-											<%
-												for (TipoRelatorio tipoRelatorio : TipoRelatorio.values()) {
-											%>  
-												<option id="<%=tipoRelatorio.getCodigo() %>" value="<%=tipoRelatorio.getCodigo() %>"><%=tipoRelatorio.getDescricao() %></option>
-											<%
-												} 
-											%>
-										  </select>
-										</div>
-									  </div>
-									  <div class="col-1">
-										<div align="center" class="form-group">
-										  <label class="form-control-label" for="txtTipoRelatorio">.</label>
-									   	<button type="submit" name="operacao" value="CONSULTAR" class="btn btn-primary">Gerar </button>
-									   	</div>
-									   </div>
-								</div>									
-					                <hr>
-					                  
-					      		<%if(json !=null){ %>
-							  <input style="display:none" type="text" id="performances" name="performances" value=<%if(json != null) out.print(json); %>>
-					
+			       
 							 <div class="field">
 								<input style="display:none" type="text" id="destino" name="destino" value="PERFORMANCE"/>
 							</div><br>
 							
-							<div id="container">
-							</div>
-							
+							<div id="container" style="min-width: 300 px; height: 400 px; margin: 0 auto"></div>
+
 					      </div>
 					      
-					      <div class="col-12">
-					          <div class="row">      
-									<div class="col-3">
-									  .
-									</div>
-								</div>
-						 </div>
-						<%} %>						
+					     			
 						
-					      </div>
-					</form>
-        		</section>		
+			
         	</div>	  
-      </div>	  
+     	  
 
     <!-- Icons -->    
-    
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>feather.replace()</script>  	

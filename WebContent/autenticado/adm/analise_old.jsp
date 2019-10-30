@@ -29,101 +29,89 @@
 	<script src="http://localhost:8080/SysLibrary/resources/js/export-data.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/js/series-label.js"></script>
 	
-	<script type="text/javascript">
-	
-	
-	$(document).ready(function(){
-	
-	  
-	  var str = $('#performances');
-	  var graph_data = JSON.parse(str);
-      console.log(jsonObj);
-	  //teste
-	  
-	  
-	  var graph_keys = [], graph_values = [];
-	  for (var i in graph_data) {
-	  var date = new Date(graph_data[i].date);
-	  var day = date.getDate();
-	  var monthIndex = date.getMonth();
-	  var year = date.getFullYear();
-	   graph_keys.push(day + "/" + monthIndex + "/" + year);
-	  graph_values.push(graph_data[i].valor);
+	<script>
+		$(document).ready(function(){
+			$('.ui.dropdown').dropdown({on:'hover'});
+			$('#select').dropdown();
+			
+			var map = $('#performances').val();
+			console.log(performances);
+			map = map.replace('{','');
+			map = map.replace('}','');
+			map = map.split(',');
+			
+			var performance='[';
+			
+			 for(var i= 0;i < map.length;i++){
+				map[i] = map[i].replace(':',',');
+				if(i>0){
+					performance = performance + ',';
+				}
+				performance = performance + '['+map[i]+']';
+		    }
+			performance= performance+']';
+			performance = JSON.parse(performance);
+				
+			Highcharts.chart('container', {
+			    chart: {
+			        type: 'spline'
+			    },
+			    title: {
+			        text: 'Quantidade de Venda de Livro'
+			    },
+			    subtitle: {
+			       text: 'Grafico de Linhas'
+			    },
+			   
+			    yAxis: {
+			        min: 0,
+			        title: {
+			            text: 'Quantidade'
+			        }
+			    },
+			    legend: {
+			    	layout: 'vertical',
+			        align: 'right',
+			        verticalAlign: 'middle'
+			    },
+			    
+			    plotOptions: {
+			        series: {
+			            label: {
+			                connectorAllowed: false
+			            },
+			            pointStart: 2010
+			        }
+			    },
 
-	}
-	
-	  
-	 
-	$(function () {
-	    $('#container').highcharts({
-	        chart: {
-	        renderTo: 'container',
-	        type: 'column'
-	        },
-	        title: {
-	            text: 'Mês atual',
-	            x: -20 //center
-	        },
-	        subtitle: {
-	            text: 'Subtítulo',
-	            x: -20
-	        },
-	        xAxis: {
-	            categories: graph_keys,
-	        },
-	        yAxis: {
-	            title: {
-	                text: 'Percentagem'
-	            },
-	            plotLines: [{
-	                value: 1,
-	                width: 0,
-	                color: '#808080'
-	            }]
-	        },
-	       tooltip: {
-	                borderWidth: 0,
-	                backgroundColor: "rgba(255,255,255,0)",
-	                borderRadius: 0,
-	                shadow: false,
-	                useHTML: true,
-	                percentageDecimals: 0,
-	                formatter: function () {
-	                    // var point = filterLegend(this.point.name);
-	                    console.log(this);
-	                    
-	                    var obj = graph_data[this.series.data.indexOf( this.point )]
-	                 return '<div class="tooltip-block">' + this.key + '' + this.x + ':<br> ' + this.y + ' ' + JSON.stringify(graph_data[this.series.data.indexOf( this.point )]) +' (' + Math.round(Highcharts.numberFormat(this.percentage, 2)) + '%)</b>'+
-	                 '<br>Turno: ' + obj.turno +'<br>Valor: ' + obj.valor
-	                 +'</div>';
-	                    
-	                    
-	                }
-	                //pointFormat: '<div style="position:relative; z-index: 99999!important; background: white">{series.name}: <b>{point.percentage:.1f}%</b></div>'
-	            },
-	        legend: {},
-	        series: [{
-	            name: 'Tarefas Gerais',
-	            data: graph_values,
-	             dataLabels: {
-	                    enabled: true,
-	                    rotation: -90, //-90,
-	                    color: '#333',
-	                    align: 'right',
-	                    format: '{point.y:.0f}', // one decimal 00.0 -> .1f || 00.00 -> .2f || 00.000 -> .3f
-	                    y: 10, // 10 pixels down from the top
-	                    style: {
-	                        fontSize: '12px',
-	                        textOutline: false
-	                    }
-	                }
-	        }]
-	    });
-	});
-	});
-	
+
+			    tooltip: {
+			        pointFormat: '<b>{point.y:.1f} quantidades vendidas</b>'
+			    },
+			    series: [{
+			    	name: '',
+			        data: performance,			        
+			        colorByPoint: true
+			    }],
+			    responsive: {
+			        rules: [{
+			            condition: {
+			                maxWidth: 500
+			            },
+			            chartOptions: {
+			                legend: {
+			                    layout: 'horizontal',
+			                    align: 'center',
+			                    verticalAlign: 'bottom'
+			                }
+			            }
+			        }]
+			    }
+			    
+			});
+		});
+		
 	</script>
-	
 	
 	
 	<style>
@@ -277,15 +265,14 @@
 					                <hr>
 					                  
 					      		<%if(json !=null){ %>
-							  <input style="display:none" type="text" id="performances" name="performances" value=<%if(json != null) out.print(json); %>>
+							  <input style="display:none" type="text" id="performances" name="performances" value='<%if(json != null) out.print(json); %>'>
 					
 							 <div class="field">
 								<input style="display:none" type="text" id="destino" name="destino" value="PERFORMANCE"/>
 							</div><br>
 							
-							<div id="container">
-							</div>
-							
+							<div id="container" style="min-width: 300 px; height: 400 px; margin: 0 auto"></div>
+
 					      </div>
 					      
 					      <div class="col-12">
@@ -304,7 +291,7 @@
       </div>	  
 
     <!-- Icons -->    
-    
+	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/jquery-3.3.1.slim.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/feather.min.js"></script>
 	<script src="http://localhost:8080/SysLibrary/resources/bootstrap/js/bootstrap.bundle.min.js"></script>
     <script>feather.replace()</script>  	
