@@ -1,14 +1,16 @@
 package br.com.syslib.enuns;
 
-public enum TipoRelatorio {
+public enum TipoPeriodo {
 	
-	QTDE(1, "Quantidade Vendida"),
-	VALOR(2, "Valor Vendido");
+	DIA(1, "Por Dia"),
+	MES(2, "Por Mês"),
+	SEMANAL(3, "Por Semana"),
+	ANO(4, "Por Ano");
 	
 	private int codigo;
 	private String descricao;
 	
-	private TipoRelatorio(int codigo, String descricao) {
+	private TipoPeriodo(int codigo, String descricao) {
 		this.codigo = codigo;
 		this.descricao = descricao;
 	}

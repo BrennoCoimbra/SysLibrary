@@ -35,12 +35,17 @@
 	$(document).ready(function(){
 	
 	  
-	  var str = $('#performances');
+	  var str = $('#performances').val();
 	  var graph_data = JSON.parse(str);
-      console.log(jsonObj);
-	  //teste
+      console.log(graph_data);
 	  
 	  
+      var graph_keys = [], graph_names = [];
+  	  for (var i in graph_data) {	      	  
+  	   graph_names.push(graph_data[i].name);
+  	}
+  	console.log(graph_names);
+  	  
 	  var graph_keys = [], graph_values = [];
 	  for (var i in graph_data) {
 	  var date = new Date(graph_data[i].date);
@@ -48,11 +53,12 @@
 	  var monthIndex = date.getMonth();
 	  var year = date.getFullYear();
 	   graph_keys.push(day + "/" + monthIndex + "/" + year);
-	  graph_values.push(graph_data[i].valor);
+	   console.log(graph_keys);
+	   graph_values.push(graph_data[i].valor);
 
 	}
 	
-	  
+	  console.log(graph_values);
 	 
 	$(function () {
 	    $('#container').highcharts({
@@ -61,19 +67,21 @@
 	        type: 'column'
 	        },
 	        title: {
-	            text: 'Mês atual',
-	            x: -20 //center
+	            text: 'Quantidade de Vendas de Livros',
+	            x: -20 
 	        },
 	        subtitle: {
-	            text: 'Subtítulo',
+	            text: 'SysLibrary',
 	            x: -20
 	        },
+	        
 	        xAxis: {
 	            categories: graph_keys,
 	        },
+
 	        yAxis: {
 	            title: {
-	                text: 'Percentagem'
+	                text: 'Quantidade'
 	            },
 	            plotLines: [{
 	                value: 1,
@@ -81,45 +89,25 @@
 	                color: '#808080'
 	            }]
 	        },
-	       tooltip: {
-	                borderWidth: 0,
-	                backgroundColor: "rgba(255,255,255,0)",
-	                borderRadius: 0,
-	                shadow: false,
-	                useHTML: true,
-	                percentageDecimals: 0,
-	                formatter: function () {
-	                    // var point = filterLegend(this.point.name);
-	                    console.log(this);
-	                    
-	                    var obj = graph_data[this.series.data.indexOf( this.point )]
-	                 return '<div class="tooltip-block">' + this.key + '' + this.x + ':<br> ' + this.y + ' ' + JSON.stringify(graph_data[this.series.data.indexOf( this.point )]) +' (' + Math.round(Highcharts.numberFormat(this.percentage, 2)) + '%)</b>'+
-	                 '<br>Turno: ' + obj.turno +'<br>Valor: ' + obj.valor
-	                 +'</div>';
-	                    
-	                    
-	                }
-	                //pointFormat: '<div style="position:relative; z-index: 99999!important; background: white">{series.name}: <b>{point.percentage:.1f}%</b></div>'
-	            },
-	        legend: {},
+	       
 	        series: [{
-	            name: 'Tarefas Gerais',
-	            data: graph_values,
+	             name: graph_names,	
+	             data: graph_values,
 	             dataLabels: {
 	                    enabled: true,
-	                    rotation: -90, //-90,
+	                    rotation: -90,
 	                    color: '#333',
 	                    align: 'right',
-	                    format: '{point.y:.0f}', // one decimal 00.0 -> .1f || 00.00 -> .2f || 00.000 -> .3f
-	                    y: 10, // 10 pixels down from the top
+	                    format: '{point.y:.0f}', 
+	                    y: 10, 
 	                    style: {
 	                        fontSize: '12px',
 	                        textOutline: false
 	                    }
 	                }
-	        }]
-	    });
-	});
+	        	}],
+	   	 });
+		});
 	});
 	
 	</script>
@@ -208,8 +196,8 @@
               
             </ul>
 
-            <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Analise</span>
+             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
+              <span>Análise</span>
               <a class="d-flex align-items-center text-muted" href="#">
                
               </a>
@@ -219,9 +207,16 @@
 			
 			
               <li class="nav-item">
-           <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/reports.jsp">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/reports.jsp">
               <span data-feather="file-text"></span> 
-            	Relatórios
+             Gráfico Comum 
+              </a>
+              </li>
+              
+               <li class="nav-item">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/analise.jsp">
+              <span data-feather="file-text"></span> 
+             Gráfico Dinâmico
               </a>
               </li>
             
@@ -258,7 +253,7 @@
 										  <label class="form-control-label" for="txtTipoRelatorio">Tipo Periodo</label>
 										  <select id="tipoRelatorio" name="tipoRelatorio" class="form-control">
 											<%
-												for (TipoRelatorio tipoRelatorio : TipoRelatorio.values()) {
+												for (TipoPeriodo tipoRelatorio : TipoPeriodo.values()) {
 											%>  
 												<option id="<%=tipoRelatorio.getCodigo() %>" value="<%=tipoRelatorio.getCodigo() %>"><%=tipoRelatorio.getDescricao() %></option>
 											<%
@@ -277,7 +272,7 @@
 					                <hr>
 					                  
 					      		<%if(json !=null){ %>
-							  <input style="display:none" type="text" id="performances" name="performances" value=<%if(json != null) out.print(json); %>>
+							  <input style="display:none" type="text" id="performances" name="performances" value='<%if(json != null) out.print(json); %>'>
 					
 							 <div class="field">
 								<input style="display:none" type="text" id="destino" name="destino" value="PERFORMANCE"/>

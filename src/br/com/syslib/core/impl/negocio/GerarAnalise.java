@@ -57,7 +57,7 @@ public class GerarAnalise implements IStrategy {
 
 					dataPoints = gson.toJson(list);
 					relatorio.setAnalise(dataPoints);
-					System.out.println(dataPoints);
+					//System.out.println(dataPoints);
 	
 				return "OK";
 			} else {

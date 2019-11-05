@@ -36,6 +36,7 @@
     <url-pattern>/autenticado/adm/estoque.jsp</url-pattern>
     <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
     <url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/analise.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>FilterAutorizacao</filter-name>
@@ -52,6 +53,7 @@
     <url-pattern>/autenticado/adm/dashboard.jsp</url-pattern>
     <url-pattern>/autenticado/adm/consultar-clientes.jsp</url-pattern>
     <url-pattern>/autenticado/adm/reports.jsp</url-pattern>
+    <url-pattern>/autenticado/adm/analise.jsp</url-pattern>
   </filter-mapping>
   <filter>
     <filter-name>FilterCarrinho</filter-name>

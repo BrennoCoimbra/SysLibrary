@@ -113,7 +113,7 @@
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Relatorios</span>
+              <span>Análise</span>
               <a class="d-flex align-items-center text-muted" href="#">
                
               </a>
@@ -123,15 +123,16 @@
 			
 			
               <li class="nav-item">
-           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/reports.html">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/reports.jsp">
               <span data-feather="file-text"></span> 
-             Mais Vendidos
+             Gráfico Comum 
               </a>
               </li>
-             <li class="nav-item">
-           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/trocas.jsp/log.jsp">
+              
+               <li class="nav-item">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/analise.jsp">
               <span data-feather="file-text"></span> 
-              Log
+             Gráfico Dinâmico
               </a>
               </li>
 

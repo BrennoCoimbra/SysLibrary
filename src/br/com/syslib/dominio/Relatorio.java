@@ -2,6 +2,7 @@ package br.com.syslib.dominio;
 
 import java.util.Date;
 
+import br.com.syslib.enuns.TipoPeriodo;
 import br.com.syslib.enuns.TipoRelatorio;
 
 public class Relatorio extends EntidadeDominio {
@@ -13,6 +14,7 @@ public class Relatorio extends EntidadeDominio {
 	private int ano;
 	private double qtde;
 	private double valor;
+	private TipoPeriodo tipoPeriodo;
 	private TipoRelatorio tipoRelatorio;
 	private String analise;
 	
@@ -63,6 +65,13 @@ public class Relatorio extends EntidadeDominio {
 	}
 	public void setValor(double valor) {
 		this.valor = valor;
+	}
+	
+	public TipoPeriodo getTipoPeriodo() {
+		return tipoPeriodo;
+	}
+	public void setTipoPeriodo(TipoPeriodo tipoPeriodo) {
+		this.tipoPeriodo = tipoPeriodo;
 	}
 	public TipoRelatorio getTipoRelatorio() {
 		return tipoRelatorio;

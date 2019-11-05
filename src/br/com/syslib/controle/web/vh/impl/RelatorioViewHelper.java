@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletResponse;
 import br.com.syslib.core.aplicacao.Resultado;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.Relatorio;
-import br.com.syslib.enuns.TipoRelatorio;
+import br.com.syslib.enuns.TipoPeriodo;
 
 public class RelatorioViewHelper implements IViewHelper{
 
@@ -25,7 +25,8 @@ public class RelatorioViewHelper implements IViewHelper{
 		if(operacao.equals("SALVAR")) {
 			String dtInicial = request.getParameter("dtInicial");
 			String dtFinal = request.getParameter("dtFinal");
-			String tipoRelatorio = request.getParameter("tipoRelatorio");
+			String tipoPeriodo = request.getParameter("tipoPeriodo");
+			//String tipoRelatorio = request.getParameter("tipoRelatorio");
 			Calendar dataInicial = null;
 			Calendar dataFinal = null;
 			
@@ -44,13 +45,21 @@ public class RelatorioViewHelper implements IViewHelper{
 					relatorio.setDataFinal(dataFinal.getTime());
 				}
 				
+				if (tipoPeriodo != null && !tipoPeriodo.trim().equals("")) {
+					for (TipoPeriodo tp : TipoPeriodo.values()) {
+						if (Integer.parseInt(tipoPeriodo) == tp.getCodigo()) {
+							relatorio.setTipoPeriodo(tp);
+						}
+					}
+				}
+				/*
 				if (tipoRelatorio != null && !tipoRelatorio.trim().equals("")) {
 					for (TipoRelatorio tr : TipoRelatorio.values()) {
 						if (Integer.parseInt(tipoRelatorio) == tr.getCodigo()) {
 							relatorio.setTipoRelatorio(tr);
 						}
 					}
-				}
+				}*/
 			} catch (NumberFormatException e) {
 				e.printStackTrace();
 			} catch (ParseException e) {

@@ -107,7 +107,7 @@
             </ul>
 
             <h6 class="sidebar-heading d-flex justify-content-between align-items-center px-3 mt-4 mb-1 text-muted">
-              <span>Analise</span>
+              <span>Análise</span>
               <a class="d-flex align-items-center text-muted" href="#">
                
               </a>
@@ -117,9 +117,16 @@
 			
 			
               <li class="nav-item">
-           <a class="nav-link active" href="http://localhost:8080/SysLibrary/autenticado/adm/reports.jsp">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/reports.jsp">
               <span data-feather="file-text"></span> 
-            	Relatórios
+             Gráfico Comum 
+              </a>
+              </li>
+              
+               <li class="nav-item">
+           <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/adm/analise.jsp">
+              <span data-feather="file-text"></span> 
+             Gráfico Dinâmico
               </a>
               </li>
             
@@ -153,7 +160,21 @@
 									  </div>
 									  <div class="col-2">
 										<div align="center" class="form-group">
-										  <label class="form-control-label" for="txtTipoRelatorio">Tipo Periodo</label>
+										  <label class="form-control-label" for="txtTipoPeriodo">Tipo Periodo</label>
+										  <select id="tipoPeriodo" name="tipoPeriodo" class="form-control">
+											<%
+												for (TipoPeriodo tipoPeriodo : TipoPeriodo.values()) {
+											%>  
+												<option id="<%=tipoPeriodo.getCodigo() %>" value="<%=tipoPeriodo.getCodigo() %>"><%=tipoPeriodo.getDescricao() %></option>
+											<%
+												} 
+											%>
+										  </select>
+										</div>
+									  </div>
+									   <%-- <div class="col-2">
+										<div align="center" class="form-group">
+										  <label class="form-control-label" for="txtTipoRelatorio">Tipo Relatorio</label>
 										  <select id="tipoRelatorio" name="tipoRelatorio" class="form-control">
 											<%
 												for (TipoRelatorio tipoRelatorio : TipoRelatorio.values()) {
@@ -164,7 +185,7 @@
 											%>
 										  </select>
 										</div>
-									  </div>
+									  </div> --%>
 									  <div class="col-1">
 										<div align="center" class="form-group">
 										  <label class="form-control-label" for="txtTipoRelatorio">.</label>
@@ -184,17 +205,27 @@
 							            <img class="img-responsive" src="http://localhost:8080/SysLibrary/resources/graphics/GraficoLinha_Qtde.png">
 							        </div>
 							        
-							        <div class="col-6">    
-							            <img class="img-responsive" src="http://localhost:8080/SysLibrary/resources/graphics/GraficoLinha_Valor.png">
-							        </div>
+							       
 						        </div>	
 					       </div>
 					          
 					        <div class="col-12">
-					        <div class ="row">
-							        <div class="col-6" >
-							        <button>TESTE</button>
+					          <hr>
+					        	<div class ="row">
+					         		<div class="col-6">   
+					         		   
+							            <img class="img-responsive" src="http://localhost:8080/SysLibrary/resources/graphics/GraficoLinha_Valor.png">
 							        </div>
+							       
+							     </div>
+					        </div>
+					        
+					        <div class="col-12">
+					        	<div class ="row">
+					         		<div class="col-6">    
+							            <h1>...</h1>
+							        </div>
+							       
 							     </div>
 					        </div>
 					        <%

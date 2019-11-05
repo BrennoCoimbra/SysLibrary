@@ -11,7 +11,7 @@ import java.util.List;
 import br.com.syslib.dominio.EntidadeDominio;
 import br.com.syslib.dominio.GeradorGrafico;
 import br.com.syslib.dominio.Relatorio;
-import br.com.syslib.enuns.TipoRelatorio;
+import br.com.syslib.enuns.TipoPeriodo;
 
 public class RelatorioDAO extends AbstractJdbcDAO {
 
@@ -25,16 +25,16 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 		List<Relatorio> relatorios;
 		Relatorio relatorio = (Relatorio) entidade;
 		
-		if (relatorio.getTipoRelatorio().equals(TipoRelatorio.DIA)) {
+		if (relatorio.getTipoPeriodo().equals(TipoPeriodo.DIA)) {
 			relatorios = getRelatorioByDia(relatorio);
 			GeradorGrafico.geraRelatorioLinhasByDia(relatorios);
-		} else if (relatorio.getTipoRelatorio().equals(TipoRelatorio.MES)) {
+		} else if (relatorio.getTipoPeriodo().equals(TipoPeriodo.MES)) {
 			relatorios = getRelatorioByMes(relatorio);
 			GeradorGrafico.geraRelatorioLinhasByMes(relatorios);
-		}else if (relatorio.getTipoRelatorio().equals(TipoRelatorio.ANO)) {
+		}else if (relatorio.getTipoPeriodo().equals(TipoPeriodo.ANO)) {
 			relatorios = getRelatorioByAno(relatorio);
 			GeradorGrafico.geraRelatorioLinhasByAno(relatorios);
-		} else if (relatorio.getTipoRelatorio().equals(TipoRelatorio.SEMANAL)) {
+		} else if (relatorio.getTipoPeriodo().equals(TipoPeriodo.SEMANAL)) {
 			relatorios = getRelatorioBySemanal(relatorio);
 			GeradorGrafico.geraRelatorioLinhasBySemanal(relatorios);
 		}
@@ -88,7 +88,7 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 			relatorio.setData(data);
 			relatorio.setQtde(qtde);
 			relatorio.setValor(valor);
-			relatorio.setTipoRelatorio(TipoRelatorio.DIA);
+			relatorio.setTipoPeriodo(TipoPeriodo.DIA);
 			
 			relatorios.add(relatorio);
 		}
@@ -147,7 +147,7 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 			relatorio.setMes(mes);
 			relatorio.setQtde(qtde);
 			relatorio.setValor(valor);
-			relatorio.setTipoRelatorio(TipoRelatorio.MES);
+			relatorio.setTipoPeriodo(TipoPeriodo.MES);
 			
 			relatorios.add(relatorio);
 		}
@@ -194,7 +194,7 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 			relatorio.setAno(ano);
 			relatorio.setQtde(qtde);
 			relatorio.setValor(valor);
-			relatorio.setTipoRelatorio(TipoRelatorio.ANO);
+			relatorio.setTipoPeriodo(TipoPeriodo.ANO);
 			
 			relatorios.add(relatorio);
 		}
@@ -253,7 +253,7 @@ public class RelatorioDAO extends AbstractJdbcDAO {
 			relatorio.setMes(mes);
 			relatorio.setQtde(qtde);
 			relatorio.setValor(valor);
-			relatorio.setTipoRelatorio(TipoRelatorio.MES);
+			relatorio.setTipoPeriodo(TipoPeriodo.MES);
 			
 			relatorios.add(relatorio);
 		}

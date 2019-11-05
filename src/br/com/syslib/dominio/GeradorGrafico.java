@@ -22,15 +22,19 @@ import org.jfree.chart.renderer.category.LineAndShapeRenderer;
 import org.jfree.data.category.DefaultCategoryDataset;
 import org.jfree.ui.TextAnchor;
 
+import br.com.syslib.core.util.ConverteDate;
+
 public class GeradorGrafico extends EntidadeDominio {
 	
+	@SuppressWarnings("deprecation")
 	public static void geraRelatorioLinhasByDia(List<Relatorio> relatorios) {
 		DefaultCategoryDataset dsQtde = new DefaultCategoryDataset();
 		DefaultCategoryDataset dsValor = new DefaultCategoryDataset();
 		
 		for (Relatorio relatorio : relatorios) {
-			dsQtde.addValue(relatorio.getQtde(), relatorio.getTitulo(), relatorio.getData());
-			dsValor.addValue(relatorio.getValor(), relatorio.getTitulo(), relatorio.getData());
+			String date = ConverteDate.converteDateString(relatorio.getData());
+			dsQtde.addValue(relatorio.getQtde(), relatorio.getTitulo(), date);
+			dsValor.addValue(relatorio.getValor(), relatorio.getTitulo(), date);
 		}
 		
 		JFreeChart graficoQtde = ChartFactory.createLineChart("Quantidade Livros Vendidos", "Por dia", "Quantidade", dsQtde, PlotOrientation.VERTICAL, true, true, false);
@@ -75,12 +79,12 @@ public class GeradorGrafico extends EntidadeDominio {
 
 			File file = new File("/Users/brenno/apache-tomcat-9.0.26/wtpwebapps/SysLibrary/resources/graphics/GraficoLinha_Qtde.png");
 			OutputStream arquivo = new FileOutputStream(file);
-			ChartUtilities.writeChartAsPNG(arquivo, graficoQtde, 550, 400);
+			ChartUtilities.writeChartAsPNG(arquivo, graficoQtde, 800, 400);
 			arquivo.close();
 						
 			file = new File("/Users/brenno/apache-tomcat-9.0.26/wtpwebapps/SysLibrary/resources/graphics/GraficoLinha_Valor.png");
 			arquivo = new FileOutputStream(file);
-			ChartUtilities.writeChartAsPNG(arquivo, graficoValor, 550, 400);
+			ChartUtilities.writeChartAsPNG(arquivo, graficoValor, 800, 400);
 			arquivo.close();
 			
 			
@@ -90,6 +94,7 @@ public class GeradorGrafico extends EntidadeDominio {
 	}
 	
 	
+	@SuppressWarnings("deprecation")
 	public static void geraRelatorioLinhasByMes(List<Relatorio> relatorios) {
 		DefaultCategoryDataset dsQtde = new DefaultCategoryDataset();
 		DefaultCategoryDataset dsValor = new DefaultCategoryDataset();
@@ -155,6 +160,7 @@ public class GeradorGrafico extends EntidadeDominio {
 		}
 	}
 	
+	@SuppressWarnings("deprecation")
 	public static void geraRelatorioLinhasByAno(List<Relatorio> relatorios) {
 		DefaultCategoryDataset dsQtde = new DefaultCategoryDataset();
 		DefaultCategoryDataset dsValor = new DefaultCategoryDataset();
@@ -219,6 +225,7 @@ public class GeradorGrafico extends EntidadeDominio {
 		}
 	}
 
+	@SuppressWarnings("deprecation")
 	public static void geraRelatorioLinhasBySemanal(List<Relatorio> relatorios) {
 		DefaultCategoryDataset dsQtde = new DefaultCategoryDataset();
 		DefaultCategoryDataset dsValor = new DefaultCategoryDataset();
