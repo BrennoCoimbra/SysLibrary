@@ -33,7 +33,7 @@ public class GerarAnalise implements IStrategy {
 			try {
 				rel = relDAO.getRelatorioByDia(relatorio);
 			} catch (Exception e) {
-				return "Erro ao consultar o BD";
+				return " erro ao consultar dados";
 			}
 			if(!rel.equals(null)) {
 				relBD = (List<Relatorio>) rel;

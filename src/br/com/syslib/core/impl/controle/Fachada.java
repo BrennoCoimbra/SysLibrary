@@ -224,10 +224,13 @@ public class Fachada implements IFachada {
         List<IStrategy> rnsSalvarRelatorio = new ArrayList<IStrategy>();
         List<IStrategy> rnsConsultarAnalise = new ArrayList<IStrategy>();
         rnsSalvarRelatorio.add(vrRelatorio);
-        rnsConsultarAnalise.add(grAnalise);
+        rnsConsultarAnalise.add(vrRelatorio);
+        rnsConsultarAnalise.add(grAnalise);        
         Map<String, List<IStrategy>> rnsRelatorio = new HashMap<String, List<IStrategy>>();
         rnsRelatorio.put("SALVAR",rnsSalvarRelatorio);
         rnsRelatorio.put("CONSULTAR",rnsConsultarAnalise);
+        rnsRelatorio.put("CONSULTAR",rnsConsultarAnalise);
+        
 		/*
 		 * Adiciona o mapa com as regras indexadas pelas operações
 		 * no mapa geral indexado pelo nome da entidade

@@ -172,20 +172,7 @@
 										  </select>
 										</div>
 									  </div>
-									   <%-- <div class="col-2">
-										<div align="center" class="form-group">
-										  <label class="form-control-label" for="txtTipoRelatorio">Tipo Relatorio</label>
-										  <select id="tipoRelatorio" name="tipoRelatorio" class="form-control">
-											<%
-												for (TipoRelatorio tipoRelatorio : TipoRelatorio.values()) {
-											%>  
-												<option id="<%=tipoRelatorio.getCodigo() %>" value="<%=tipoRelatorio.getCodigo() %>"><%=tipoRelatorio.getDescricao() %></option>
-											<%
-												} 
-											%>
-										  </select>
-										</div>
-									  </div> --%>
+									   
 									  <div class="col-1">
 										<div align="center" class="form-group">
 										  <label class="form-control-label" for="txtTipoRelatorio">.</label>
@@ -207,18 +194,7 @@
 							        
 							       
 						        </div>	
-					       </div>
-					          
-					        <div class="col-12">
-					          <hr>
-					        	<div class ="row">
-					         		<div class="col-6">   
-					         		   
-							            <img class="img-responsive" src="http://localhost:8080/SysLibrary/resources/graphics/GraficoLinha_Valor.png">
-							        </div>
-							       
-							     </div>
-					        </div>
+					       </div>					          					        
 					        
 					        <div class="col-12">
 					        	<div class ="row">
