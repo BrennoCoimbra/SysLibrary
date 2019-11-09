@@ -48,7 +48,7 @@ public class FilterCarrinho implements Filter{
 		
 		//executa as ações do request e response
 		chain.doFilter(request, response);
-		System.out.println("interceptando autenticacao");
+		//System.out.println("interceptando autenticacao");
 		
 		
 	}

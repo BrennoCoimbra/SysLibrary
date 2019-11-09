@@ -34,7 +34,7 @@ public class FilterAutenticacao implements Filter{
 		HttpSession session = req.getSession();
 		
 		//pagina que está tentando acesso
-		System.out.println(req.getServletPath());
+		//System.out.println(req.getServletPath());
 		// url para autenticar
 		String urlAutenticar = req.getServletPath();
 		EntidadeDominio user = (EntidadeDominio) session.getAttribute("usuario");		
@@ -45,13 +45,13 @@ public class FilterAutenticacao implements Filter{
 			request.setAttribute("msg", "Você não está logado!");
 			RequestDispatcher dispatcher = request.getRequestDispatcher("/login.jsp?url="+urlAutenticar); //passando por parametros
 			dispatcher.forward(request, response);	
-			System.out.println("usuario nao logado!");
+			//System.out.println("usuario nao logado!");
 			return; // para o processo para redirecionar
 		}
 		
 		//executa as ações do request e response
 		chain.doFilter(request, response);
-		System.out.println("interceptando autenticacao");
+		//System.out.println("interceptando autenticacao");
 		
 		
 	}

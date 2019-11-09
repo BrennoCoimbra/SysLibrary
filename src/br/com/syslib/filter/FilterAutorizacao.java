@@ -32,7 +32,7 @@ public class FilterAutorizacao implements Filter{
 		HttpSession session = req.getSession();
 		
 		//pagina que está tentando acesso
-		System.out.println(req.getServletPath());
+		//System.out.println(req.getServletPath());
 		// url para autenticar
 		String urlAutenticar = req.getServletPath();
 		Usuario user = (Usuario) session.getAttribute("usuario");		
@@ -40,12 +40,12 @@ public class FilterAutorizacao implements Filter{
 		// retorna null caso nao esteja logado
 		if(user.getTipoUsuario() == TipoUsuario.ADMIN && !urlAutenticar.equalsIgnoreCase("/Login")) {			
 			chain.doFilter(request, response);
-			System.out.println("usuario e administrador!");
+			//System.out.println("usuario e administrador!");
 		} else {
 		request.setAttribute("msg", "Sem autorização!");		
 		RequestDispatcher dispatcher = request.getRequestDispatcher("/errors.jsp?url="+urlAutenticar); //passando por parametros
 		dispatcher.forward(request, response);	
-		System.out.println("Usuário não é administrador!");
+		//System.out.println("Usuário não é administrador!");
 		}
 		return; // para o processo para redirecionar
 		
