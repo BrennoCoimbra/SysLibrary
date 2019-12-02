@@ -102,25 +102,25 @@
                 </a>
                 </li>
                 <li class="nav-item">
-                <a class="nav-link" href="./form-endereco.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/form-endereco.jsp">
                   <span data-feather="file"></span>
                   Cadastrar Endereço
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./consultar-endereco.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/consultar-endereco.jsp">
                   <span data-feather="file"></span>
                   Consultar Endereço
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./form-cartao.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/form-cartao.jsp">
                   <span data-feather="credit-card"></span>
                   Cadastrar Cartão
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./consultar-cartao.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/consultar-cartao.jsp">
                   <span data-feather="credit-card"></span>
                   Consultar Cartão
                 </a>
@@ -134,19 +134,19 @@
               </li>
               <%} %>
               <li class="nav-item">
-                <a class="nav-link" href="./consultar-pedidos.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/consultar-pedidos.jsp">
                   <span data-feather="shopping-bag"></span>
                   Pedidos
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./consultar-cupons.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/consultar-cupons.jsp">
                   <span data-feather="file-text"></span>
                   Cupons
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="./consultar-trocas.jsp">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/autenticado/consultar-trocas.jsp">
                   <span data-feather="code"></span>
                   Trocas
                 </a>
@@ -244,12 +244,12 @@
 							<td></td>
 							<td style="text-align: center; vertical-align: middle;"><%=livro.getTitulo() %> </td>
 							<td>
-							 <a href="SalvarCarrinho?operacao=ADD&idItemPedido=<%= livro.getId() %>&qtdeItem=1">
-							<span data-feather="plus-circle"></span>
-							</a>
-							<input style="text-align: center;" readonly type= text value=<%= i.getItemQtde() %> > 
 							<a href="SalvarCarrinho?operacao=REMOVE&idItemPedido=<%= livro.getId() %>&qtdeItem=<%= i.getItemQtde()%>">
 							<span data-feather="minus-circle"></span>
+							</a>
+							<input style="text-align: center;" readonly type= text value=<%= i.getItemQtde() %> >
+							<a href="SalvarCarrinho?operacao=ADD&idItemPedido=<%= livro.getId() %>&qtdeItem=1"> 							
+							<span data-feather="plus-circle"></span>
 							</a>
 							</td>
 							<td style="text-align: center; vertical-align: middle;"><input readonly style="text-align: center;" type= text value= <%= "R$" + String.format("%.2f",livro.getEstoque().getValorVenda()) %> ></td>

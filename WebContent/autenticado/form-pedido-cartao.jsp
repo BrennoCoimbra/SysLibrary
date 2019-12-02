@@ -79,76 +79,9 @@
 
     <div class="container-fluid">
       <div class="row">
-        <nav class="col-md-2 d-none d-md-block bg-light sidebar">
-          <div class="sidebar-sticky">
-            <ul class="nav flex-column">
-            <li class="nav-item">
-            <a class="nav-link" href="http://localhost:8080/SysLibrary/index.jsp">
-                  <span data-feather="home"></span>
-                  Home <span class="sr-only"></span>
-                </a>
-                </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./profile.jsp">
-                  <span data-feather="users"></span>
-                  Seu Perfil <span class="sr-only"></span>
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./form-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Cadastrar Endereço
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-endereco.jsp">
-                  <span data-feather="file"></span>
-                  Consultar Endereço
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./form-cartao.jsp">
-                  <span data-feather="credit-card"></span>
-                  Cadastrar Cartão
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-cartao.jsp">
-                  <span data-feather="credit-card"></span>
-                  Consultar Cartão
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link active" href="http://localhost:8080/SysLibrary/carrinho.jsp">
-                  <span data-feather="shopping-cart"></span>
-                  Carrinho
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-pedidos.jsp">
-                  <span data-feather="shopping-bag"></span>
-                  Pedidos
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-cupons.jsp">
-                  <span data-feather="file-text"></span>
-                  Cupons
-                </a>
-              </li>
-              <li class="nav-item">
-                <a class="nav-link" href="./consultar-trocas.jsp">
-                  <span data-feather="code"></span>
-                  Trocas
-                </a>
-              </li>
-            </ul>
-
-           
-          </div>
-        </nav>
         
-        <section role="main" class="col-md-9 ml-sm-auto col-lg-10 px-4">
+        
+        <section role="main" class="col-md">
 			<div style="text-align: center;">
 					<h3>Pedido</h3>   
 				       <div style="text-align: right;"> 
@@ -273,7 +206,10 @@
              <tr>
               <td></td>             
               <td style="text-align: center; vertical-align: middle;"><b>Cupom: </b></td>
-              <td style="text-align: center; vertical-align: middle;"><a data-target="#modalCupomTroca" data-toggle="modal" class="btn btn-success btn-sm">Inserir</a> </td>
+              <td style="text-align: center; vertical-align: middle;">
+              <a data-target="#modalCupomTroca" data-toggle="modal" class="btn btn-success btn-sm">Inserir</a>
+              		
+              </td>
               <th class="text-center"><h6>Descontos</h6></th>
               <td style="text-align: center; vertical-align: middle;"><input name="valorCupom" id="valorCupom" style="text-align: center;" readonly type= text value="R$<%if(cupom != null) { out.print(String.format("%.2f",pedido.getDescontoPedido()));}   %>"> </td>
               
@@ -414,8 +350,25 @@
 	             </div>
 	             <div style="text-align: center;">
 					<h5>Digite o codigo do seu cupom: </h5>   
-					<label><input type="text" class="col" id="idCupom" name="idCupom" value=""> 
+					<label>
+					<select id="idCupom" name="idCupom" class="form-control">
+		                  <%
+									List<EntidadeDominio> cupons = new CupomDAO().getEntidadeDominioCupomCliente(usuario.getId());									
+									
+									for (EntidadeDominio edc : cupons) {
+										Cupom ccp = (Cupom) edc;
+										
+										if(ccp.getStatusCupom().equals("TROCA AUTORIZADA")){
+									
+								%>
+								<option id=<%=ccp.getNomeCupom() %> value=<%=ccp.getNomeCupom() %>><%="ID: " + ccp.getNomeCupom() + " - " + " R$ " + String.format("%.2f", ccp.getValorCupom()) %> </option>
+								<%
+										}
+									}
+								%>
+		                </select>  
 					<input type="hidden" name="idUsu" id="idUsu" value="<%=usuario.getId()%>">
+					<br>
 					<button id="btnCupomTroca"  <%= pedido== null|| pedido.getPedItem()==null || pedido.getPedItem().isEmpty()? "disabled": "" %> type="submit" name="operacao" value="CONSULTAR">Aplicar</button>
 					</label>       
             	</div>

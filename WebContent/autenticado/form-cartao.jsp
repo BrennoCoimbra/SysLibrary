@@ -105,7 +105,7 @@
                 </a>
               </li>
               <li class="nav-item">
-                <a class="nav-link" href="#">
+                <a class="nav-link" href="http://localhost:8080/SysLibrary/carrinho.jsp">
                   <span data-feather="shopping-cart"></span>
                   Carrinho
                 </a>

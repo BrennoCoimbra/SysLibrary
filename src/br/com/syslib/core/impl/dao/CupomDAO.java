@@ -457,5 +457,61 @@ public class CupomDAO extends AbstractJdbcDAO {
 		}
 		return cupom;
 	}
+	
+	public List<EntidadeDominio> getEntidadeDominioCupomCliente(int idCiente) throws SQLException {
+		openConnection();
+		PreparedStatement pst;
+		Cupom cupom = null;
+		List<EntidadeDominio> cupons = new	ArrayList<EntidadeDominio>();
+		StringBuilder sql = new StringBuilder();
+		
+		sql.append("SELECT * FROM cupom_troca T1 INNER JOIN cupom_troca_item T3 on T3.cpi_id = T1.cupom_id ");
+		sql.append(" WHERE T1.cupom_cli_id = ?");
+		
+		pst = connection.prepareStatement(sql.toString());
+		pst.setInt(1, idCiente);
+		
+		ResultSet rs = pst.executeQuery();
+		
+		while (rs.next()) {			
+			cupom = new Cupom();
+			int id = rs.getInt("T1.cupom_id");
+			int idUsu = rs.getInt("T1.cupom_cli_id");
+			String cod = rs.getString("T1.cupom_cod");
+			double valor = rs.getDouble("T1.cupom_valor");
+			double valorSub = rs.getDouble("T1.cupom_item_subtotal");
+			String status = rs.getString("T1.cupom_status");
+			int itemid = rs.getInt("T1.cupom_item_id");
+			int itemid1 = rs.getInt("T3.cpi_item_id");
+			int pedid = rs.getInt("T1.cupom_pedido_id");
+			int itemqtde = rs.getInt("T1.cupom_item_qtde");
+			
+			
+			cupom.setId(id);
+			cupom.setIdCupomCliente(idUsu);
+			cupom.setNomeCupom(cod);
+			cupom.setValorCupom(valor);
+			cupom.setSubtotal(valorSub);
+			cupom.setStatusCupom(status);
+			if(itemid == 0) {
+			cupom.setIdItem(itemid1);
+			} else {
+				cupom.setIdItem(itemid);
+			}
+			cupom.setIdPedido(pedid);
+			cupom.setQtdeTroca(itemqtde);
+			
+			cupons.add(cupom);
+			
+		}			
+
+		rs.close();
+		pst.close();
+		connection.close();
+		
+		
+		
+		return cupons;
+	}
 
 }

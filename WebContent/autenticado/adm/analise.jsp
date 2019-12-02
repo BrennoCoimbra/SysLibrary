@@ -50,10 +50,11 @@
 	  for (var i in graph_data) {
 	  var date = new Date(graph_data[i].date);
 	  var day = date.getDate();
-	  var monthIndex = date.getMonth();
+	  var monthIndex = date.getMonth()+1;
 	  var year = date.getFullYear();
-	   graph_keys.push(day + "/" + monthIndex + "/" + year);
+	   graph_keys.push(monthIndex + "/" + day + "/" + year);
 	   console.log(graph_keys);
+	   console.log(graph_values);
 	   graph_values.push(graph_data[i].valor);
 
 	}
